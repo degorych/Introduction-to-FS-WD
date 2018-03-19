@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport"
+					content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>WD_PS2 Javascript (Basics)</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body class="body">
+		<div class="1task">
+			<h2>Я считаю сумму чисел от "-1000" до "1000"</h2>
+			<form action="">
+				<input id="minNum" type="text" value="-1000" onchange="changeSumma()">
+				<input id="maxNum" type="text" value="1000" onchange="changeSumma()">
+				<label>Результат:&nbsp;</label>
+				<output id="summ"></output>
+			</form>
+		</div>
+		<div class="2task">
+			<h2>Я считаю сумму чисел, оканчивающихся на 2, 3, 7</h2>
+			<label>Результат:&nbsp;</label>
+			<output id="summ-2-3-7"></output>
+		</div>
+		<div class="3task">
+			<h2>Я рисую картинку из <input id="number-of-stars" type="text" value="50" onchange="changeStars()"/>звезд</h2>
+			<div id="star-img"></div>
+		</div>
+		<div class="4task">
+			<h2>Я перевожу секунды в часы и минуты</h2>
+			<input id="user-sec" type="text" value="0" onchange="colculateDate()"/>
+			<label>Результат:&nbsp;</label>
+			<output id="sec-to-hours">00:00:00</output>
+		</div>
+		<div class="5task">
+			<h2>Я вывожу возраст студентов</h2>
+			<input id="student-year" type="number" value="0" onchange="getStudentsYear()"/>
+			<output id="student-year-string">0 &nbsp лет</output>
+		</div>
+		<div class="6task"></div>
+		<div class="7task"></div>
+		<div class="8task"></div>
+	</body>
+	<script>
+
+      /*--- Task 1, Task 2 ---*/
+
+      function summa() {
+          var minNum = parseInt(document.getElementById("minNum").value);
+          var maxNum = parseInt(document.getElementById("maxNum").value);
+
+          if (checkNum(minNum) == "error" || checkNum(maxNum) == "error") {
+              return;
+          }
+
+          var result = 0;
+          var result237 = 0;
+
+          for (minNum; minNum<=maxNum; minNum++) {
+              result = result + minNum;
+              if (minNum.toString().slice(-1) == 2 || minNum.toString().slice(-1) == 3 || minNum.toString().slice(-1) == 7) {
+                  result237 = result237 + minNum;
+              }
+          }
+
+          document.getElementById("summ").value = result;
+          document.getElementById("summ-2-3-7").value = result237;
+      }
+
+      function checkNum(num) {
+          var errorValue = "Your numbers may be from \"-1000\" to \"1000\"";
+          var errorType = "Your data may be number";
+
+          if (num>1000 || num<-1000) {
+              document.getElementById("summ").value = errorValue;
+              document.getElementById("summ-2-3-7").value = errorValue;
+              return "error";
+          }
+          else if (isNaN(parseFloat(num)) && !isFinite(num)) {
+              document.getElementById("summ").value = errorType;
+              document.getElementById("summ-2-3-7").value = errorType;
+              return "error";
+          }
+      }
+
+      function changeSumma() {
+          summa();
+      }
+
+      summa();
+
+      /* --- Task 3 ---*/
+
+      function createStarImg() {
+          var i, j;
+          var n = parseInt(document.getElementById("number-of-stars").value);
+
+          for (i=1; n>0; i++) {
+              for (j=1; j<=i && n>0; j++) {
+                  document.getElementById("star-img").innerHTML += "*";
+                  n--;
+              }
+              document.getElementById("star-img").innerHTML += "<br>";
+          }
+      }
+
+      function changeStars() {
+          document.getElementById("star-img").innerHTML = "";
+          createStarImg();
+      }
+
+      createStarImg();
+
+      /*--- Task 4 ---*/
+
+      function secondToHours(numSec) {
+          var date = new Date(2018, 1);
+          date.setSeconds(numSec);
+
+          var hour = ("0" + date.getHours()).slice(-2);
+          var min = ("0" + date.getMinutes()).slice(-2);
+          var sec = ("0" + date.getSeconds()).slice(-2);
+
+          document.getElementById("sec-to-hours").innerHTML = hour+":"+min+":"+sec;
+      }
+
+      function colculateDate() {
+          var secunda = document.getElementById("user-sec").value;
+          secondToHours(secunda);
+      }
+
+      /*--- Task 5 ---*/
+
+      function getStudentsYear() {
+          var yearVariables = ["лет", "год", "года", "года", "года", "лет", "лет", "лет", "лет", "лет"];
+          var getStudentYear = document.getElementById("student-year").value;
+          var lastNum = getStudentYear.slice(-1);
+
+          /* --- for 10, 11, 12,...,19 and 110,...,119,... --- */
+          if (parseInt(getStudentYear)>10 && parseInt(getStudentYear.slice(-2))/10<2) {
+              document.getElementById("student-year-string").innerHTML = getStudentYear+" "+yearVariables[0];
+          }
+
+          /* --- for other --- */
+          else {
+              document.getElementById("student-year-string").innerHTML = getStudentYear+" "+yearVariables[lastNum];
+          }
+      }
+
+      /* --- Task 6 --- */
+
+	</script>
+</html>
