@@ -116,13 +116,20 @@
 
       function secondToHours(numSec) {
           var date = new Date(2018, 1);
+          var dateOptions = {
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric"
+          };
+
           date.setSeconds(numSec);
 
-          var hour = ("0" + date.getHours()).slice(-2);
-          var min = ("0" + date.getMinutes()).slice(-2);
-          var sec = ("0" + date.getSeconds()).slice(-2);
-
-          document.getElementById("sec-to-hours").innerHTML = hour+":"+min+":"+sec;
+          if (date.getHours()<10) {
+              document.getElementById("sec-to-hours").innerHTML = "0"+date.toLocaleString("ru", dateOptions);
+          }
+          else {
+              document.getElementById("sec-to-hours").innerHTML = date.toLocaleString("ru", dateOptions);
+          }
       }
 
       function colculateDate() {
