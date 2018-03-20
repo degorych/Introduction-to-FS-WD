@@ -138,7 +138,7 @@
           var lastNum = getStudentYear.slice(-1);
 
           /* --- for 10, 11, 12,...,19 and 110,...,119,... --- */
-          if (parseInt(getStudentYear)>10 && parseInt(getStudentYear.slice(-2))/10<2) {
+          if (parseInt(getStudentYear)>10 && parseInt(getStudentYear.slice(-2))/10<2 && parseInt(getStudentYear.slice(-2))/10>1) {
               document.getElementById("student-year-string").innerHTML = getStudentYear+" "+yearVariables[0];
           }
 
