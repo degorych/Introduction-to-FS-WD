@@ -38,9 +38,18 @@
 			<input id="student-year" type="number" value="0" onchange="getStudentsYear()"/>
 			<output id="student-year-string">0 &nbsp лет</output>
 		</div>
-		<div class="6task"></div>
+		<div class="6task">
+			<h2>Я считаю промежуток времени между датами</h2>
+			<input type="text" id="1data" value="October 13, 2014 11:13:00" onchange="getUserDate()"/>
+			<input type="text" id="2data" value="October 14, 2014 11:13:00" onchange="getUserDate()"/>
+			<label>Между датами прошло:&nbsp</label>
+			<output id="time-between-dates"></output>
+		</div>
 		<div class="7task"></div>
 		<div class="8task"></div>
+		<div class="9task"></div>
+		<div class="10task"></div>
+		<div class="11task"></div>
 	</body>
 	<script>
 
@@ -140,22 +149,63 @@
       /*--- Task 5 ---*/
 
       function getStudentsYear() {
-          var yearVariables = ["лет", "год", "года", "года", "года", "лет", "лет", "лет", "лет", "лет"];
+          var yearVariables = [" лет ", " год ", " года ", " года ", " года ", " лет ", " лет ", " лет ", " лет ", " лет "];
           var getStudentYear = document.getElementById("student-year").value;
-          var lastNum = getStudentYear.slice(-1);
+
+          document.getElementById("student-year-string").innerHTML = "";
+          getTextForDate(getStudentYear, yearVariables, "student-year-string");
+      }
+
+			function getTextForDate(dateValue, textArray, innerId) {
 
           /* --- for 10, 11, 12,...,19 and 110,...,119,... --- */
-          if (parseInt(getStudentYear)>10 && parseInt(getStudentYear.slice(-2))/10<2 && parseInt(getStudentYear.slice(-2))/10>1) {
-              document.getElementById("student-year-string").innerHTML = getStudentYear+" "+yearVariables[0];
+          if (("0"+dateValue).slice(-2, -1) == 1) {
+              document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[0];
           }
 
           /* --- for other --- */
           else {
-              document.getElementById("student-year-string").innerHTML = getStudentYear+" "+yearVariables[lastNum];
+              document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[parseInt(("0"+dateValue).slice(-1))];
           }
       }
 
       /* --- Task 6 --- */
+
+      function getUserDate() {
+          document.getElementById("time-between-dates").innerHTML = "";
+
+          var fDate = new Date(Date.parse(document.getElementById("1data").value));
+          var sDate = new Date(Date.parse(document.getElementById("2data").value));
+
+          sDate.setSeconds(sDate.getSeconds()-fDate.getSeconds());
+          sDate.setMinutes(sDate.getMinutes()-fDate.getMinutes());
+          sDate.setHours(sDate.getHours()-fDate.getHours());
+          sDate.setDate(sDate.getDate()-fDate.getDate());
+          sDate.setMonth(sDate.getMonth()-fDate.getMonth());
+          sDate.setFullYear(sDate.getFullYear()-fDate.getFullYear());
+
+          sDate.setMinutes(sDate.getMinutes() + (sDate.getTimezoneOffset())*(-1)); // Convet to  UTC timezone.
+
+          var timeBetweenDates = sDate.toISOString().split(/[\s-T.:/]+/);
+          timeBetweenDates[1] -= 1; // In ISO view mount contain from 1 to 12 values.
+
+
+          var dateText = [
+              [" лет ", " год ", " года ", " года ", " года ", " лет ", " лет ", " лет ", " лет ", " лет "],
+              [" месяцев ", " месяц ", " месяца ", " месяца ", " месяца ", " месяцев ", " месяцев ", " месяцев ", " месяцев ", " месяцев "],
+              [" дней ", " день ", " дня ", " дня ", " дня "," дней ", " дней ", " дней ", " дней ", " дней "],
+              [" часов ", " час ", " часа ", " часа ", " часа ", " часов ", " часов ", " часов ", " часов ", " часов "],
+              [" минут ", " минута ", " минуты ", " минуты ", " минуты ", " минут ", " минут ", " минут ", " минут ", " минут "],
+							[" секунд ", " секунда ", " секунды ", " секунды ", " секунды ", " секунд ", " секунд ", " секунд ", " секунд ", " секунд "]
+					];
+
+					var i;
+					for (i=0; i<6; i++) {
+              getTextForDate(timeBetweenDates[i], dateText[i], "time-between-dates");
+					}
+      }
+
+      getUserDate();
 
 	</script>
 </html>
