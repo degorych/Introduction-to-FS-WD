@@ -8,7 +8,7 @@
 		<title>WD_PS2 Javascript (Basics)</title>
 		<link rel="stylesheet" href="style.css">
 	</head>
-	<body class="body">
+	<body>
 		<div class="1task">
 			<h2>Я считаю сумму чисел от "-1000" до "1000"</h2>
 			<form action="">
@@ -45,8 +45,18 @@
 			<label>Между датами прошло:&nbsp</label>
 			<output id="time-between-dates"></output>
 		</div>
-		<div class="7task"></div>
-		<div class="8task"></div>
+		<div class="7task">
+			<h2>Я вывожу знак зодиака</h2>
+			<input type="text" id="zodiac-date" placeholder="Введите дату в формате 2014-12-31" onchange="zodiac()"/>
+			<label>Ваш знак зодиака:&nbsp</label>
+			<output id="user-zodiac">...</output>
+		</div>
+		<div class="8task">
+			<h2>Я рисую шахматные доски</h2>
+			<input type="text" id="chess-size" placeholder="Введите размеры в формате 4х4" onchange="chessPaint()"/>
+			<br>
+			<div id="chess-board"></div>
+		</div>
 		<div class="9task"></div>
 		<div class="10task"></div>
 		<div class="11task"></div>
@@ -206,6 +216,61 @@
       }
 
       getUserDate();
+
+      /* --- Task 7 --- */
+
+      function zodiac() {
+					var zodiacArr = [
+					    [new Date("2000-01-20"), new Date("2000-02-18"), "&#9810;", "Водолей"],
+              [new Date("2000-02-19"), new Date("2000-03-20"), "&#9811;", "Рыбы"],
+              [new Date("2000-03-21"), new Date("2000-04-19"), "&#9800;", "Овен"],
+              [new Date("2000-04-20"), new Date("2000-05-20"), "&#9801;", "Телец"],
+              [new Date("2000-05-21"), new Date("2000-06-20"), "&#9802;", "Близнецы"],
+              [new Date("2000-06-21"), new Date("2000-07-22"), "&#9803;", "Рак"],
+              [new Date("2000-07-23"), new Date("2000-08-22"), "&#9804;", "Лев"],
+              [new Date("2000-08-23"), new Date("2000-09-22"), "&#9805;", "Дева"],
+              [new Date("2000-09-23"), new Date("2000-10-22"), "&#9806;", "Весы"],
+              [new Date("2000-10-23"), new Date("2000-11-21"), "&#9807;", "Скорпион"],
+              [new Date("2000-11-22"), new Date("2000-12-21"), "&#9808;", "Стрелец"],
+              [new Date("2000-12-22"), new Date("2001-01-19"), "&#9809;", "Козерог"]
+					];
+
+					var userDate = new Date(document.getElementById("zodiac-date").value);
+					userDate.setFullYear(2000);
+
+					if (userDate >= zodiacArr[userDate.getMonth()][0] && userDate <= zodiacArr[userDate.getMonth()][1]) {
+					    document.getElementById("user-zodiac").innerHTML = zodiacArr[userDate.getMonth()][2]+" "+zodiacArr[userDate.getMonth()][3];
+					}
+
+					else {
+              document.getElementById("user-zodiac").innerHTML = zodiacArr[userDate.getMonth()-1][2]+" "+zodiacArr[userDate.getMonth()-1][3];
+					}
+      }
+
+      /* --- Task 8 --- */
+
+      function chessPaint() {
+          document.getElementById("chess-board").innerHTML = "";
+
+					var chessSize = document.getElementById("chess-size").value.split("x");
+					var i, j;
+          var currentChesRow;
+
+					for (i=0; i<chessSize[0]; i++) {
+					    if ((i+1)%2 != 0) {
+					        document.getElementById("chess-board").innerHTML += "<div class='first-str'>"
+							}
+							else {
+                  document.getElementById("chess-board").innerHTML += "<div class='second-str'>"
+							}
+
+              currentChesRow = document.querySelector("div#chess-board > div:last-child");
+
+							for (j=0; j<chessSize[1]; j++) {
+                  currentChesRow.innerHTML += "<div></div>"
+							}
+					}
+      }
 
 	</script>
 </html>
