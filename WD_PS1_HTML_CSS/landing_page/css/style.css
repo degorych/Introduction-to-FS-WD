@@ -1,6 +1,7 @@
-.body {
+body {
 	height: 100%;
-	font: 12pt verdana;
+	font-size: 16px;
+	font-family: Verdana;
 	color: #000;
 	background: #FFF;
 }
@@ -33,28 +34,28 @@
 	line-height: 84px;
 }
 
-.header__container__img {
+.header__img {
 	vertical-align: middle;
 }
 
-.header__container__nav {
+.header__nav {
 	float: right;
 }
 
-.header__container__nav__ul {
+.header__ul {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 	text-align: center;
 }
 
-.header__container__nav__ul__li {
+.header__li {
 	vertical-align: middle;
 	display: inline;
 	margin: 0 29px 0 33px;
 }
 
-.header__container__nav__ul__li__a {
+.header__a {
 	text-decoration: none;
 	text-transform: uppercase;
 	color: #000;
@@ -62,13 +63,13 @@
 
 /* Iphone styles */
 
-.phone__bg {
+.phone {
 	background: #1FBA9B;
 	width: 100%;
 	height: 100%;
 }
 
-.phone {
+.phone__container {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -83,16 +84,16 @@
 	color: #fff;
 }
 
-.phone__description__h2 {
+.phone__title {
 	margin-top: 133px;
 }
 
-.phone__description__text {
+.phone__text {
 	margin: 60px 0;
 }
 
-.phone__description__button {
-	font-size: 16pt;
+.phone__button {
+	font-size: 22px;
 	color: #FFF;
 	background: inherit;
 	margin: 0;
@@ -126,7 +127,7 @@
 	Justify-content: center;
 }
 
-.scope__circle__i {
+.scope__i {
 	display: block;
 }
 
@@ -142,7 +143,7 @@
 	text-align: center;
 }
 
-.footer__h2 {
+.footer__title {
 	margin-bottom: 70px;
 	padding-top: 70px;
 	color: #FFF;
@@ -154,22 +155,22 @@
 	align-items: center;
 }
 
-.footer__form__label {
+.footer__label {
 	color: #FFF;
 }
 
-.footer__form__input {
+.footer__input {
 	margin-bottom: 10px;
 	box-sizing: border-box;
 }
 
-.footer__form__input--text {
+.footer__input--text {
 	width: 600px;
 	border: 0 solid;
 	padding: 7px 10px;
 }
 
-.footer__form__input--btn {
+.footer__input--btn {
 	width: auto;
 	border: 2px solid #FFF;
 	border-radius: 5px;
@@ -178,32 +179,32 @@
 	padding: 13px 60px;
 }
 
-.footer__form__input--cbx-radio {
+.footer__input--cbx-radio {
 }
 
-.footer__form__input--file {
+.footer__input--file {
 	width: 300px;
 	background: #FFF;
 	color: #545454;
 }
 
-.footer__form__input--search {
+.footer__input--search {
 	width: 600px;
 	border: 0 solid;
 	padding: 7px 10px 100px 10px;
 }
 
-.footer__form__input--date {
+.footer__input--date {
 	width: 300px;
 	border: 0 solid;
 	color: #545454;
 	padding: 7px 10px;
 }
 
-.footer__form__input--range {
+.footer__input--range {
 	width: 300px;
 }
 
-.footer__form__input--img {
+.footer__input--img {
 	width: 50px;
 }
