@@ -12,66 +12,147 @@
 		<div class="1task">
 			<h2>Я считаю сумму чисел от "-1000" до "1000"</h2>
 			<form action="">
-				<input id="minNum" type="text" value="-1000" onchange="changeSumma()">
-				<input id="maxNum" type="text" value="1000" onchange="changeSumma()">
-				<label>Результат:&nbsp;</label>
-				<output id="summ"></output>
+				<input id="minNum" type="number" value="-1000" onchange="changeSumma()">
+				<input id="maxNum" type="number" value="1000" onchange="changeSumma()">
+				<div class="result">
+					<label>Результат:&nbsp;</label>
+					<output id="summ"></output>
+				</div>
 			</form>
 		</div>
 		<div class="2task">
 			<h2>Я считаю сумму чисел, оканчивающихся на 2, 3, 7</h2>
-			<label>Результат:&nbsp;</label>
-			<output id="summ-2-3-7"></output>
+			<form action="">
+				<div class="result">
+					<label>Результат:&nbsp;</label>
+					<output id="summ-2-3-7"></output>
+				</div>
+			</form>
 		</div>
 		<div class="3task">
-			<h2>Я рисую картинку из <input id="number-of-stars" type="text" value="50" onchange="changeStars()"/>звезд</h2>
+			<h2>Я рисую картинку из <input id="number-of-stars" type="number" value="50" onchange="changeStars()"/>звезд</h2>
 			<div id="star-img"></div>
 		</div>
 		<div class="4task">
 			<h2>Я перевожу секунды в часы и минуты</h2>
-			<input id="user-sec" type="text" value="0" onchange="colculateDate()"/>
-			<label>Результат:&nbsp;</label>
-			<output id="sec-to-hours">00:00:00</output>
+			<form action="">
+				<input id="user-sec" type="number" value="0" onchange="colculateDate()"/>
+				<div class="result">
+					<label>Результат:&nbsp;</label>
+					<output id="sec-to-hours">00:00:00</output>
+				</div>
+			</form>
 		</div>
 		<div class="5task">
 			<h2>Я вывожу возраст студентов</h2>
+			<form action="">
 			<input id="student-year" type="number" value="0" onchange="getStudentsYear()"/>
-			<output id="student-year-string">0 &nbsp лет</output>
+				<div class="result">
+					<output id="student-year-string">0 &nbsp лет</output>
+				</div>
+			</form>
 		</div>
 		<div class="6task">
 			<h2>Я считаю промежуток времени между датами</h2>
-			<input type="text" id="1data" value="October 13, 2014 11:13:00" onchange="getUserDate()"/>
-			<input type="text" id="2data" value="October 14, 2014 11:13:00" onchange="getUserDate()"/>
-			<label>Между датами прошло:&nbsp</label>
-			<output id="time-between-dates"></output>
+			<form action="">
+				<input type="text" id="1data" value="October 13, 2014 11:13:00" onchange="getUserDate()"/>
+				<input type="text" id="2data" value="October 14, 2014 11:13:00" onchange="getUserDate()"/>
+				<div class="result">
+					<label>Между датами прошло:&nbsp</label>
+					<output id="time-between-dates"></output>
+				</div>
+			</form>
 		</div>
 		<div class="7task">
 			<h2>Я вывожу знак зодиака</h2>
-			<input type="text" id="zodiac-date" placeholder="Введите дату в формате 2014-12-31" onchange="zodiac()"/>
-			<label>Ваш знак зодиака:&nbsp</label>
-			<output id="user-zodiac">...</output>
+			<form action="">
+			<input type="text" id="zodiac-date" placeholder="Дата в формате 2014-12-31" onchange="zodiac()"/>
+				<div class="result">
+					<label>Ваш знак зодиака:&nbsp</label>
+					<output id="user-zodiac">...</output>
+				</div>
+			</form>
 		</div>
 		<div class="8task">
 			<h2>Я рисую шахматные доски</h2>
-			<input type="text" id="chess-size" placeholder="Введите размеры в формате 4х4" onchange="chessPaint()"/>
-			<br>
+			<input type="text" id="chess-size" placeholder="Размер в виде 4х4" onchange="chessPaint()"/>
 			<div id="chess-board"></div>
 		</div>
-		<div class="9task"></div>
-		<div class="10task"></div>
-		<div class="11task"></div>
+		<div class="9task">
+			<h2>Я определяю номер подъезда и этаж по номеру квартиры</h2>
+			<form action="">
+				<label>Этажей в доме:&nbsp</label>
+				<input type="number" id="number-floors" value="1" onchange="countFloorsAndEntrances()"/>
+				<label>Квартир в пролете:&nbsp</label>
+				<input type="number" id="number-apartments" value="1" onchange="countFloorsAndEntrances()"/>
+				<label>Подъездов в доме:&nbsp</label>
+				<input type="number" id="number-entrances" value="1" onchange="countFloorsAndEntrances()"/>
+				<label>Какую квартиру найти:&nbsp</label>
+				<input type="number" id="user-apartments" value="1" onchange="countFloorsAndEntrances()"/>
+				<div class="result">
+					<output id="apartments-to-floors-and-entrances"></output>
+				</div>
+			</form>
+		</div>
+		<div class="10task">
+			<h2>Я вывожу сумму цифр числа</h2>
+			<form action="">
+				<input type="number" id="user-number" value="1234" onchange="countNumber()"/>
+				<div class="result">
+					<output id="setNumSum"></output>
+				</div>
+			</form>
+		</div>
+		<div class="11task">
+			<h2>Я форматирую и сортирую ссылки</h2>
+			<form action="">
+				<textarea id="links" onchange="formatLinks()"></textarea>
+				<output id="set-links"></output>
+			</form>
+		</div>
 	</body>
 	<script>
+
+      function checkUserData(value, regex, upLimit, downLimit) {
+          if (upLimit != null && downLimit != null) {
+              if (value.toString().match(regex) != null) {
+                  console.log(value);
+                  return 1;
+              }
+              if (parseInt(value)<downLimit || parseInt(value)>upLimit) {
+                  return "limitError";
+              }
+          }
+
+          else {
+              if (value.toString().match(regex) != null) {
+                  return 1;
+              }
+          }
+
+          return -1;
+      }
 
       /*--- Task 1, Task 2 ---*/
 
       function summa() {
-          var minNum = parseInt(document.getElementById("minNum").value);
-          var maxNum = parseInt(document.getElementById("maxNum").value);
+          var minNum = document.getElementById("minNum").value;
+          var maxNum = document.getElementById("maxNum").value;
+          var regexp = /[^-?\d]/;
 
-          if (checkNum(minNum) == "error" || checkNum(maxNum) == "error") {
+          if (checkUserData(minNum, regexp, 1000, -1000) == 1 || checkUserData(maxNum, regexp, 1000, -1000) == 1) {
+              document.getElementById("summ").innerHTML = "Your data may by number";
+              document.getElementById("summ-2-3-7").innerHTML = "Your data may by number";
               return;
           }
+          if (checkUserData(minNum, regexp, 1000, -1000) == "limitError" || checkUserData(maxNum, regexp, 1000, -1000) == "limitError") {
+							document.getElementById("summ").innerHTML = "Enter number from -1000 to 1000";
+							document.getElementById("summ-2-3-7").innerHTML = "Enter number from -1000 to 1000";
+              return;
+          }
+
+          minNum = parseInt(minNum);
+          maxNum = parseInt(maxNum);
 
           var result = 0;
           var result237 = 0;
@@ -87,22 +168,6 @@
           document.getElementById("summ-2-3-7").value = result237;
       }
 
-      function checkNum(num) {
-          var errorValue = "Your numbers may be from \"-1000\" to \"1000\"";
-          var errorType = "Your data may be number";
-
-          if (num>1000 || num<-1000) {
-              document.getElementById("summ").value = errorValue;
-              document.getElementById("summ-2-3-7").value = errorValue;
-              return "error";
-          }
-          else if (isNaN(parseFloat(num)) && !isFinite(num)) {
-              document.getElementById("summ").value = errorType;
-              document.getElementById("summ-2-3-7").value = errorType;
-              return "error";
-          }
-      }
-
       function changeSumma() {
           summa();
       }
@@ -113,7 +178,19 @@
 
       function createStarImg() {
           var i, j;
-          var n = parseInt(document.getElementById("number-of-stars").value);
+          var n = document.getElementById("number-of-stars").value;
+          var regexp = /\D/;
+
+          if (checkUserData(n, regexp, 100, 0) == 1) {
+              document.getElementById("star-img").innerHTML = "Your data may by number";
+              return;
+          }
+          if (checkUserData(n, regexp, 100, 0) == "limitError") {
+              document.getElementById("star-img").innerHTML = "Enter number from 0 to 100";
+              return;
+          }
+
+          n = parseInt(n);
 
           for (i=1; n>0; i++) {
               for (j=1; j<=i && n>0; j++) {
@@ -153,6 +230,13 @@
 
       function colculateDate() {
           var secunda = document.getElementById("user-sec").value;
+          var regexp = /\D/;
+
+          if (checkUserData(secunda, regexp) == 1) {
+              document.getElementById("sec-to-hours").innerHTML = "Your data may by number";
+              return;
+          }
+
           secondToHours(secunda);
       }
 
@@ -161,6 +245,12 @@
       function getStudentsYear() {
           var yearVariables = [" лет ", " год ", " года ", " года ", " года ", " лет ", " лет ", " лет ", " лет ", " лет "];
           var getStudentYear = document.getElementById("student-year").value;
+          var regexp = /\D/;
+
+          if (checkUserData(getStudentYear, regexp) == 1) {
+              document.getElementById("student-year-string").innerHTML = "Your data may by number";
+              return;
+          }
 
           document.getElementById("student-year-string").innerHTML = "";
           getTextForDate(getStudentYear, yearVariables, "student-year-string");
@@ -235,7 +325,15 @@
               [new Date("2000-12-22"), new Date("2001-01-19"), "&#9809;", "Козерог"]
 					];
 
-					var userDate = new Date(document.getElementById("zodiac-date").value);
+					var getUserDate = document.getElementById("zodiac-date").value;
+          var regexp = /^\d{4}-\d{2}-\d{2}$/;
+
+          if (checkUserData(getUserDate, regexp) == -1) {
+              document.getElementById("user-zodiac").innerHTML = "Your date may by in 2018-03-27 format";
+              return;
+          }
+
+					var userDate = new Date(getUserDate);
 					userDate.setFullYear(2000);
 
 					if (userDate >= zodiacArr[userDate.getMonth()][0] && userDate <= zodiacArr[userDate.getMonth()][1]) {
@@ -252,7 +350,15 @@
       function chessPaint() {
           document.getElementById("chess-board").innerHTML = "";
 
-					var chessSize = document.getElementById("chess-size").value.split("x");
+					var chessSize = document.getElementById("chess-size").value;
+          var regexp = /^\d+x\d+$/;
+
+          if (checkUserData(chessSize, regexp) == -1) {
+              document.getElementById("chess-board").innerHTML = "Your data may by in 4x4 format";
+              return;
+          }
+
+          chessSize = chessSize.split("x");
 					var i, j;
           var currentChesRow;
 
@@ -272,5 +378,92 @@
 					}
       }
 
+      /* --- Task 9 --- */
+
+      function countFloorsAndEntrances() {
+					var getFloors = parseInt(document.getElementById("number-floors").value);
+					var getApartments = parseInt(document.getElementById("number-apartments").value);
+					var getEntrances = parseInt(document.getElementById("number-entrances").value);
+					var getUserApartments = parseInt(document.getElementById("user-apartments").value);
+          var regexp = /\D/;
+
+          if (checkUserData(getFloors, regexp) == 1 || checkUserData(getApartments, regexp) == 1 || checkUserData(getEntrances, regexp) == 1 || checkUserData(getUserApartments, regexp) == 1) {
+              document.getElementById("apartments-to-floors-and-entrances").innerHTML = "Your data may by number";
+              return;
+          }
+
+					if (getUserApartments>(getEntrances*getFloors*getApartments)) {
+              document.getElementById("apartments-to-floors-and-entrances").innerHTML = "В доме нет такой квартиры";
+              return;
+					}
+
+					document.getElementById("apartments-to-floors-and-entrances").innerHTML = "Подъезд: "+Math.ceil(getUserApartments/(getFloors*getApartments));
+
+					while (getUserApartments>(getFloors*getApartments)) {
+              getUserApartments = getUserApartments - (getFloors*getApartments);
+					}
+
+          document.getElementById("apartments-to-floors-and-entrances").innerHTML += ", Этаж: "+Math.ceil(getUserApartments/getApartments);
+      }
+
+      countFloorsAndEntrances();
+
+      /* --- Task 10 --- */
+
+      function countNumber() {
+					var getUserNumber = document.getElementById("user-number").value;
+          var regexp = /\D/;
+
+          if (checkUserData(getUserNumber, regexp) == 1) {
+              document.getElementById("setNumSum").innerHTML = "Your data may by number";
+              return;
+          }
+
+					getUserNumber = getUserNumber.split("");
+
+					var summa = 0;
+					var getUserNumberLens = getUserNumber.length;
+					var i;
+
+					for (i=0; i<getUserNumberLens; i++) {
+					    summa = summa + parseInt(getUserNumber[i]);
+					}
+
+					document.getElementById("setNumSum").innerHTML = "Сумма чисел: "+summa;
+      }
+
+      countNumber();
+
+      /* --- Task 11 --- */
+
+      function formatLinks() {
+					var getLinks = document.getElementById("links").value.split(/[\s,]/);
+          var getLinksLens = getLinks.length;
+
+					var i;
+					for (i=0; i<getLinksLens; i++) {
+					    if (getLinks[i] == "") {
+                  getLinks.splice(i, 1);
+					        i--;
+							}
+					}
+
+          if (!document.getElementById("link-list")) {
+              var newLinkList = document.createElement("ul");
+              newLinkList.id = "link-list";
+              document.getElementById("set-links").appendChild(newLinkList);
+					}
+					else {
+              document.getElementById("link-list").innerHTML = "";
+					}
+
+          getLinks.sort(function(a,b){return a.replace(/https?:\/\//g, "") > b.replace(/https?:\/\//g, "")});
+
+					for (i=0, getLinksLens = getLinks.length; i<getLinksLens; i++) {
+              document.getElementById("link-list").innerHTML += '<li><a href="'+getLinks[i]+'">'+getLinks[i].replace(/https?:\/\//, "")+'</a></li>';
+					}
+
+          document.getElementById("links").value = getLinks.toString().replace(/https?:\/\//g, " ");
+      }
 	</script>
 </html>
