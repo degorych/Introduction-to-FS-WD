@@ -114,23 +114,17 @@
 	<script>
 
       function checkUserData(value, regex, upLimit, downLimit) {
-          if (upLimit != null && downLimit != null) {
-              if (value.toString().match(regex) != null) {
-                  console.log(value);
-                  return 1;
-              }
-              if (parseInt(value)<downLimit || parseInt(value)>upLimit) {
-                  return "limitError";
-              }
+					if (parseInt(value)<downLimit || parseInt(value)>upLimit) {
+							return "limitError";
+					}
+
+          if (value.toString().match(regex) != null) {
+							return 1;
           }
 
           else {
-              if (value.toString().match(regex) != null) {
-                  return 1;
-              }
+					    return -1;
           }
-
-          return -1;
       }
 
       /*--- Task 1, Task 2 ---*/
@@ -284,7 +278,7 @@
           sDate.setMonth(sDate.getMonth()-fDate.getMonth());
           sDate.setFullYear(sDate.getFullYear()-fDate.getFullYear());
 
-          sDate.setMinutes(sDate.getMinutes() + (sDate.getTimezoneOffset())*(-1)); // Convet to  UTC timezone.
+          sDate.setMinutes(sDate.getMinutes() + (sDate.getTimezoneOffset())*(-1)); // Convert to  UTC timezone.
 
           var timeBetweenDates = sDate.toISOString().split(/[\s-T.:/]+/);
           timeBetweenDates[1] -= 1; // In ISO view mount contain from 1 to 12 values.
@@ -329,7 +323,7 @@
           var regexp = /^\d{4}-\d{2}-\d{2}$/;
 
           if (checkUserData(getUserDate, regexp) == -1) {
-              document.getElementById("user-zodiac").innerHTML = "Your date may by in 2018-03-27 format";
+              document.getElementById("user-zodiac").innerHTML = "Your date may be in 2018-03-27 format";
               return;
           }
 
@@ -354,7 +348,7 @@
           var regexp = /^\d+x\d+$/;
 
           if (checkUserData(chessSize, regexp) == -1) {
-              document.getElementById("chess-board").innerHTML = "Your data may by in 4x4 format";
+              document.getElementById("chess-board").innerHTML = "Your data may be in 4x4 format";
               return;
           }
 
@@ -388,7 +382,7 @@
           var regexp = /\D/;
 
           if (checkUserData(getFloors, regexp) == 1 || checkUserData(getApartments, regexp) == 1 || checkUserData(getEntrances, regexp) == 1 || checkUserData(getUserApartments, regexp) == 1) {
-              document.getElementById("apartments-to-floors-and-entrances").innerHTML = "Your data may by number";
+              document.getElementById("apartments-to-floors-and-entrances").innerHTML = "Your data may be number";
               return;
           }
 
@@ -415,7 +409,7 @@
           var regexp = /\D/;
 
           if (checkUserData(getUserNumber, regexp) == 1) {
-              document.getElementById("setNumSum").innerHTML = "Your data may by number";
+              document.getElementById("setNumSum").innerHTML = "Your data may be number";
               return;
           }
 
