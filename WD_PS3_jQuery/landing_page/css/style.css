@@ -52,13 +52,21 @@ body {
 .header__li {
 	vertical-align: middle;
 	display: inline;
-	margin: 0 29px 0 33px;
+	margin: 0 20px 0 24px;
 }
 
 .header__a {
 	text-decoration: none;
 	text-transform: uppercase;
 	color: #000;
+	padding: 6px 9px;
+	border: solid 1px transparent;
+}
+
+.header__a:hover {
+	color: #1d8669;
+	border: solid 1px #1FBA9B;
+	border-radius: 5px;
 }
 
 /* Iphone styles */
