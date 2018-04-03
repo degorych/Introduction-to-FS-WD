@@ -160,13 +160,15 @@
       function summa() {
           var minNum = document.getElementById("minNum").value;
           var maxNum = document.getElementById("maxNum").value;
-          var regexp = /[^-?\d]/;
+          var regexp = /[^-?\d+]/;
 
+          // Check minNum and maxNum to number
           if (checkUserData(minNum, regexp, 1000, -1000) == 1 || checkUserData(maxNum, regexp, 1000, -1000) == 1) {
               document.getElementById("summ").innerHTML = "Your data may by number";
               document.getElementById("summ-2-3-7").innerHTML = "Your data may by number";
               return;
           }
+          // Check minNum and maxNum to limits
           if (checkUserData(minNum, regexp, 1000, -1000) == "limitError" || checkUserData(maxNum, regexp, 1000, -1000) == "limitError") {
 							document.getElementById("summ").innerHTML = "Enter number from -1000 to 1000";
 							document.getElementById("summ-2-3-7").innerHTML = "Enter number from -1000 to 1000";
@@ -175,6 +177,12 @@
 
           minNum = parseInt(minNum);
           maxNum = parseInt(maxNum);
+
+          if (minNum>maxNum) { // Swapping values
+              var swap = minNum;
+              minNum = maxNum;
+              maxNum = swap;
+					}
 
           var result = 0;
           var result237 = 0;
