@@ -316,7 +316,7 @@
 							[" секунд ", " секунда ", " секунды ", " секунды ", " секунды ", " секунд ", " секунд ", " секунд ", " секунд ", " секунд "]
 					];
 
-					// Output reult
+					// Output result
           var i;
 					var dataTextLens = dateText.length;
 					for (i=0; i<dataTextLens; i++) {
@@ -345,12 +345,22 @@
 					var getUserDate = document.getElementById("zodiac-date").value;
           var regexp = /^\d{4}-\d{2}-\d{2}$/;
 
+          // Check getStudentYear to yyyy-mm-dd format
           if (checkUserData(getUserDate, regexp) == -1) {
               document.getElementById("user-zodiac").innerHTML = "Your date may be in 2018-03-27 format";
               return;
           }
 
+          var getUserDateArr = getUserDate.split("-"); // For check correct date
+
 					var userDate = new Date(getUserDate);
+
+					// Check to correct date
+					if (getUserDateArr[1] != userDate.getMonth()+1) {
+              document.getElementById("user-zodiac").innerHTML = "Enter correct date";
+					    return;
+					}
+
 					userDate.setFullYear(2000);
 
 					if (userDate >= zodiacArr[userDate.getMonth()][0] && userDate <= zodiacArr[userDate.getMonth()][1]) {
