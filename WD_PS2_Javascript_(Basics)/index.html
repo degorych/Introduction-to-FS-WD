@@ -205,12 +205,14 @@
 
           var i, j;
           var n = document.getElementById("number-of-stars").value;
-          var regexp = /\D/;
+          var regexp = /\D+/;
 
+          // Check n to number
           if (checkUserData(n, regexp, 100, 0) == 1) {
               document.getElementById("star-img").innerHTML = "Your data may by number";
               return;
           }
+          // Check n to limits
           if (checkUserData(n, regexp, 100, 0) == "limitError") {
               document.getElementById("star-img").innerHTML = "Enter number from 0 to 100";
               return;
