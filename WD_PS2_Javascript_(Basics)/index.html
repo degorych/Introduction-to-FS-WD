@@ -122,12 +122,13 @@
 	</body>
 	<script>
 
-      function checkUserData(value, regex, upLimit, downLimit) {
-					if (parseInt(value)<downLimit || parseInt(value)>upLimit) {
+      /* --- Function for checking user data to valid value end limits --- */
+			function checkUserData(value, regex, upLimit, downLimit) {
+					if (parseInt(value)<downLimit || parseInt(value)>upLimit) { // Check limits
 							return "limitError";
 					}
 
-          if (value.toString().match(regex) != null) {
+          if (value.toString().match(regex) != null) { // Check value to regexp's compatibility
 							return 1;
           }
 
@@ -136,14 +137,19 @@
           }
       }
 
+      /* --- Add text to date number function:
+      				dateValue - user date number,
+      				textArray - words array for number,
+      				innerId - function must insert result into this element id
+       --- */
       function getTextForDate(dateValue, textArray, innerId) {
 
-          /* --- for 10, 11, 12,...,19 and 110,...,119,... --- */
+          // for 10, 11, 12,...,19 and 110,...,119,...
           if (("0"+dateValue).slice(-2, -1) == 1) {
               document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[0];
           }
 
-          /* --- for other --- */
+          // for other
           else {
               document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[parseInt(("0"+dateValue).slice(-1))];
           }
