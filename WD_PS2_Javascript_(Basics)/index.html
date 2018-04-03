@@ -16,8 +16,8 @@
 				<input id="maxNum" type="number" value="1000"/>
 				<input type="button" value="Считать" onclick="summa()"/>
 				<div class="result">
-					<label>Результат:&nbsp;</label>
-					<output id="summ">&nbsp 0</output>
+					<label>Результат:&nbsp</label>
+					<output id="summ">0</output>
 				</div>
 			</form>
 		</div>
@@ -25,8 +25,8 @@
 			<h2>2. Я считаю сумму чисел, оканчивающихся на 2, 3, 7</h2>
 			<form action="">
 				<div class="result">
-					<label>Результат:&nbsp;</label>
-					<output id="summ-2-3-7">&nbsp 0</output>
+					<label>Результат:&nbsp</label>
+					<output id="summ-2-3-7">0</output>
 				</div>
 			</form>
 		</div>
@@ -50,7 +50,7 @@
 			<h2>5. Я вывожу возраст студентов</h2>
 			<form action="">
 				<input id="student-year" type="number" value="0"/>
-				<input type="button" value="Перевести" onclick="getStudentsYear()"/>
+				<input type="button" value="Вывести" onclick="getStudentsYear()"/>
 				<div class="result">
 					<output id="student-year-string">0 &nbsp лет</output>
 				</div>
@@ -415,47 +415,53 @@
 					var getApartments = parseInt(document.getElementById("number-apartments").value);
 					var getEntrances = parseInt(document.getElementById("number-entrances").value);
 					var getUserApartments = parseInt(document.getElementById("user-apartments").value);
-          var regexp = /\D/;
 
-          if (checkUserData(getFloors, regexp) == 1 || checkUserData(getApartments, regexp) == 1 || checkUserData(getEntrances, regexp) == 1 || checkUserData(getUserApartments, regexp) == 1) {
+          var maxApartmentsNumber = getEntrances*getFloors*getApartments;
+					var regexp = /\D/;
+
+          // Check user data values to number
+					if (checkUserData(getFloors, regexp, 1, maxApartmentsNumber) == 1 || checkUserData(getApartments, regexp, 1, maxApartmentsNumber) == 1 || checkUserData(getEntrances, regexp, 1, maxApartmentsNumber) == 1 || checkUserData(getUserApartments, regexp, 1, maxApartmentsNumber) == 1) {
               document.getElementById("apartments-to-floors-and-entrances").innerHTML = "Your data may be number";
               return;
           }
 
-					if (getUserApartments>(getEntrances*getFloors*getApartments)) {
-              document.getElementById("apartments-to-floors-and-entrances").innerHTML = "В доме нет такой квартиры";
+          // Check user data values to limits
+          if (checkUserData(getFloors, regexp, maxApartmentsNumber, 1) == "limitError" || checkUserData(getApartments, regexp, maxApartmentsNumber, 1) == "limitError" || checkUserData(getEntrances, regexp, maxApartmentsNumber, 1) == "limitError" || checkUserData(getUserApartments, regexp, maxApartmentsNumber, 1) == "limitError") {
+              document.getElementById("apartments-to-floors-and-entrances").innerHTML = "This apartment does not exist";
               return;
-					}
+          }
 
-					document.getElementById("apartments-to-floors-and-entrances").innerHTML = "Подъезд: "+Math.ceil(getUserApartments/(getFloors*getApartments));
+					document.getElementById("apartments-to-floors-and-entrances").innerHTML = "Подъезд: "+Math.ceil(getUserApartments/(getFloors*getApartments)); // Get entrance
 
 					while (getUserApartments>(getFloors*getApartments)) {
               getUserApartments = getUserApartments - (getFloors*getApartments);
 					}
 
-          document.getElementById("apartments-to-floors-and-entrances").innerHTML += ", Этаж: "+Math.ceil(getUserApartments/getApartments);
+          document.getElementById("apartments-to-floors-and-entrances").innerHTML += ", Этаж: "+Math.ceil(getUserApartments/getApartments); // Get floor
       }
 
       /* --- Task 10 --- */
 
       function countNumber() {
 					var getUserNumber = document.getElementById("user-number").value;
-          var regexp = /\D/;
+          var regexp = /-?\d+/;
 
-          if (checkUserData(getUserNumber, regexp) == 1) {
+          // Check getUserNumber to number
+          if (checkUserData(getUserNumber, regexp) == -1) {
               document.getElementById("setNumSum").innerHTML = "Your data may be number";
               return;
           }
 
 					getUserNumber = getUserNumber.split("");
 
-					var summa = 0;
-					var getUserNumberLens = getUserNumber.length;
-					var i;
-
-					for (i=0; i<getUserNumberLens; i++) {
-					    summa = summa + parseInt(getUserNumber[i]);
+          // Check getUserNumber to negative number
+          if (getUserNumber[0] == "-") {
+              getUserNumber.splice(0, 1);
 					}
+
+					var summa = getUserNumber.reduce(function(summa, item) {
+					    return summa+parseInt(item);
+					},0);
 
 					document.getElementById("setNumSum").innerHTML = "Сумма чисел: "+summa;
       }
@@ -466,7 +472,8 @@
 					var getLinks = document.getElementById("links").value.split(/[\s,]/);
           var getLinksLens = getLinks.length;
 
-					var i;
+					// Delete "" - elements from getLinks
+          var i;
 					for (i=0; i<getLinksLens; i++) {
 					    if (getLinks[i] == "") {
                   getLinks.splice(i, 1);
@@ -474,7 +481,8 @@
 							}
 					}
 
-          if (!document.getElementById("link-list")) {
+          // Create link list, if does not exist
+					if (!document.getElementById("link-list")) {
               var newLinkList = document.createElement("ul");
               newLinkList.id = "link-list";
               document.getElementById("set-links").appendChild(newLinkList);
@@ -483,13 +491,16 @@
               document.getElementById("link-list").innerHTML = "";
 					}
 
-          getLinks.sort(function(a,b){return a.replace(/https?:\/\//g, "") > b.replace(/https?:\/\//g, "")});
+          // Sort getLinks
+					getLinks.sort(function(a,b){return a.replace(/https?:\/\//g, "") > b.replace(/https?:\/\//g, "")});
 
-					for (i=0, getLinksLens = getLinks.length; i<getLinksLens; i++) {
-              document.getElementById("link-list").innerHTML += '<li><a href="'+getLinks[i]+'">'+getLinks[i].replace(/https?:\/\//, "")+'</a></li>';
-					}
+          // Output link list
+					getLinks.forEach(function (value) {
+              document.getElementById("link-list").innerHTML += '<li><a href="'+value+'">'+value.replace(/https?:\/\//, "")+'</a></li>';
+          });
 
-          document.getElementById("links").value = getLinks.toString().replace(/https?:\/\//g, " ");
+          // Format links in textarea
+					document.getElementById("links").value = getLinks.toString().replace(/https?:\/\//g, " ");
       }
 	</script>
 </html>
