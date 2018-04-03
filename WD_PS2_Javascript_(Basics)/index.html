@@ -231,6 +231,19 @@
 
       /*--- Task 4 ---*/
 
+      function colculateDate() {
+          var secunda = document.getElementById("user-sec").value;
+          var regexp = /\D/;
+
+          // Check secunda to number
+          if (checkUserData(secunda, regexp) == 1) {
+              document.getElementById("sec-to-hours").innerHTML = "Your data may by positive number or 0;
+              return;
+          }
+
+          secondToHours(secunda);
+      }
+
       function secondToHours(numSec) {
           var date = new Date(2018, 1);
           var dateOptions = {
@@ -241,24 +254,12 @@
 
           date.setSeconds(numSec);
 
-          if (date.getHours()<10) {
+          if (date.getHours()<10) { // Add "0" if hours less then 10
               document.getElementById("sec-to-hours").innerHTML = "0"+date.toLocaleString("ru", dateOptions);
           }
           else {
               document.getElementById("sec-to-hours").innerHTML = date.toLocaleString("ru", dateOptions);
           }
-      }
-
-      function colculateDate() {
-          var secunda = document.getElementById("user-sec").value;
-          var regexp = /\D/;
-
-          if (checkUserData(secunda, regexp) == 1) {
-              document.getElementById("sec-to-hours").innerHTML = "Your data may by number";
-              return;
-          }
-
-          secondToHours(secunda);
       }
 
       /*--- Task 5 ---*/
