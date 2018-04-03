@@ -10,33 +10,36 @@
 	</head>
 	<body>
 		<div class="1task">
-			<h2>Я считаю сумму чисел от "-1000" до "1000"</h2>
+			<h2>1. Я считаю сумму чисел от "-1000" до "1000"</h2>
 			<form action="">
-				<input id="minNum" type="number" value="-1000" onchange="changeSumma()">
-				<input id="maxNum" type="number" value="1000" onchange="changeSumma()">
+				<input id="minNum" type="number" value="-1000"/>
+				<input id="maxNum" type="number" value="1000"/>
+				<input type="button" value="Считать" onclick="summa()"/>
 				<div class="result">
 					<label>Результат:&nbsp;</label>
-					<output id="summ"></output>
+					<output id="summ">&nbsp 0</output>
 				</div>
 			</form>
 		</div>
 		<div class="2task">
-			<h2>Я считаю сумму чисел, оканчивающихся на 2, 3, 7</h2>
+			<h2>2. Я считаю сумму чисел, оканчивающихся на 2, 3, 7</h2>
 			<form action="">
 				<div class="result">
 					<label>Результат:&nbsp;</label>
-					<output id="summ-2-3-7"></output>
+					<output id="summ-2-3-7">&nbsp 0</output>
 				</div>
 			</form>
 		</div>
 		<div class="3task">
-			<h2>Я рисую картинку из <input id="number-of-stars" type="number" value="50" onchange="changeStars()"/>звезд</h2>
+			<h2>3. Я рисую картинку из <input id="number-of-stars" type="number" value="50"/>звезд</h2>
+			<input type="button" value="Нарисовать" onclick="createStarImg()"/>
 			<div id="star-img"></div>
 		</div>
 		<div class="4task">
-			<h2>Я перевожу секунды в часы и минуты</h2>
+			<h2>4. Я перевожу секунды в часы и минуты</h2>
 			<form action="">
-				<input id="user-sec" type="number" value="0" onchange="colculateDate()"/>
+				<input id="user-sec" type="number" value="0"/>
+				<input type="button" value="Перевести" onclick="colculateDate()"/>
 				<div class="result">
 					<label>Результат:&nbsp;</label>
 					<output id="sec-to-hours">00:00:00</output>
@@ -44,29 +47,32 @@
 			</form>
 		</div>
 		<div class="5task">
-			<h2>Я вывожу возраст студентов</h2>
+			<h2>5. Я вывожу возраст студентов</h2>
 			<form action="">
-			<input id="student-year" type="number" value="0" onchange="getStudentsYear()"/>
+				<input id="student-year" type="number" value="0"/>
+				<input type="button" value="Перевести" onclick="getStudentsYear()"/>
 				<div class="result">
 					<output id="student-year-string">0 &nbsp лет</output>
 				</div>
 			</form>
 		</div>
 		<div class="6task">
-			<h2>Я считаю промежуток времени между датами</h2>
+			<h2>6. Я считаю промежуток времени между датами</h2>
 			<form action="">
-				<input type="text" id="1data" value="October 13, 2014 11:13:00" onchange="getUserDate()"/>
-				<input type="text" id="2data" value="October 14, 2014 11:13:00" onchange="getUserDate()"/>
+				<input type="text" id="1data" value="October 13, 2014 11:13:00"/>
+				<input type="text" id="2data" value="October 14, 2014 11:13:00"/>
+				<input type="button" value="Считать" onclick="getUserDate()"/>
 				<div class="result">
 					<label>Между датами прошло:&nbsp</label>
-					<output id="time-between-dates"></output>
+					<output id="time-between-dates">...</output>
 				</div>
 			</form>
 		</div>
 		<div class="7task">
-			<h2>Я вывожу знак зодиака</h2>
+			<h2>7. Я вывожу знак зодиака</h2>
 			<form action="">
-			<input type="text" id="zodiac-date" placeholder="Дата в формате 2014-12-31" onchange="zodiac()"/>
+				<input type="text" id="zodiac-date" placeholder="Дата в формате 2014-12-31"/>
+				<input type="button" value="Вывести" onclick="zodiac()"/>
 				<div class="result">
 					<label>Ваш знак зодиака:&nbsp</label>
 					<output id="user-zodiac">...</output>
@@ -74,37 +80,40 @@
 			</form>
 		</div>
 		<div class="8task">
-			<h2>Я рисую шахматные доски</h2>
-			<input type="text" id="chess-size" placeholder="Размер в виде 4х4" onchange="chessPaint()"/>
+			<h2>8. Я рисую шахматные доски</h2>
+			<input type="text" id="chess-size" placeholder="Размер в виде 4х4"/>
+			<input type="button" value="Считать" onclick="chessPaint()"/>
 			<div id="chess-board"></div>
 		</div>
 		<div class="9task">
-			<h2>Я определяю номер подъезда и этаж по номеру квартиры</h2>
+			<h2>9. Я определяю номер подъезда и этаж по номеру квартиры</h2>
 			<form action="">
 				<label>Этажей в доме:&nbsp</label>
-				<input type="number" id="number-floors" value="1" onchange="countFloorsAndEntrances()"/>
+				<input type="number" id="number-floors" value="1"/>
 				<label>Квартир в пролете:&nbsp</label>
-				<input type="number" id="number-apartments" value="1" onchange="countFloorsAndEntrances()"/>
+				<input type="number" id="number-apartments" value="1""/>
 				<label>Подъездов в доме:&nbsp</label>
-				<input type="number" id="number-entrances" value="1" onchange="countFloorsAndEntrances()"/>
+				<input type="number" id="number-entrances" value="1"/>
 				<label>Какую квартиру найти:&nbsp</label>
-				<input type="number" id="user-apartments" value="1" onchange="countFloorsAndEntrances()"/>
+				<input type="number" id="user-apartments" value="1"/>
+				<input type="button" value="Считать" onclick="countFloorsAndEntrances()"/>
 				<div class="result">
 					<output id="apartments-to-floors-and-entrances"></output>
 				</div>
 			</form>
 		</div>
 		<div class="10task">
-			<h2>Я вывожу сумму цифр числа</h2>
+			<h2>10. Я вывожу сумму цифр числа</h2>
 			<form action="">
-				<input type="number" id="user-number" value="1234" onchange="countNumber()"/>
+				<input type="number" id="user-number" value="1234"/>
+				<input type="button" value="Считать" onclick="countNumber()"/>
 				<div class="result">
 					<output id="setNumSum"></output>
 				</div>
 			</form>
 		</div>
 		<div class="11task">
-			<h2>Я форматирую и сортирую ссылки</h2>
+			<h2>11. Я форматирую и сортирую ссылки</h2>
 			<form action="">
 				<textarea id="links" onchange="formatLinks()"></textarea>
 				<output id="set-links"></output>
@@ -124,6 +133,19 @@
 
           else {
 					    return -1;
+          }
+      }
+
+      function getTextForDate(dateValue, textArray, innerId) {
+
+          /* --- for 10, 11, 12,...,19 and 110,...,119,... --- */
+          if (("0"+dateValue).slice(-2, -1) == 1) {
+              document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[0];
+          }
+
+          /* --- for other --- */
+          else {
+              document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[parseInt(("0"+dateValue).slice(-1))];
           }
       }
 
@@ -162,15 +184,11 @@
           document.getElementById("summ-2-3-7").value = result237;
       }
 
-      function changeSumma() {
-          summa();
-      }
-
-      summa();
-
       /* --- Task 3 ---*/
 
       function createStarImg() {
+          document.getElementById("star-img").innerHTML = "";
+
           var i, j;
           var n = document.getElementById("number-of-stars").value;
           var regexp = /\D/;
@@ -194,13 +212,6 @@
               document.getElementById("star-img").innerHTML += "<br>";
           }
       }
-
-      function changeStars() {
-          document.getElementById("star-img").innerHTML = "";
-          createStarImg();
-      }
-
-      createStarImg();
 
       /*--- Task 4 ---*/
 
@@ -250,19 +261,6 @@
           getTextForDate(getStudentYear, yearVariables, "student-year-string");
       }
 
-			function getTextForDate(dateValue, textArray, innerId) {
-
-          /* --- for 10, 11, 12,...,19 and 110,...,119,... --- */
-          if (("0"+dateValue).slice(-2, -1) == 1) {
-              document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[0];
-          }
-
-          /* --- for other --- */
-          else {
-              document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[parseInt(("0"+dateValue).slice(-1))];
-          }
-      }
-
       /* --- Task 6 --- */
 
       function getUserDate() {
@@ -298,8 +296,6 @@
               getTextForDate(timeBetweenDates[i], dateText[i], "time-between-dates");
 					}
       }
-
-      getUserDate();
 
       /* --- Task 7 --- */
 
@@ -400,8 +396,6 @@
           document.getElementById("apartments-to-floors-and-entrances").innerHTML += ", Этаж: "+Math.ceil(getUserApartments/getApartments);
       }
 
-      countFloorsAndEntrances();
-
       /* --- Task 10 --- */
 
       function countNumber() {
@@ -425,8 +419,6 @@
 
 					document.getElementById("setNumSum").innerHTML = "Сумма чисел: "+summa;
       }
-
-      countNumber();
 
       /* --- Task 11 --- */
 
