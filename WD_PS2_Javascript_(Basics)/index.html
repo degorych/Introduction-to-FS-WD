@@ -288,6 +288,13 @@
           var fDate = new Date(Date.parse(document.getElementById("1data").value));
           var sDate = new Date(Date.parse(document.getElementById("2data").value));
 
+          if (fDate>sDate) { // Swapping values
+              var swap = fDate;
+              fDate = sDate;
+              sDate = swap;
+          }
+
+          // Get difference between dates in date format
           sDate.setSeconds(sDate.getSeconds()-fDate.getSeconds());
           sDate.setMinutes(sDate.getMinutes()-fDate.getMinutes());
           sDate.setHours(sDate.getHours()-fDate.getHours());
@@ -297,9 +304,8 @@
 
           sDate.setMinutes(sDate.getMinutes() + (sDate.getTimezoneOffset())*(-1)); // Convert to  UTC timezone.
 
-          var timeBetweenDates = sDate.toISOString().split(/[\s-T.:/]+/);
+          var timeBetweenDates = sDate.toISOString().split(/[\s-T.:/]+/); // Get array with comfortable structure to output
           timeBetweenDates[1] -= 1; // In ISO view mount contain from 1 to 12 values.
-
 
           var dateText = [
               [" лет ", " год ", " года ", " года ", " года ", " лет ", " лет ", " лет ", " лет ", " лет "],
@@ -310,9 +316,11 @@
 							[" секунд ", " секунда ", " секунды ", " секунды ", " секунды ", " секунд ", " секунд ", " секунд ", " секунд ", " секунд "]
 					];
 
-					var i;
-					for (i=0; i<6; i++) {
-              getTextForDate(timeBetweenDates[i], dateText[i], "time-between-dates");
+					// Output reult
+          var i;
+					var dataTextLens = dateText.length;
+					for (i=0; i<dataTextLens; i++) {
+              getTextForDate(timeBetweenDates[i], dateText[i], "time-between-dates"); // Number from date + word from text arr
 					}
       }
 
