@@ -345,7 +345,7 @@
 					var getUserDate = document.getElementById("zodiac-date").value;
           var regexp = /^\d{4}-\d{2}-\d{2}$/;
 
-          // Check getStudentYear to yyyy-mm-dd format
+          // Check getUserDate to yyyy-mm-dd format
           if (checkUserData(getUserDate, regexp) == -1) {
               document.getElementById("user-zodiac").innerHTML = "Your date may be in 2018-03-27 format";
               return;
@@ -380,6 +380,7 @@
 					var chessSize = document.getElementById("chess-size").value;
           var regexp = /^\d+x\d+$/;
 
+          // Check chessSize to 3x3 format
           if (checkUserData(chessSize, regexp) == -1) {
               document.getElementById("chess-board").innerHTML = "Your data may be in 4x4 format";
               return;
@@ -387,9 +388,10 @@
 
           chessSize = chessSize.split("x");
 					var i, j;
-          var currentChesRow;
+          var currentChesRow; // Need for getting current row
 
 					for (i=0; i<chessSize[0]; i++) {
+					    // Create row with first-str or second-str classes
 					    if ((i+1)%2 != 0) {
 					        document.getElementById("chess-board").innerHTML += "<div class='first-str'>"
 							}
@@ -397,8 +399,9 @@
                   document.getElementById("chess-board").innerHTML += "<div class='second-str'>"
 							}
 
-              currentChesRow = document.querySelector("div#chess-board > div:last-child");
+              currentChesRow = document.querySelector("div#chess-board > div:last-child"); // Get last element in <div id="chess-board">
 
+							// Create chess cells
 							for (j=0; j<chessSize[1]; j++) {
                   currentChesRow.innerHTML += "<div></div>"
 							}
