@@ -1,22 +1,31 @@
-/* --- Function for checking user data to valid value end limits --- */
-function checkUserData(value, regex, upLimit, downLimit) {
+/* --- Function for checking user data to valid value end limits:
+
+				value - user data value,
+				regexp - regular expression for checking value
+				upLimit, downLimit - max and min values, that user data can take
+				innerId - function must insert result into this element id
+				errorArray - this array contains error text (errorArray[["limit error"],["regexp error"]])
+				
+--- */
+function checkUserData(value, regexp, innerId, errorArray, upLimit, downLimit) {
+	
     if (parseInt(value)<downLimit || parseInt(value)>upLimit) { // Check limits
-        return "limitError";
+        document.getElementById(innerId).innerHTML = errorArray[0];
+		return 0;
     }
 
-    if (value.toString().match(regex) != null) { // Check value to regexp's compatibility
-        return 1;
-    }
-
-    else {
-        return -1;
+    if (value.toString().match(regexp) == null) { // Check value to regexp's compatibility
+		document.getElementById(innerId).innerHTML = errorArray[1];
+		return 0;
     }
 }
 
 /* --- Add text to date number function:
+
                 dateValue - user date number,
                 textArray - words array for number,
                 innerId - function must insert result into this element id
+				
  --- */
 function getTextForDate(dateValue, textArray, innerId) {
 
@@ -36,25 +45,23 @@ function getTextForDate(dateValue, textArray, innerId) {
 function summa() {
     var minNum = document.getElementById("minNum").value;
     var maxNum = document.getElementById("maxNum").value;
-    var regexp = /[^-?\d+]/;
+	
+    var regexp = /^-?\d+$/;
+	var errorArray = [
+		["Enter number from -1000 to 1000"],
+		["Your data may by number"]
+	]
 
-    // Check minNum and maxNum to number
-    if (checkUserData(minNum, regexp, 1000, -1000) == 1 || checkUserData(maxNum, regexp, 1000, -1000) == 1) {
-        document.getElementById("summ").innerHTML = "Your data may by number";
-        document.getElementById("summ-2-3-7").innerHTML = "Your data may by number";
-        return;
-    }
-    // Check minNum and maxNum to limits
-    if (checkUserData(minNum, regexp, 1000, -1000) == "limitError" || checkUserData(maxNum, regexp, 1000, -1000) == "limitError") {
-        document.getElementById("summ").innerHTML = "Enter number from -1000 to 1000";
-        document.getElementById("summ-2-3-7").innerHTML = "Enter number from -1000 to 1000";
-        return;
-    }
+    // Check minNum and maxNum to number and limits
+	if (checkUserData(minNum, regexp, "summ", errorArray, 1000, -1000) == 0 || checkUserData(maxNum, regexp, "summ", errorArray, 1000, -1000) == 0) {
+		document.getElementById("summ-2-3-7").innerHTML = document.getElementById("summ").value;
+		return;
+	}
 
-    minNum = parseInt(minNum);
+	minNum = parseInt(minNum);
     maxNum = parseInt(maxNum);
 
-    if (minNum>maxNum) { // Swapping values
+    if (minNum>maxNum) { // Swapping values if minNum > maxNum
         var swap = minNum;
         minNum = maxNum;
         maxNum = swap;
@@ -81,18 +88,17 @@ function createStarImg() {
 
     var i, j;
     var n = document.getElementById("number-of-stars").value;
-    var regexp = /\D/;
+    
+	var regexp = /^\d+$/;
+	var errorArray = [
+		["Enter number from 0 to 100"],
+		["Your data may by number"]
+	];
 
-    // Check n to number
-    if (checkUserData(n, regexp, 100, 0) == 1) {
-        document.getElementById("star-img").innerHTML = "Your data may by number";
-        return;
-    }
-    // Check n to limits
-    if (checkUserData(n, regexp, 100, 0) == "limitError") {
-        document.getElementById("star-img").innerHTML = "Enter number from 0 to 100";
-        return;
-    }
+    // Check n to number and limits
+	if (checkUserData(n, regexp, "star-img", errorArray, 100, 0) == 0) {
+		return;
+	}
 
     n = parseInt(n);
 
@@ -109,11 +115,15 @@ function createStarImg() {
 
 function colculateDate() {
     var secunda = document.getElementById("user-sec").value;
-    var regexp = /\D/;
+	
+    var regexp = /^\d+$/;
+	var errorArray = [
+		[""],
+		["Your data may by positive number or 0"]
+	];
 
     // Check secunda to number
-    if (checkUserData(secunda, regexp) == 1) {
-        document.getElementById("sec-to-hours").innerHTML = "Your data may by positive number or 0";
+    if (checkUserData(secunda, regexp, "sec-to-hours", errorArray) == 0) {
         return;
     }
 
@@ -143,11 +153,15 @@ function secondToHours(numSec) {
 function getStudentsYear() {
     var yearVariables = [" лет ", " год ", " года ", " года ", " года ", " лет ", " лет ", " лет ", " лет ", " лет "];
     var getStudentYear = document.getElementById("student-year").value;
-    var regexp = /\D/;
+    
+	var regexp = /^\d+$/;
+	var errorArray = [
+		[""],
+		["Your data may by positive number or 0"]
+	];
 
     // Check getStudentYear to number
-    if (checkUserData(getStudentYear, regexp) == 1) {
-        document.getElementById("student-year-string").innerHTML = "Your data may by positive number or 0";
+    if (checkUserData(getStudentYear, regexp, "student-year-string", errorArray) == 0) {
         return;
     }
 
@@ -160,9 +174,28 @@ function getStudentsYear() {
 
 function getUserDate() {
     document.getElementById("time-between-dates").innerHTML = "";
+	
+	var regexp = /^\w{3,9}\s\d{1,2},\s\d{1,4}\s\d{2}:\d{2}:\d{2}$/;
+	var errorArray = [
+		[""],
+		["Your date may by in 'October 13, 2014 11:13:00' format"],
+		["Invalid Date"],
+	];
+
+    // Check user dates
+    if (checkUserData(document.getElementById("1data").value, regexp, "time-between-dates", errorArray) == 0 ||
+		checkUserData(document.getElementById("2data").value, regexp, "time-between-dates", errorArray) == 0) {
+        return;
+    }
 
     var fDate = new Date(Date.parse(document.getElementById("1data").value));
     var sDate = new Date(Date.parse(document.getElementById("2data").value));
+	
+	// Check correct dates
+	if (fDate == "Invalid Date" || sDate == "Invalid Date") {
+		document.getElementById("time-between-dates").innerHTML = errorArray[2];
+		return;
+	}
 
     if (fDate>sDate) { // Swapping values
         var swap = fDate;
@@ -219,19 +252,23 @@ function zodiac() {
     ];
 
     var getUserDate = document.getElementById("zodiac-date").value;
+	
     var regexp = /^\d{4}-\d{2}-\d{2}$/;
+	var errorArray = [
+		[""],
+		["Your date may be in 2018-03-27 format"]
+	];
 
     // Check getUserDate to yyyy-mm-dd format
-    if (checkUserData(getUserDate, regexp) == -1) {
-        document.getElementById("user-zodiac").innerHTML = "Your date may be in 2018-03-27 format";
+    if (checkUserData(getUserDate, regexp, "user-zodiac", errorArray) == 0) {
         return;
     }
-
-    var getUserDateArr = getUserDate.split("-"); // For check correct date
 
     var userDate = new Date(getUserDate);
 
     // Check to correct date
+	var getUserDateArr = getUserDate.split("-");
+	
     if (getUserDateArr[1] != userDate.getMonth()+1) {
         document.getElementById("user-zodiac").innerHTML = "Enter correct date";
         return;
@@ -254,11 +291,15 @@ function chessPaint() {
     document.getElementById("chess-board").innerHTML = "";
 
     var chessSize = document.getElementById("chess-size").value;
+	
     var regexp = /^\d+x\d+$/;
+	var errorArray = [
+		[""],
+		["Your data may be in 4x4 format"]
+	];
 
     // Check chessSize to 3x3 format
-    if (checkUserData(chessSize, regexp) == -1) {
-        document.getElementById("chess-board").innerHTML = "Your data may be in 4x4 format";
+    if (checkUserData(chessSize, regexp, "chess-board", errorArray) == 0) {
         return;
     }
 
@@ -293,17 +334,17 @@ function countFloorsAndEntrances() {
     var getUserApartments = parseInt(document.getElementById("user-apartments").value);
 
     var maxApartmentsNumber = getEntrances*getFloors*getApartments;
-    var regexp = /\D/;
+    var regexp = /^\d+$/;
+	var errorArray = [
+		["This apartment does not exist"],
+		["Your data may be number from 1"]
+	];
 
-    // Check user data values to number
-    if (checkUserData(getFloors, regexp, 1, maxApartmentsNumber) == 1 || checkUserData(getApartments, regexp, 1, maxApartmentsNumber) == 1 || checkUserData(getEntrances, regexp, 1, maxApartmentsNumber) == 1 || checkUserData(getUserApartments, regexp, 1, maxApartmentsNumber) == 1) {
-        document.getElementById("apartments-to-floors-and-entrances").innerHTML = "Your data may be number";
-        return;
-    }
-
-    // Check user data values to limits
-    if (checkUserData(getFloors, regexp, maxApartmentsNumber, 1) == "limitError" || checkUserData(getApartments, regexp, maxApartmentsNumber, 1) == "limitError" || checkUserData(getEntrances, regexp, maxApartmentsNumber, 1) == "limitError" || checkUserData(getUserApartments, regexp, maxApartmentsNumber, 1) == "limitError") {
-        document.getElementById("apartments-to-floors-and-entrances").innerHTML = "This apartment does not exist";
+    // Check user data values to number and limits
+    if (checkUserData(getFloors, regexp, "apartments-to-floors-and-entrances", errorArray, 1, maxApartmentsNumber) == 0 || 
+		checkUserData(getApartments, regexp, "apartments-to-floors-and-entrances", errorArray, 1, maxApartmentsNumber) == 0 || 
+		checkUserData(getEntrances, regexp, "apartments-to-floors-and-entrances", errorArray, 1, maxApartmentsNumber) == 0 || 
+		checkUserData(getUserApartments, regexp, "apartments-to-floors-and-entrances", errorArray, 1, maxApartmentsNumber) == 0) {
         return;
     }
 
@@ -320,11 +361,15 @@ function countFloorsAndEntrances() {
 
 function countNumber() {
     var getUserNumber = document.getElementById("user-number").value;
-    var regexp = /-?\d+/;
+	
+    var regexp = /^-?\d+$/;
+	var errorArray = [
+		[""],
+		["Your data may be number"]
+	];
 
     // Check getUserNumber to number
-    if (checkUserData(getUserNumber, regexp) == -1) {
-        document.getElementById("setNumSum").innerHTML = "Your data may be number";
+    if (checkUserData(getUserNumber, regexp, "setNumSum", errorArray) == 0) {
         return;
     }
 
