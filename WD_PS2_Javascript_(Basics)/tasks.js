@@ -1,207 +1,196 @@
-/* --- Function for checking user data to valid value end limits:
+const errorArray = [
+    ["Your data may be integer"],
+    ["Enter number from -1000 to 1000"],
+    ["Enter number from 0 to 1000"],
+    ["Your number can not be negative"],
+    ["Your date may be in 'October 13, 2014 11:13:00' format"],
+    ["Invalid Date"],
+    ["Your date may be in '2018-03-27' format"],
+    ["This apartment does not exist"],
+    ["Your data may be number from 1"],
+    ["Enter number from 0 to 100"]
+];
 
-				value - user data value,
-				regexp - regular expression for checking value
-				upLimit, downLimit - max and min values, that user data can take
-				innerId - function must insert result into this element id
-				errorArray - this array contains error text (errorArray[["limit error"],["regexp error"]])
-				
---- */
-function checkUserData(value, regexp, innerId, errorArray, upLimit, downLimit) {
-	
-    if (parseInt(value)<downLimit || parseInt(value)>upLimit) { // Check limits
-        document.getElementById(innerId).innerHTML = errorArray[0];
-		return 0;
+function checkToNumber(value) {
+    if (value.split("").indexOf(".") !== -1 || value.split("").indexOf(",") !== -1) { // Check to float
+        return false;
+    }
+    return !isNaN(parseFloat(value)) && isFinite(value);
+}
+
+function checkToLimit(value, minValue, maxValue) {
+    if (value > maxValue || value < minValue) {
+        return false;
+    }
+    return true;
+}
+
+/* --- Select word for number --- */
+function addWordToDate(value, wordsArray) {
+    if (("0" + value).slice(-2, -1) === "1") {
+        return value + wordsArray[0];
     }
 
-    if (value.toString().match(regexp) == null) { // Check value to regexp's compatibility
-		document.getElementById(innerId).innerHTML = errorArray[1];
-		return 0;
+    if (value % 10 === 1) {
+        return value + wordsArray[1];
+    }
+
+    else if (value % 10 === 2 || value % 10 === 3 || value % 10 === 4) {
+        return value + wordsArray[2];
+    }
+
+    else  {
+        return value + wordsArray[0];
     }
 }
 
-/* --- Add text to date number function:
-
-                dateValue - user date number,
-                textArray - words array for number,
-                innerId - function must insert result into this element id
-				
- --- */
-function getTextForDate(dateValue, textArray, innerId) {
-
-    // for 10, 11, 12,...,19 and 110,...,119,...
-    if (("0"+dateValue).slice(-2, -1) == 1) {
-        document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[0];
-    }
-
-    // for other
-    else {
-        document.getElementById(innerId).innerHTML += parseInt(dateValue)+textArray[parseInt(("0"+dateValue).slice(-1))];
-    }
+function checkToFormat(value, regexp) {
+    return regexp.test(value);
 }
 
 /*--- Task 1, Task 2 ---*/
 
-function summa() {
-    var minNum = document.getElementById("minNum").value;
-    var maxNum = document.getElementById("maxNum").value;
-	
-    var regexp = /^-?\d+$/;
-	var errorArray = [
-		["Enter number from -1000 to 1000"],
-		["Your data may by number"]
-	]
+function sumNumbers() {
+    let minNum = document.getElementById("minNum").value;
+    let maxNum = document.getElementById("maxNum").value;
 
-    // Check minNum and maxNum to number and limits
-	if (checkUserData(minNum, regexp, "summ", errorArray, 1000, -1000) == 0 || checkUserData(maxNum, regexp, "summ", errorArray, 1000, -1000) == 0) {
-		document.getElementById("summ-2-3-7").innerHTML = document.getElementById("summ").value;
-		return;
-	}
+    let sumElement = document.getElementById("sum");
+    let sumElement237 = document.getElementById("sum-2-3-7");
 
-	minNum = parseInt(minNum);
+    if (!checkToNumber(minNum) || !checkToNumber(maxNum)) {
+        sumElement.innerText = sumElement237.innerText = errorArray[0];
+        return;
+    }
+
+    minNum = parseInt(minNum);
     maxNum = parseInt(maxNum);
 
-    if (minNum>maxNum) { // Swapping values if minNum > maxNum
-        var swap = minNum;
-        minNum = maxNum;
-        maxNum = swap;
+    if (!checkToLimit(minNum, -1000, 1000) || !checkToLimit(maxNum, -1000, 1000)) {
+        sumElement.innerText = sumElement237.innerText = errorArray[1];
+        return;
     }
 
-    var result = 0;
-    var result237 = 0;
+    let result = 0;
+    let result237 = 0;
 
-    for (minNum; minNum<=maxNum; minNum++) {
-        result = result + minNum;
-        if (minNum.toString().slice(-1) == 2 || minNum.toString().slice(-1) == 3 || minNum.toString().slice(-1) == 7) {
-            result237 = result237 + minNum;
+    maxNum = (minNum > maxNum) ? [minNum, minNum = maxNum][0] : maxNum; // Swap numbers
+
+    while (minNum <= maxNum) {
+        result += minNum;
+        if (Math.abs(minNum) % 10 === 2 || Math.abs(minNum) % 10 === 3 || Math.abs(minNum) % 10 === 7) {
+            result237 += minNum;
         }
+        minNum++;
     }
 
-    document.getElementById("summ").value = result;
-    document.getElementById("summ-2-3-7").value = result237;
+    sumElement.innerText = `${result}`;
+    sumElement237.innerText = `${result237}`;
 }
 
 /* --- Task 3 ---*/
 
 function createStarImg() {
-    document.getElementById("star-img").innerHTML = "";
+    let starElement = document.getElementById("star-img");
+    starElement.innerHTML = "";
+    let numberOfStars = document.getElementById("number-of-stars").value;
 
-    var i, j;
-    var n = document.getElementById("number-of-stars").value;
-    
-	var regexp = /^\d+$/;
-	var errorArray = [
-		["Enter number from 0 to 100"],
-		["Your data may by number"]
-	];
+    if (!checkToNumber(numberOfStars)) {
+        starElement.innerText = errorArray[0];
+        return;
+    }
 
-    // Check n to number and limits
-	if (checkUserData(n, regexp, "star-img", errorArray, 100, 0) == 0) {
-		return;
-	}
+    numberOfStars = parseInt(numberOfStars);
 
-    n = parseInt(n);
+    if (!checkToLimit(numberOfStars, 0, 1000)) {
+        starElement.innerText = errorArray[2];
+        return;
+    }
 
-    for (i=1; n>0; i++) {
-        for (j=1; j<=i && n>0; j++) {
-            document.getElementById("star-img").innerHTML += "*";
-            n--;
+    for (let starRow = 1; numberOfStars > 0; starRow++) {
+        let resultString = "";
+        for (let starNumInRow = 1; starNumInRow <= starRow && numberOfStars > 0; starNumInRow++, numberOfStars--) {
+            resultString += "*";
         }
-        document.getElementById("star-img").innerHTML += "<br>";
+        let div = document.createElement("div");
+        div.innerText = resultString;
+        starElement.appendChild(div);
     }
 }
 
 /*--- Task 4 ---*/
 
-function colculateDate() {
-    var secunda = document.getElementById("user-sec").value;
-	
-    var regexp = /^\d+$/;
-	var errorArray = [
-		[""],
-		["Your data may by positive number or 0"]
-	];
+function secondToHours() {
+    let second = document.getElementById("user-sec").value;
+    let timeElement = document.getElementById("sec-to-hours");
+    let timeArray = ["hours","minutes","seconds"];
 
-    // Check secunda to number
-    if (checkUserData(secunda, regexp, "sec-to-hours", errorArray) == 0) {
+    if (!checkToNumber(second)) {
+        timeElement.innerText = errorArray[0];
         return;
     }
 
-    secondToHours(secunda);
-}
-
-function secondToHours(numSec) {
-    var date = new Date(2018, 1);
-    var dateOptions = {
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric"
-    };
-
-    date.setSeconds(numSec);
-
-    if (date.getHours()<10) { // Add "0" if hours less then 10
-        document.getElementById("sec-to-hours").innerHTML = "0"+date.toLocaleString("ru", dateOptions);
+    if (second < 0) {
+        timeElement.innerText = errorArray[3];
+        return;
     }
-    else {
-        document.getElementById("sec-to-hours").innerHTML = date.toLocaleString("ru", dateOptions);
-    }
+
+    timeElement.innerText = timeArray.map(function (value, i) {
+        let timeCounter = (3600/Math.pow(60, i));
+        let time = second/timeCounter;
+        second %= timeCounter;
+
+        if (time < 10) {
+            return `0${Math.floor(time)}`;
+        }
+        else {
+            return `${Math.floor(time)}`;
+        }
+    }).join(":");
 }
 
 /*--- Task 5 ---*/
 
 function getStudentsYear() {
-    var yearVariables = [" лет ", " год ", " года ", " года ", " года ", " лет ", " лет ", " лет ", " лет ", " лет "];
-    var getStudentYear = document.getElementById("student-year").value;
-    
-	var regexp = /^\d+$/;
-	var errorArray = [
-		[""],
-		["Your data may by positive number or 0"]
-	];
+    let studentYear = document.getElementById("student-year").value;
+    let studentYearElement = document.getElementById("student-year-string");
 
-    // Check getStudentYear to number
-    if (checkUserData(getStudentYear, regexp, "student-year-string", errorArray) == 0) {
+    if (!checkToNumber(studentYear)) {
+        studentYearElement.innerText = errorArray[0];
         return;
     }
 
-    document.getElementById("student-year-string").innerHTML = "";
+    if (studentYear < 0) {
+        studentYearElement.innerText = errorArray[3];
+        return;
+    }
 
-    getTextForDate(getStudentYear, yearVariables, "student-year-string"); // Add word in yearVariables to getStudentYear
+    let wordsArray = [" лет ", " год ", " года "];
+    studentYearElement.innerText = addWordToDate(parseInt(studentYear), wordsArray);
 }
 
 /* --- Task 6 --- */
 
-function getUserDate() {
-    document.getElementById("time-between-dates").innerHTML = "";
-	
-	var regexp = /^\w{3,9}\s\d{1,2},\s\d{1,4}\s\d{2}:\d{2}:\d{2}$/;
-	var errorArray = [
-		[""],
-		["Your date may by in 'October 13, 2014 11:13:00' format"],
-		["Invalid Date"],
-	];
+function getTimeBetweenDates() {
+    let timeBetweenDatesElement = document.getElementById("time-between-dates");
 
-    // Check user dates
-    if (checkUserData(document.getElementById("1data").value, regexp, "time-between-dates", errorArray) == 0 ||
-		checkUserData(document.getElementById("2data").value, regexp, "time-between-dates", errorArray) == 0) {
-        return;
+    let firstDate = document.getElementById("1data").value;
+    let secondDate = document.getElementById("2data").value;
+	
+	const regexp = /^\w{3,9}\s\d{1,2},\s\d{1,4}\s\d{2}:\d{2}:\d{2}$/;
+	if (!checkToFormat(firstDate, regexp) || !checkToFormat(secondDate, regexp)) {
+        timeBetweenDatesElement.innerText = errorArray[4];
+	    return;
     }
 
-    var fDate = new Date(Date.parse(document.getElementById("1data").value));
-    var sDate = new Date(Date.parse(document.getElementById("2data").value));
-	
-	// Check correct dates
+    let fDate = new Date(Date.parse(firstDate));
+    let sDate = new Date(Date.parse(secondDate));
+
 	if (fDate == "Invalid Date" || sDate == "Invalid Date") {
-		document.getElementById("time-between-dates").innerHTML = errorArray[2];
+        timeBetweenDatesElement.innerText = errorArray[5];
 		return;
 	}
 
-    if (fDate>sDate) { // Swapping values
-        var swap = fDate;
-        fDate = sDate;
-        sDate = swap;
-    }
+    sDate = (fDate > sDate) ? [fDate, fDate = sDate][0] : sDate; // Swap dates
 
     // Get difference between dates in date format
     sDate.setSeconds(sDate.getSeconds()-fDate.getSeconds());
@@ -213,114 +202,117 @@ function getUserDate() {
 
     sDate.setMinutes(sDate.getMinutes() + (sDate.getTimezoneOffset())*(-1)); // Convert to  UTC timezone.
 
-    var timeBetweenDates = sDate.toISOString().split(/[\s-T.:/]+/); // Get array with comfortable structure to output
+    let timeBetweenDates = sDate.toISOString().split(/[\s-T.:/]+/);// Get array with comfortable structure to output
     timeBetweenDates[1] -= 1; // In ISO view mount contain from 1 to 12 values.
 
-    var dateText = [
-        [" лет ", " год ", " года ", " года ", " года ", " лет ", " лет ", " лет ", " лет ", " лет "],
-        [" месяцев ", " месяц ", " месяца ", " месяца ", " месяца ", " месяцев ", " месяцев ", " месяцев ", " месяцев ", " месяцев "],
-        [" дней ", " день ", " дня ", " дня ", " дня "," дней ", " дней ", " дней ", " дней ", " дней "],
-        [" часов ", " час ", " часа ", " часа ", " часа ", " часов ", " часов ", " часов ", " часов ", " часов "],
-        [" минут ", " минута ", " минуты ", " минуты ", " минуты ", " минут ", " минут ", " минут ", " минут ", " минут "],
-        [" секунд ", " секунда ", " секунды ", " секунды ", " секунды ", " секунд ", " секунд ", " секунд ", " секунд ", " секунд "]
+    const dateText = [
+        [" лет, ", " год, ", " года, "],
+        [" месяцев, ", " месяц, ", " месяца, "],
+        [" дней, ", " день, ", " дня, "],
+        [" часов, ", " час, ", " часа, "],
+        [" минут, ", " минута, ", " минуты, "],
+        [" секунд ", " секунда ", " секунды "]
     ];
 
     // Output result
-    var i;
-    var dataTextLens = dateText.length;
-    for (i=0; i<dataTextLens; i++) {
-        getTextForDate(timeBetweenDates[i], dateText[i], "time-between-dates"); // Number from date + word from text arr
-    }
+    timeBetweenDatesElement.innerText = dateText.reduce(function (resultString, value, i) {
+        return resultString + addWordToDate(parseInt(timeBetweenDates[i]), value);
+    }, "");
 }
 
 /* --- Task 7 --- */
 
 function zodiac() {
-    var zodiacArr = [
-        [new Date("2000-01-20"), new Date("2000-02-18"), "&#9810;", "Водолей"],
-        [new Date("2000-02-19"), new Date("2000-03-20"), "&#9811;", "Рыбы"],
-        [new Date("2000-03-21"), new Date("2000-04-19"), "&#9800;", "Овен"],
-        [new Date("2000-04-20"), new Date("2000-05-20"), "&#9801;", "Телец"],
-        [new Date("2000-05-21"), new Date("2000-06-20"), "&#9802;", "Близнецы"],
-        [new Date("2000-06-21"), new Date("2000-07-22"), "&#9803;", "Рак"],
-        [new Date("2000-07-23"), new Date("2000-08-22"), "&#9804;", "Лев"],
-        [new Date("2000-08-23"), new Date("2000-09-22"), "&#9805;", "Дева"],
-        [new Date("2000-09-23"), new Date("2000-10-22"), "&#9806;", "Весы"],
-        [new Date("2000-10-23"), new Date("2000-11-21"), "&#9807;", "Скорпион"],
-        [new Date("2000-11-22"), new Date("2000-12-21"), "&#9808;", "Стрелец"],
-        [new Date("2000-12-22"), new Date("2001-01-19"), "&#9809;", "Козерог"]
+    const zodiacArr = [
+        ["2000-01-20", "2000-02-18", 9810, "Водолей"],
+        ["2000-02-19", "2000-03-20", 9811, "Рыбы"],
+        ["2000-03-21", "2000-04-19", 9800, "Овен"],
+        ["2000-04-20", "2000-05-20", 9801, "Телец"],
+        ["2000-05-21", "2000-06-20", 9802, "Близнецы"],
+        ["2000-06-21", "2000-07-22", 9803, "Рак"],
+        ["2000-07-23", "2000-08-22", 9804, "Лев"],
+        ["2000-08-23", "2000-09-22", 9805, "Дева"],
+        ["2000-09-23", "2000-10-22", 9806, "Весы"],
+        ["2000-10-23", "2000-11-21", 9807, "Скорпион"],
+        ["2000-11-22", "2000-12-21", 9808, "Стрелец"],
+        ["2000-12-22", "2001-01-19", 9809, "Козерог"]
     ];
 
-    var getUserDate = document.getElementById("zodiac-date").value;
+    let userDate = document.getElementById("zodiac-date").value;
+    let zodiacTitleElement = document.getElementById("user-zodiac");
 	
-    var regexp = /^\d{4}-\d{2}-\d{2}$/;
-	var errorArray = [
-		[""],
-		["Your date may be in 2018-03-27 format"]
-	];
+    const regexp = /^\d{4}-\d{2}-\d{2}$/;
 
     // Check getUserDate to yyyy-mm-dd format
-    if (checkUserData(getUserDate, regexp, "user-zodiac", errorArray) == 0) {
+    if (!checkToFormat(userDate, regexp)) {
+        zodiacTitleElement.innerText = errorArray[6];
         return;
     }
-
-    var userDate = new Date(getUserDate);
 
     // Check to correct date
-	var getUserDateArr = getUserDate.split("-");
+    let createUserDate = new Date(userDate);
+    let userDateArr = userDate.split("-");
 	
-    if (getUserDateArr[1] != userDate.getMonth()+1) {
-        document.getElementById("user-zodiac").innerHTML = "Enter correct date";
+    if (parseInt(userDateArr[1]) !== createUserDate.getMonth() + 1) {
+        zodiacTitleElement.innerText = errorArray[5];
         return;
     }
 
-    userDate.setFullYear(2000);
+    userDate = userDate.replace(/\d+/, 2000);
 
-    if (userDate >= zodiacArr[userDate.getMonth()][0] && userDate <= zodiacArr[userDate.getMonth()][1]) {
-        document.getElementById("user-zodiac").innerHTML = zodiacArr[userDate.getMonth()][2]+" "+zodiacArr[userDate.getMonth()][3];
-    }
-
-    else {
-        document.getElementById("user-zodiac").innerHTML = zodiacArr[userDate.getMonth()-1][2]+" "+zodiacArr[userDate.getMonth()-1][3];
+    for (let i = 0; i < 12; i++) {
+        if (userDate >= zodiacArr[i][0] && userDate <= zodiacArr[i][1]) {
+            zodiacTitleElement.innerText = `${String.fromCharCode(zodiacArr[i][2])} ${zodiacArr[i][3]}`;
+        }
     }
 }
 
 /* --- Task 8 --- */
 
 function chessPaint() {
-    document.getElementById("chess-board").innerHTML = "";
+    let chessBoardElement = document.getElementById("chess-board");
+    let chessNumberRow = document.getElementById("chess-number-row").value;
+    let chessNumberColumn = document.getElementById("chess-number-column").value;
 
-    var chessSize = document.getElementById("chess-size").value;
-	
-    var regexp = /^\d+x\d+$/;
-	var errorArray = [
-		[""],
-		["Your data may be in 4x4 format"]
-	];
+    chessBoardElement.innerHTML = "";
 
-    // Check chessSize to 3x3 format
-    if (checkUserData(chessSize, regexp, "chess-board", errorArray) == 0) {
+    // Get max width our chess board and create default width and height for chess cell
+    let chessBoardMaxWidth = chessBoardElement.clientWidth;
+    let chessCellWidthAndHeight = "50px";
+
+    // Calculate actual size for chess cells
+    if (chessBoardMaxWidth / chessNumberColumn < 50) {
+        chessCellWidthAndHeight = `${chessBoardMaxWidth / chessNumberColumn}px`;
+    }
+
+    // Check user data to integer
+    if (!checkToNumber(chessNumberRow) || !checkToNumber(chessNumberColumn)) {
+        chessBoardElement.innerText = errorArray[0];
         return;
     }
 
-    chessSize = chessSize.split("x");
-    var i, j;
-    var currentChesRow; // Need for getting current row
+    // Check user data to limits
+    if (!checkToLimit(chessNumberRow, 0, 100) || !checkToLimit(chessNumberColumn, 0, 100)) {
+        chessBoardElement.innerText = errorArray[9];
+        return;
+    }
 
-    for (i=0; i<chessSize[0]; i++) {
-        // Create row with first-str or second-str classes
-        if ((i+1)%2 != 0) {
-            document.getElementById("chess-board").innerHTML += "<div class='first-str'>"
-        }
-        else {
-            document.getElementById("chess-board").innerHTML += "<div class='second-str'>"
-        }
+    // Paint chess board
+    while (chessNumberRow > 0) { // Paint rows
+        let newRow = document.createElement("div");
+        chessBoardElement.appendChild(newRow);
+        chessNumberRow--;
 
-        currentChesRow = document.querySelector("div#chess-board > div:last-child"); // Get last element in <div id="chess-board">
-
-        // Create chess cells
-        for (j=0; j<chessSize[1]; j++) {
-            currentChesRow.innerHTML += "<div></div>"
+        for (let i = 0; i < chessNumberColumn; i++) { // Paint columns
+            let newColumn = document.createElement("div");
+            if ((i + chessNumberRow) % 2 === 0) { // Select color for chess cells
+                newColumn.style.backgroundColor = "black";
+            }
+            else {
+                newColumn.style.backgroundColor = "white";
+            }
+            newColumn.style.width = newColumn.style.height = chessCellWidthAndHeight;
+            newRow.appendChild(newColumn);
         }
     }
 }
@@ -328,98 +320,73 @@ function chessPaint() {
 /* --- Task 9 --- */
 
 function countFloorsAndEntrances() {
-    var getFloors = parseInt(document.getElementById("number-floors").value);
-    var getApartments = parseInt(document.getElementById("number-apartments").value);
-    var getEntrances = parseInt(document.getElementById("number-entrances").value);
-    var getUserApartments = parseInt(document.getElementById("user-apartments").value);
+    let floors = document.getElementById("number-floors").value;
+    let apartments = document.getElementById("number-apartments").value;
+    let entrances = document.getElementById("number-entrances").value;
+    let userApartment = document.getElementById("user-apartments").value;
+    let floorAndEntranceElement = document.getElementById("apartments-to-floors-and-entrances");
+    let maxApartmentsNumber = entrances * floors * apartments;
 
-    var maxApartmentsNumber = getEntrances*getFloors*getApartments;
-    var regexp = /^\d+$/;
-	var errorArray = [
-		["This apartment does not exist"],
-		["Your data may be number from 1"]
-	];
-
-    // Check user data values to number and limits
-    if (checkUserData(getFloors, regexp, "apartments-to-floors-and-entrances", errorArray, 1, maxApartmentsNumber) == 0 || 
-		checkUserData(getApartments, regexp, "apartments-to-floors-and-entrances", errorArray, 1, maxApartmentsNumber) == 0 || 
-		checkUserData(getEntrances, regexp, "apartments-to-floors-and-entrances", errorArray, 1, maxApartmentsNumber) == 0 || 
-		checkUserData(getUserApartments, regexp, "apartments-to-floors-and-entrances", errorArray, 1, maxApartmentsNumber) == 0) {
+    if (!checkToNumber(floors) || !checkToNumber(apartments) || !checkToNumber(entrances) || !checkToNumber(userApartment)) {
+        floorAndEntranceElement.innerText = errorArray[8];
         return;
     }
 
-    document.getElementById("apartments-to-floors-and-entrances").innerHTML = "Подъезд: "+Math.ceil(getUserApartments/(getFloors*getApartments)); // Get entrance
-
-    while (getUserApartments>(getFloors*getApartments)) {
-        getUserApartments = getUserApartments - (getFloors*getApartments);
+    if (!checkToLimit(floors, 1, maxApartmentsNumber) || !checkToLimit(apartments, 1, maxApartmentsNumber) || !checkToLimit(entrances, 1, maxApartmentsNumber)) {
+        floorAndEntranceElement.innerText = errorArray[8];
+        return;
     }
 
-    document.getElementById("apartments-to-floors-and-entrances").innerHTML += ", Этаж: "+Math.ceil(getUserApartments/getApartments); // Get floor
+    if (!checkToLimit(userApartment, 1, maxApartmentsNumber)) {
+        floorAndEntranceElement.innerText = errorArray[7];
+        return;
+    }
+
+    let numberOfEntrances = Math.ceil(userApartment / (floors * apartments)); // Get entrance
+
+    while (userApartment > (floors * apartments)) {
+        userApartment -= (floors * apartments);
+    }
+    let numberOfFloors = Math.ceil(userApartment / apartments); // Get floor
+
+    floorAndEntranceElement.innerText = `Подъезд: ${numberOfEntrances}, этаж: ${numberOfFloors}`
 }
 
 /* --- Task 10 --- */
 
-function countNumber() {
-    var getUserNumber = document.getElementById("user-number").value;
-	
-    var regexp = /^-?\d+$/;
-	var errorArray = [
-		[""],
-		["Your data may be number"]
-	];
+function countNumberDigits() {
+    let userNumber = document.getElementById("user-number").value;
+    let numberDigitsSumElement = document.getElementById("digit-sum");
 
-    // Check getUserNumber to number
-    if (checkUserData(getUserNumber, regexp, "setNumSum", errorArray) == 0) {
+    if (!checkToNumber(userNumber)) {
+        numberDigitsSumElement.innerText = errorArray[0];
         return;
     }
 
-    getUserNumber = getUserNumber.split("");
+    userNumber = (userNumber < 0) ? userNumber * (-1) : userNumber;
 
-    // Check getUserNumber to negative number
-    if (getUserNumber[0] == "-") {
-        getUserNumber.splice(0, 1);
-    }
-
-    var summa = getUserNumber.reduce(function(summa, item) {
-        return summa+parseInt(item);
+    let digitSum = userNumber.toString().split("").reduce(function(sum, item) {
+        return sum + parseInt(item);
     },0);
 
-    document.getElementById("setNumSum").innerHTML = "Сумма чисел: "+summa;
+    numberDigitsSumElement.innerText = `Сумма чисел: ${digitSum}`;
 }
 
 /* --- Task 11 --- */
 
 function formatLinks() {
-    var getLinks = document.getElementById("links").value.split(/[\s,]/);
-    var getLinksLens = getLinks.length;
-
-    // Delete "" - elements from getLinks
-    var i;
-    for (i=0; i<getLinksLens; i++) {
-        if (getLinks[i] == "") {
-            getLinks.splice(i, 1);
-            i--;
-        }
-    }
-
-    // Create link list, if does not exist
-    if (!document.getElementById("link-list")) {
-        var newLinkList = document.createElement("ul");
-        newLinkList.id = "link-list";
-        document.getElementById("set-links").appendChild(newLinkList);
-    }
-    else {
-        document.getElementById("link-list").innerHTML = "";
-    }
-
-    // Sort getLinks
-    getLinks.sort(function(a,b){return a.replace(/https?:\/\//g, "") > b.replace(/https?:\/\//g, "")});
-
-    // Output link list
-    getLinks.forEach(function (value) {
-        document.getElementById("link-list").innerHTML += '<li><a href="'+value+'">'+value.replace(/https?:\/\//, "")+'</a></li>';
-    });
-
-    // Format links in textarea
-    document.getElementById("links").value = getLinks.toString().replace(/https?:\/\//g, " ");
+    let linksListElement = document.getElementById("links-list");
+    linksListElement.innerHTML = "";
+    let links = document.getElementById("links").value
+        .split(/[\s,]/)
+        .map(value => value.replace(/^https?:\/\//, ""))
+        .filter(value => !!value)
+        .sort(function(a,b){return a > b})
+        .forEach(function (value) {
+            let li = document.createElement("li");
+            let a = document.createElement("a");
+            a.textContent = a.href = value;
+            li.appendChild(a);
+            linksListElement.appendChild(li);
+        });
 }

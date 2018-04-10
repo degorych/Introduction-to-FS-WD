@@ -10,23 +10,10 @@ body {
     margin: 15px 0;
 }
 
-.first-str, .second-str {
+#chess-board div {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-}
-
-.first-str div, .second-str div {
-    width: 50px;
-    height: 50px;
-}
-
-.second-str div:nth-child(2n), .first-str div:nth-child(2n+1) {
-    background: #000;
-}
-
-.first-str div:nth-child(2n), .second-str div:nth-child(2n+1) {
-    background: #FFF;
 }
 
 input[type=text], input[type=number], textarea {
