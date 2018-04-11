@@ -10,15 +10,11 @@
 	<script>
 
 			/* --- Button on top --- */
-
-      var invisibleHeight = 50;
-
-      $(document).ready(function(){
-          $("body").append('<div id="on-top"><i class="fa fa-chevron-up fa-2x scope__i"></i></div>');
-      });
-
 			$(document).ready(function() {
           $(window).scroll(function () {
+
+              let invisibleHeight = 50;
+
               if ($(this).scrollTop() > invisibleHeight) {
                   $("#on-top").css("display", "flex");
               }
@@ -27,30 +23,43 @@
               }
           });
 
+          let htmlBody = $("body, html");
+
           $("#on-top").click(function () {
-              $("body, html").animate({
+              htmlBody.on("wheel DOMMouseScroll mousewheel", function () {
+                  htmlBody.stop();
+              });
+              htmlBody.animate({
                   scrollTop: 0
-              }, "slow");
+              }, "slow", function () {
+                  htmlBody.off("wheel DOMMouseScroll mousewheel");
+              });
           });
-      });
 
 			/* --- Ancor links --- */
 
-      $(document).ready(function(){
           $("nav.header__nav").on("click","a", function (event) {
               event.preventDefault();
 
-              var id  = $(this).attr("href"),
+              htmlBody.on("wheel DOMMouseScroll mousewheel", function () {
+                  htmlBody.stop();
+              });
+
+              let id  = $(this).attr("href"),
               top = $(id).offset().top;
 
-							var winHeight = $(window).height();
-							var topHeight = $(id).outerHeight(true);
+							let windowHeight = $(window).height();
+							let topHeight = $(id).outerHeight(true);
 
-							if (topHeight>winHeight) {
-                  $("body,html").animate({scrollTop: top}, "slow");
+							if (topHeight > windowHeight) {
+                  htmlBody.animate({scrollTop: top}, "slow", function () {
+                      htmlBody.off("wheel DOMMouseScroll mousewheel");
+                  });
 							}
 							else {
-                  $("body,html").animate({scrollTop: top-(winHeight-topHeight)/2}, "slow");
+                  htmlBody.animate({scrollTop: top - (windowHeight-topHeight)/2}, "slow", function () {
+                      htmlBody.off("wheel DOMMouseScroll mousewheel");
+                  });
 							}
           });
       });
@@ -168,6 +177,9 @@
 				</form>
 			</div>
 		</footer>
+	</div>
+	<div id="on-top">
+		<i class="fa fa-chevron-up fa-2x scope__i"></i>
 	</div>
 </body>
 </html>
