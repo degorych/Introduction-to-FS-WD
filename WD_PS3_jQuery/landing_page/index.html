@@ -7,64 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-	<script>
-
-			/* --- Button on top --- */
-			$(document).ready(function() {
-          $(window).scroll(function () {
-
-              let invisibleHeight = 50;
-
-              if ($(this).scrollTop() > invisibleHeight) {
-                  $("#on-top").css("display", "flex");
-              }
-              else {
-                  $("#on-top").css("display", "none");
-              }
-          });
-
-          let htmlBody = $("body, html");
-
-          $("#on-top").click(function () {
-              htmlBody.on("wheel DOMMouseScroll mousewheel", function () {
-                  htmlBody.stop();
-              });
-              htmlBody.animate({
-                  scrollTop: 0
-              }, "slow", function () {
-                  htmlBody.off("wheel DOMMouseScroll mousewheel");
-              });
-          });
-
-			/* --- Ancor links --- */
-
-          $("nav.header__nav").on("click","a", function (event) {
-              event.preventDefault();
-
-              htmlBody.on("wheel DOMMouseScroll mousewheel", function () {
-                  htmlBody.stop();
-              });
-
-              let id  = $(this).attr("href"),
-              top = $(id).offset().top;
-
-							let windowHeight = $(window).height();
-							let topHeight = $(id).outerHeight(true);
-
-							if (topHeight > windowHeight) {
-                  htmlBody.animate({scrollTop: top}, "slow", function () {
-                      htmlBody.off("wheel DOMMouseScroll mousewheel");
-                  });
-							}
-							else {
-                  htmlBody.animate({scrollTop: top - (windowHeight-topHeight)/2}, "slow", function () {
-                      htmlBody.off("wheel DOMMouseScroll mousewheel");
-                  });
-							}
-          });
-      });
-
-	</script>
+	<script src="task-2.js"></script>
 </head>
 <body>
 	<header class="header">
