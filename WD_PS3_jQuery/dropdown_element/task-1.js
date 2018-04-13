@@ -14,11 +14,12 @@ $(document).ready(function() {
     let dropUlEl = $(".dropdown-element-ul");
 
     // Create options for dropdown
-    let newElements = "";
-    $.each(friendsArray, function (index, value) {
-        newElements += `<li class="dropdown-element-li"><img class="dropdown-element-img" src="img/${value.slice(1)}" alt="${value.slice(0, 1)}">${value.slice(0, 1)}</li>`;
-    });
-    dropUlEl.append(newElements);
+    dropUlEl.append(friendsArray.reduce(function (elements, value) {
+        let name = value.slice(0, 1);
+        let img = value.slice(1);
+        return elements + `<li class="dropdown-element-li"><img class="dropdown-element-img" src="img/${img}" alt="${name}">${name}</li>`;
+    }, ""));
+
     let dropLiEl = $(".dropdown-element-li");
 
     // Show options
