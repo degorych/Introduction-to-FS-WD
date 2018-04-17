@@ -11,31 +11,40 @@ const errorArray = [
     ["Enter number from 0 to 100"]
 ];
 
-function checkToNumber(value) {
-    if (value.split("").indexOf(".") !== -1 || value.split("").indexOf(",") !== -1) { // Check to float
-        return false;
-    }
-    return !isNaN(parseFloat(value)) && isFinite(value);
+/* --- Do nothing if user press "enter", when inputs in focus --- */
+let inputElements = document.getElementsByTagName("input");
+let inputElementsLens = inputElements.length;
+
+for (let i = 0; i < inputElementsLens; i++) {
+    inputElements[i].addEventListener("keypress", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        }
+    });
 }
 
-function checkToLimit(value, minValue, maxValue) {
-    if (value > maxValue || value < minValue) {
-        return false;
-    }
-    return true;
+/* --- Check data to integer --- */
+function isInteger(value) {
+    const isNumber = value => !isNaN(parseFloat(value)) && isFinite(value);
+    const isNotFloat = value => (value.split("").indexOf(".") < 0) && (value.split("").indexOf(",") < 0);
+    return isNumber(value) && isNotFloat(value);
 }
+
+/* --- Check data to consist in interval from  minValue to maxValue --- */
+const checkToLimit = (value, minValue, maxValue) => (value <= maxValue) && (value >= minValue);
 
 /* --- Select word for number --- */
 function addWordToDate(value, wordsArray) {
+    let lastDigit = value % 10;
     if (("0" + value).slice(-2, -1) === "1") {
         return value + wordsArray[0];
     }
 
-    if (value % 10 === 1) {
+    if (lastDigit === 1) {
         return value + wordsArray[1];
     }
 
-    else if (value % 10 === 2 || value % 10 === 3 || value % 10 === 4) {
+    else if (lastDigit === 2 || lastDigit === 3 || lastDigit === 4) {
         return value + wordsArray[2];
     }
 
@@ -44,9 +53,8 @@ function addWordToDate(value, wordsArray) {
     }
 }
 
-function checkToFormat(value, regexp) {
-    return regexp.test(value);
-}
+/* --- Check data for correct input --- */
+const checkToFormat = (value, regexp) => regexp.test(value);
 
 /*--- Task 1, Task 2 ---*/
 
@@ -57,17 +65,15 @@ function sumNumbers() {
     let sumElement = document.getElementById("sum");
     let sumElement237 = document.getElementById("sum-2-3-7");
 
-    if (!checkToNumber(minNum) || !checkToNumber(maxNum)) {
-        sumElement.innerText = sumElement237.innerText = errorArray[0];
-        return;
+    if (!isInteger(minNum) || !isInteger(maxNum)) {
+        return sumElement.innerText = sumElement237.innerText = errorArray[0];
     }
 
     minNum = parseInt(minNum);
     maxNum = parseInt(maxNum);
 
     if (!checkToLimit(minNum, -1000, 1000) || !checkToLimit(maxNum, -1000, 1000)) {
-        sumElement.innerText = sumElement237.innerText = errorArray[1];
-        return;
+        return sumElement.innerText = sumElement237.innerText = errorArray[1];
     }
 
     let result = 0;
@@ -91,21 +97,20 @@ function sumNumbers() {
 
 function createStarImg() {
     let starElement = document.getElementById("star-img");
-    starElement.innerHTML = "";
     let numberOfStars = document.getElementById("number-of-stars").value;
+    starElement.innerHTML = "";
 
-    if (!checkToNumber(numberOfStars)) {
-        starElement.innerText = errorArray[0];
-        return;
+    if (!isInteger(numberOfStars)) {
+        return starElement.innerText = errorArray[0];
     }
 
     numberOfStars = parseInt(numberOfStars);
 
     if (!checkToLimit(numberOfStars, 0, 1000)) {
-        starElement.innerText = errorArray[2];
-        return;
+        return starElement.innerText = errorArray[2];
     }
 
+    let starConstruction = document.createDocumentFragment();
     for (let starRow = 1; numberOfStars > 0; starRow++) {
         let resultString = "";
         for (let starNumInRow = 1; starNumInRow <= starRow && numberOfStars > 0; starNumInRow++, numberOfStars--) {
@@ -113,8 +118,10 @@ function createStarImg() {
         }
         let div = document.createElement("div");
         div.innerText = resultString;
-        starElement.appendChild(div);
+        starConstruction.appendChild(div);
     }
+
+    starElement.appendChild(starConstruction);
 }
 
 /*--- Task 4 ---*/
@@ -124,19 +131,17 @@ function secondToHours() {
     let timeElement = document.getElementById("sec-to-hours");
     let timeArray = ["hours","minutes","seconds"];
 
-    if (!checkToNumber(second)) {
-        timeElement.innerText = errorArray[0];
-        return;
+    if (!isInteger(second)) {
+        return timeElement.innerText = errorArray[0];
     }
 
     if (second < 0) {
-        timeElement.innerText = errorArray[3];
-        return;
+        return timeElement.innerText = errorArray[3];
     }
 
     timeElement.innerText = timeArray.map(function (value, i) {
-        let timeCounter = (3600/Math.pow(60, i));
-        let time = second/timeCounter;
+        let timeCounter = (3600 / Math.pow(60, i));
+        let time = second / timeCounter;
         second %= timeCounter;
 
         if (time < 10) {
@@ -154,14 +159,12 @@ function getStudentsYear() {
     let studentYear = document.getElementById("student-year").value;
     let studentYearElement = document.getElementById("student-year-string");
 
-    if (!checkToNumber(studentYear)) {
-        studentYearElement.innerText = errorArray[0];
-        return;
+    if (!isInteger(studentYear)) {
+        return studentYearElement.innerText = errorArray[0];
     }
 
     if (studentYear < 0) {
-        studentYearElement.innerText = errorArray[3];
-        return;
+        return studentYearElement.innerText = errorArray[3];
     }
 
     let wordsArray = [" лет ", " год ", " года "];
@@ -178,32 +181,31 @@ function getTimeBetweenDates() {
 	
 	const regexp = /^\w{3,9}\s\d{1,2},\s\d{1,4}\s\d{2}:\d{2}:\d{2}$/;
 	if (!checkToFormat(firstDate, regexp) || !checkToFormat(secondDate, regexp)) {
-        timeBetweenDatesElement.innerText = errorArray[4];
-	    return;
+	    return timeBetweenDatesElement.innerText = errorArray[4];
     }
 
     let fDate = new Date(Date.parse(firstDate));
     let sDate = new Date(Date.parse(secondDate));
 
-	if (fDate == "Invalid Date" || sDate == "Invalid Date") {
-        timeBetweenDatesElement.innerText = errorArray[5];
-		return;
+	if (isNaN(fDate) || isNaN(sDate)) {
+		return timeBetweenDatesElement.innerText = errorArray[5];
 	}
 
     sDate = (fDate > sDate) ? [fDate, fDate = sDate][0] : sDate; // Swap dates
 
     // Get difference between dates in date format
-    sDate.setSeconds(sDate.getSeconds()-fDate.getSeconds());
-    sDate.setMinutes(sDate.getMinutes()-fDate.getMinutes());
-    sDate.setHours(sDate.getHours()-fDate.getHours());
-    sDate.setDate(sDate.getDate()-fDate.getDate());
-    sDate.setMonth(sDate.getMonth()-fDate.getMonth());
-    sDate.setFullYear(sDate.getFullYear()-fDate.getFullYear());
+    sDate.setSeconds(sDate.getSeconds() - fDate.getSeconds());
+    sDate.setMinutes(sDate.getMinutes() - fDate.getMinutes());
+    sDate.setHours(sDate.getHours() - fDate.getHours());
+    sDate.setDate((sDate.getDate() - fDate.getDate() === 0) ? 1 : (sDate.getDate() - fDate.getDate() + 1));
+    sDate.setMonth(sDate.getMonth() - fDate.getMonth());
+    sDate.setFullYear(sDate.getFullYear() - fDate.getFullYear());
 
-    sDate.setMinutes(sDate.getMinutes() + (sDate.getTimezoneOffset())*(-1)); // Convert to  UTC timezone.
+    sDate.setMinutes(sDate.getMinutes() + (sDate.getTimezoneOffset()) * (-1)); // Convert to  UTC timezone.
 
     let timeBetweenDates = sDate.toISOString().split(/[\s-T.:/]+/);// Get array with comfortable structure to output
     timeBetweenDates[1] -= 1; // In ISO view mount contain from 1 to 12 values.
+    timeBetweenDates[2] -= 1; // In Date Obj day can not be 0
 
     const dateText = [
         [" лет, ", " год, ", " года, "],
@@ -215,15 +217,14 @@ function getTimeBetweenDates() {
     ];
 
     // Output result
-    timeBetweenDatesElement.innerText = dateText.reduce(function (resultString, value, i) {
-        return resultString + addWordToDate(parseInt(timeBetweenDates[i]), value);
-    }, "");
+    timeBetweenDatesElement.innerText = dateText.reduce((resultString, value, i) => resultString + addWordToDate(parseInt(timeBetweenDates[i]), value), "");
 }
 
 /* --- Task 7 --- */
 
 function zodiac() {
     const zodiacArr = [
+        // 9800 - 9811 zodiac symbols in unicode
         ["2000-01-20", "2000-02-18", 9810, "Водолей"],
         ["2000-02-19", "2000-03-20", 9811, "Рыбы"],
         ["2000-03-21", "2000-04-19", 9800, "Овен"],
@@ -245,8 +246,7 @@ function zodiac() {
 
     // Check getUserDate to yyyy-mm-dd format
     if (!checkToFormat(userDate, regexp)) {
-        zodiacTitleElement.innerText = errorArray[6];
-        return;
+        return zodiacTitleElement.innerText = errorArray[6];
     }
 
     // Check to correct date
@@ -254,8 +254,7 @@ function zodiac() {
     let userDateArr = userDate.split("-");
 	
     if (parseInt(userDateArr[1]) !== createUserDate.getMonth() + 1) {
-        zodiacTitleElement.innerText = errorArray[5];
-        return;
+        return zodiacTitleElement.innerText = errorArray[5];
     }
 
     userDate = userDate.replace(/\d+/, 2000);
@@ -276,31 +275,27 @@ function chessPaint() {
 
     chessBoardElement.innerHTML = "";
 
-    // Get max width our chess board and create default width and height for chess cell
-    let chessBoardMaxWidth = chessBoardElement.clientWidth;
-    let chessCellWidthAndHeight = "50px";
-
-    // Calculate actual size for chess cells
-    if (chessBoardMaxWidth / chessNumberColumn < 50) {
-        chessCellWidthAndHeight = `${chessBoardMaxWidth / chessNumberColumn}px`;
-    }
-
     // Check user data to integer
-    if (!checkToNumber(chessNumberRow) || !checkToNumber(chessNumberColumn)) {
-        chessBoardElement.innerText = errorArray[0];
-        return;
+    if (!isInteger(chessNumberRow) || !isInteger(chessNumberColumn)) {
+        return chessBoardElement.innerText = errorArray[0];
     }
 
     // Check user data to limits
     if (!checkToLimit(chessNumberRow, 0, 100) || !checkToLimit(chessNumberColumn, 0, 100)) {
-        chessBoardElement.innerText = errorArray[9];
-        return;
+        return chessBoardElement.innerText = errorArray[9];
     }
 
+    // Get max width our chess board and create default width and height for chess cell
+    let chessBoardMaxWidth = chessBoardElement.clientWidth;
+    let chessCellWidth = chessBoardMaxWidth / chessNumberColumn;
+    let chessCellSize = (chessCellWidth < 50) ? `${chessCellWidth}px` : "50px";
+
     // Paint chess board
+    let chessBoardPaintElement = document.createDocumentFragment();
+
     while (chessNumberRow > 0) { // Paint rows
         let newRow = document.createElement("div");
-        chessBoardElement.appendChild(newRow);
+        chessBoardPaintElement.appendChild(newRow);
         chessNumberRow--;
 
         for (let i = 0; i < chessNumberColumn; i++) { // Paint columns
@@ -311,10 +306,11 @@ function chessPaint() {
             else {
                 newColumn.style.backgroundColor = "white";
             }
-            newColumn.style.width = newColumn.style.height = chessCellWidthAndHeight;
+            newColumn.style.width = newColumn.style.height = chessCellSize;
             newRow.appendChild(newColumn);
         }
     }
+    chessBoardElement.appendChild(chessBoardPaintElement);
 }
 
 /* --- Task 9 --- */
@@ -327,19 +323,16 @@ function countFloorsAndEntrances() {
     let floorAndEntranceElement = document.getElementById("apartments-to-floors-and-entrances");
     let maxApartmentsNumber = entrances * floors * apartments;
 
-    if (!checkToNumber(floors) || !checkToNumber(apartments) || !checkToNumber(entrances) || !checkToNumber(userApartment)) {
-        floorAndEntranceElement.innerText = errorArray[8];
-        return;
+    if (!isInteger(floors) || !isInteger(apartments) || !isInteger(entrances) || !isInteger(userApartment)) {
+        return floorAndEntranceElement.innerText = errorArray[8];
     }
 
     if (!checkToLimit(floors, 1, maxApartmentsNumber) || !checkToLimit(apartments, 1, maxApartmentsNumber) || !checkToLimit(entrances, 1, maxApartmentsNumber)) {
-        floorAndEntranceElement.innerText = errorArray[8];
-        return;
+        return floorAndEntranceElement.innerText = errorArray[8];
     }
 
     if (!checkToLimit(userApartment, 1, maxApartmentsNumber)) {
-        floorAndEntranceElement.innerText = errorArray[7];
-        return;
+        return floorAndEntranceElement.innerText = errorArray[7];
     }
 
     let numberOfEntrances = Math.ceil(userApartment / (floors * apartments)); // Get entrance
@@ -358,16 +351,13 @@ function countNumberDigits() {
     let userNumber = document.getElementById("user-number").value;
     let numberDigitsSumElement = document.getElementById("digit-sum");
 
-    if (!checkToNumber(userNumber)) {
-        numberDigitsSumElement.innerText = errorArray[0];
-        return;
+    if (!isInteger(userNumber)) {
+        return numberDigitsSumElement.innerText = errorArray[0];
     }
 
     userNumber = (userNumber < 0) ? userNumber * (-1) : userNumber;
 
-    let digitSum = userNumber.toString().split("").reduce(function(sum, item) {
-        return sum + parseInt(item);
-    },0);
+    let digitSum = userNumber.toString().split("").reduce((sum, item) => sum + parseInt(item), 0);
 
     numberDigitsSumElement.innerText = `Сумма чисел: ${digitSum}`;
 }
@@ -379,14 +369,26 @@ function formatLinks() {
     linksListElement.innerHTML = "";
     let links = document.getElementById("links").value
         .split(/[\s,]/)
-        .map(value => value.replace(/^https?:\/\//, ""))
-        .filter(value => !!value)
-        .sort(function(a,b){return a > b})
+        .filter(value => !!value);
+
+    let linksTempContainer = document.createDocumentFragment();
+    let linksText = links.map(value => value.replace(/^https?:\/\//, ""))
+        .sort((a, b) => (a > b))
         .forEach(function (value) {
             let li = document.createElement("li");
             let a = document.createElement("a");
-            a.textContent = a.href = value;
+            a.textContent = value;
+            let reg = new RegExp(value);
+
+            links.forEach(function (linksValue) {
+                let searchResult = linksValue.match(reg);
+                if (searchResult !== null) {
+                    a.href = searchResult.input;
+                }
+            });
             li.appendChild(a);
-            linksListElement.appendChild(li);
+            linksTempContainer.appendChild(li);
         });
+
+    linksListElement.appendChild(linksTempContainer);
 }

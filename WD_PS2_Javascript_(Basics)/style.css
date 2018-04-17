@@ -10,7 +10,7 @@ body {
     margin: 15px 0;
 }
 
-#chess-board div {
+#chess-board > div {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
