@@ -89,8 +89,8 @@ function sumNumbers() {
         minNum++;
     }
 
-    sumElement.innerText = `${result}`;
-    sumElement237.innerText = `${result237}`;
+    sumElement.innerText = result.toString();
+    sumElement237.innerText = result237.toString();
 }
 
 /* --- Task 3 ---*/
@@ -366,29 +366,21 @@ function countNumberDigits() {
 
 function formatLinks() {
     let linksListElement = document.getElementById("links-list");
+    let linksTempContainer = document.createDocumentFragment();
     linksListElement.innerHTML = "";
+
     let links = document.getElementById("links").value
         .split(/[\s,]/)
-        .filter(value => !!value);
-
-    let linksTempContainer = document.createDocumentFragment();
-    let linksText = links.map(value => value.replace(/^https?:\/\//, ""))
+        .filter(value => !!value)
+        .map(value => value.replace(/^https?:\/\//, ""))
         .sort((a, b) => (a > b))
         .forEach(function (value) {
             let li = document.createElement("li");
             let a = document.createElement("a");
             a.textContent = value;
-            let reg = new RegExp(value);
-
-            links.forEach(function (linksValue) {
-                let searchResult = linksValue.match(reg);
-                if (searchResult !== null) {
-                    a.href = searchResult.input;
-                }
-            });
+            a.href = `//${value}`;
             li.appendChild(a);
             linksTempContainer.appendChild(li);
         });
-
     linksListElement.appendChild(linksTempContainer);
 }
