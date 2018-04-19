@@ -2,7 +2,7 @@
 $(document).ready(function() {
     $(window).scroll(function () {
 
-        let invisibleHeight = 50;
+        const invisibleHeight = 50;
 
         // Show button
         if ($(this).scrollTop() > invisibleHeight) {
@@ -13,17 +13,28 @@ $(document).ready(function() {
         }
     });
 
+    let onTopIsPress = false;
+    const speedAnimation = 400;
     let htmlBody = $("body, html");
 
     $("#on-top").click(function () {
         htmlBody.on("wheel DOMMouseScroll mousewheel", function () {
             htmlBody.stop();
         });
-        htmlBody.animate({
-            scrollTop: 0
-        }, "slow", function () {
-            htmlBody.off("wheel DOMMouseScroll mousewheel");
-        });
+
+        if (!onTopIsPress) {
+            onTopIsPress = true;
+            htmlBody.animate({
+                scrollTop: 0
+            }, speedAnimation, function () {
+                htmlBody.off("wheel DOMMouseScroll mousewheel");
+                onTopIsPress = false;
+            });
+        }
+        // Clear queue if on-top is pressed several times (onTopIsPress === true)
+        else {
+            $("#on-top").stop();
+        }
     });
 
     /* --- Ancor links --- */
@@ -35,6 +46,7 @@ $(document).ready(function() {
             htmlBody.stop();
         });
 
+        // Get height to center of element, or to beginning of element if his height more then window
         let id  = $(this).attr("href");
         let top = $(id).offset().top;
         let ElementHeight = $(id).outerHeight(true);
@@ -43,7 +55,7 @@ $(document).ready(function() {
 
         htmlBody.animate({
             scrollTop: scrollHeight
-        }, "slow", function () {
+        }, speedAnimation, function () {
             htmlBody.off("wheel DOMMouseScroll mousewheel");
         });
     });

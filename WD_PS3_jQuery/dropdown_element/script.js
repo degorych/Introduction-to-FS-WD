@@ -8,10 +8,11 @@ $(document).ready(function() {
         ["Matt", "5.png"]
     ];
 
-    // Dropdown DOM elements
+    // Dropdown DOM elements and speed const
     let dropDivEl = $(".dropdown-element-div");
     let dropPersonEl = $(".dropdown-element-person");
     let dropUlEl = $(".dropdown-element-ul");
+    const speedAnimation = 400;
 
     // Create options for dropdown
     dropUlEl.append(friendsArray.reduce(function (elements, value) {
@@ -24,7 +25,7 @@ $(document).ready(function() {
 
     // Show options
     dropDivEl.on("click", function () {
-        dropUlEl.slideToggle("slow", function () {
+        dropUlEl.slideToggle(speedAnimation, function () {
             $(this).stop(true, false);
         });
     });
@@ -32,14 +33,14 @@ $(document).ready(function() {
     // Hide options when clicking outside dropdown
     $(document).on("click", function (event) {
         if (!dropDivEl.is(event.target)) {
-            dropUlEl.slideUp("slow");
+            dropUlEl.slideUp(speedAnimation);
         }
     });
 
     // Event listeners for clicking on options
     dropLiEl.on({"click": function () {
             let optionElement = $(this);
-            dropUlEl.slideUp("slow");
+            dropUlEl.slideUp(speedAnimation);
             dropPersonEl.text(optionElement.text()).css("color", "black");
             dropPersonEl.prepend(`<img class="dropdown-element-img" src="${optionElement.find("img").attr("src")}" alt="${optionElement.text()}">`);
         },
