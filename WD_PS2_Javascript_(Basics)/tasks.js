@@ -1,15 +1,15 @@
-const errorArray = [
-    ["Your data may be integer"],
-    ["Enter number from -1000 to 1000"],
-    ["Enter number from 0 to 1000"],
-    ["Your number can not be negative"],
-    ["Your date may be in 'October 13, 2014 11:13:00' format"],
-    ["Invalid Date"],
-    ["Your date may be in '2018-03-27' format"],
-    ["This apartment does not exist"],
-    ["Your data may be number from 1"],
-    ["Enter number from 0 to 100"]
-];
+const errorMessage = {
+    integer: "Your data may be integer",
+    "limit -1000 - 1000": "Enter number from -1000 to 1000",
+    "limit 0 - 1000": "Enter number from 0 to 1000",
+    negative: "Your number can not be negative",
+    "text format": "Your date may be in 'October 13, 2014 11:13:00' format",
+    invalidDate: "Invalid Date",
+    "ISO format": "Your date may be in '2018-03-27' format",
+    "apartment not found":"This apartment does not exist",
+    "limit from 1": "Your data may be number from 1",
+    "limit 0 - 100": "Enter number from 0 to 100"
+};
 
 /* --- Do nothing if user press "enter", when inputs in focus --- */
 let inputElements = document.getElementsByTagName("input");
@@ -21,13 +21,6 @@ for (let i = 0; i < inputElementsLens; i++) {
             event.preventDefault();
         }
     });
-}
-
-/* --- Check data to integer --- */
-function isInteger(value) {
-    const isNumber = value => !isNaN(parseFloat(value)) && isFinite(value);
-    const isNotFloat = value => (value.split("").indexOf(".") < 0) && (value.split("").indexOf(",") < 0);
-    return isNumber(value) && isNotFloat(value);
 }
 
 /* --- Check data to consist in interval from  minValue to maxValue --- */
@@ -65,15 +58,15 @@ function sumNumbers() {
     let sumElement = document.getElementById("sum");
     let sumElement237 = document.getElementById("sum-2-3-7");
 
-    if (!isInteger(minNum) || !isInteger(maxNum)) {
-        return sumElement.innerText = sumElement237.innerText = errorArray[0];
+    if (!Number.isInteger(parseFloat(minNum)) || !Number.isInteger(parseFloat(maxNum))) {
+        return sumElement.innerText = sumElement237.innerText = errorMessage.integer;
     }
 
     minNum = parseInt(minNum);
     maxNum = parseInt(maxNum);
 
     if (!checkToLimit(minNum, -1000, 1000) || !checkToLimit(maxNum, -1000, 1000)) {
-        return sumElement.innerText = sumElement237.innerText = errorArray[1];
+        return sumElement.innerText = sumElement237.innerText = errorMessage["limit -1000 - 1000"];
     }
 
     let result = 0;
@@ -83,7 +76,8 @@ function sumNumbers() {
 
     while (minNum <= maxNum) {
         result += minNum;
-        if (Math.abs(minNum) % 10 === 2 || Math.abs(minNum) % 10 === 3 || Math.abs(minNum) % 10 === 7) {
+        let minNumLastDigit = Math.abs(minNum) % 10;
+        if (minNumLastDigit === 2 || minNumLastDigit === 3 || minNumLastDigit % 10 === 7) {
             result237 += minNum;
         }
         minNum++;
@@ -100,14 +94,14 @@ function createStarImg() {
     let numberOfStars = document.getElementById("number-of-stars").value;
     starElement.innerHTML = "";
 
-    if (!isInteger(numberOfStars)) {
-        return starElement.innerText = errorArray[0];
+    if (!Number.isInteger(parseFloat(numberOfStars))) {
+        return starElement.innerText = errorMessage.integer;
     }
 
     numberOfStars = parseInt(numberOfStars);
 
     if (!checkToLimit(numberOfStars, 0, 1000)) {
-        return starElement.innerText = errorArray[2];
+        return starElement.innerText = errorMessage["limit 0 - 1000"];
     }
 
     let starConstruction = document.createDocumentFragment();
@@ -131,12 +125,12 @@ function secondToHours() {
     let timeElement = document.getElementById("sec-to-hours");
     let timeArray = ["hours","minutes","seconds"];
 
-    if (!isInteger(second)) {
-        return timeElement.innerText = errorArray[0];
+    if (!Number.isInteger(parseFloat(second))) {
+        return timeElement.innerText = errorMessage.integer;
     }
 
     if (second < 0) {
-        return timeElement.innerText = errorArray[3];
+        return timeElement.innerText = errorMessage.negative;
     }
 
     timeElement.innerText = timeArray.map(function (value, i) {
@@ -159,12 +153,12 @@ function getStudentsYear() {
     let studentYear = document.getElementById("student-year").value;
     let studentYearElement = document.getElementById("student-year-string");
 
-    if (!isInteger(studentYear)) {
-        return studentYearElement.innerText = errorArray[0];
+    if (!Number.isInteger(parseFloat(studentYear))) {
+        return studentYearElement.innerText = errorMessage.integer;
     }
 
     if (studentYear < 0) {
-        return studentYearElement.innerText = errorArray[3];
+        return studentYearElement.innerText = errorMessage.negative;
     }
 
     let wordsArray = [" лет ", " год ", " года "];
@@ -181,14 +175,14 @@ function getTimeBetweenDates() {
 	
 	const regexp = /^\w{3,9}\s\d{1,2},\s\d{1,4}\s\d{2}:\d{2}:\d{2}$/;
 	if (!checkToFormat(firstDate, regexp) || !checkToFormat(secondDate, regexp)) {
-	    return timeBetweenDatesElement.innerText = errorArray[4];
+	    return timeBetweenDatesElement.innerText = errorMessage["text format"];
     }
 
     let fDate = new Date(Date.parse(firstDate));
     let sDate = new Date(Date.parse(secondDate));
 
 	if (isNaN(fDate) || isNaN(sDate)) {
-		return timeBetweenDatesElement.innerText = errorArray[5];
+		return timeBetweenDatesElement.innerText = errorMessage.invalidDate;
 	}
 
     sDate = (fDate > sDate) ? [fDate, fDate = sDate][0] : sDate; // Swap dates
@@ -246,7 +240,7 @@ function zodiac() {
 
     // Check getUserDate to yyyy-mm-dd format
     if (!checkToFormat(userDate, regexp)) {
-        return zodiacTitleElement.innerText = errorArray[6];
+        return zodiacTitleElement.innerText = errorMessage["ISO format"];
     }
 
     // Check to correct date
@@ -254,7 +248,7 @@ function zodiac() {
     let userDateArr = userDate.split("-");
 	
     if (parseInt(userDateArr[1]) !== createUserDate.getMonth() + 1) {
-        return zodiacTitleElement.innerText = errorArray[5];
+        return zodiacTitleElement.innerText = errorMessage.invalidDate;
     }
 
     userDate = userDate.replace(/\d+/, 2000);
@@ -276,13 +270,13 @@ function chessPaint() {
     chessBoardElement.innerHTML = "";
 
     // Check user data to integer
-    if (!isInteger(chessNumberRow) || !isInteger(chessNumberColumn)) {
-        return chessBoardElement.innerText = errorArray[0];
+    if (!Number.isInteger(parseFloat(chessNumberRow)) || !Number.isInteger(parseFloat(chessNumberColumn))) {
+        return chessBoardElement.innerText = errorMessage.integer;
     }
 
     // Check user data to limits
     if (!checkToLimit(chessNumberRow, 0, 100) || !checkToLimit(chessNumberColumn, 0, 100)) {
-        return chessBoardElement.innerText = errorArray[9];
+        return chessBoardElement.innerText = errorMessage["limit 0 - 100"];
     }
 
     // Get max width our chess board and create default width and height for chess cell
@@ -323,22 +317,23 @@ function countFloorsAndEntrances() {
     let floorAndEntranceElement = document.getElementById("apartments-to-floors-and-entrances");
     let maxApartmentsNumber = entrances * floors * apartments;
 
-    if (!isInteger(floors) || !isInteger(apartments) || !isInteger(entrances) || !isInteger(userApartment)) {
-        return floorAndEntranceElement.innerText = errorArray[8];
+    if (!Number.isInteger(parseFloat(floors)) || !Number.isInteger(parseFloat(apartments)) || !Number.isInteger(parseFloat(entrances)) || !Number.isInteger(parseFloat(userApartment))) {
+        return floorAndEntranceElement.innerText = errorMessage.integer;
     }
 
     if (!checkToLimit(floors, 1, maxApartmentsNumber) || !checkToLimit(apartments, 1, maxApartmentsNumber) || !checkToLimit(entrances, 1, maxApartmentsNumber)) {
-        return floorAndEntranceElement.innerText = errorArray[8];
+        return floorAndEntranceElement.innerText = errorMessage["limit from 1"];
     }
 
     if (!checkToLimit(userApartment, 1, maxApartmentsNumber)) {
-        return floorAndEntranceElement.innerText = errorArray[7];
+        return floorAndEntranceElement.innerText = errorMessage["apartment not found"];
     }
 
-    let numberOfEntrances = Math.ceil(userApartment / (floors * apartments)); // Get entrance
+    const apartmentInEntrance = floors * apartments;
+    let numberOfEntrances = Math.ceil(userApartment / apartmentInEntrance); // Get entrance
 
-    while (userApartment > (floors * apartments)) {
-        userApartment -= (floors * apartments);
+    while (userApartment > apartmentInEntrance) {
+        userApartment -= apartmentInEntrance;
     }
     let numberOfFloors = Math.ceil(userApartment / apartments); // Get floor
 
@@ -351,8 +346,8 @@ function countNumberDigits() {
     let userNumber = document.getElementById("user-number").value;
     let numberDigitsSumElement = document.getElementById("digit-sum");
 
-    if (!isInteger(userNumber)) {
-        return numberDigitsSumElement.innerText = errorArray[0];
+    if (!Number.isInteger(parseFloat(userNumber))) {
+        return numberDigitsSumElement.innerText = errorMessage.integer;
     }
 
     userNumber = (userNumber < 0) ? userNumber * (-1) : userNumber;
