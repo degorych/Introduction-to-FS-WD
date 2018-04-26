@@ -109,6 +109,7 @@ body {
 	padding: 12px 17px;
 	border-radius: 5px;
 	border: 2px solid #fff;
+	cursor: pointer;
 }
 
 /* Scope styles */
@@ -185,6 +186,7 @@ body {
 	color: #FFF;
 	background: #1FBA9B;
 	padding: 13px 60px;
+	cursor: pointer;
 }
 
 .footer__input--cbx-radio {

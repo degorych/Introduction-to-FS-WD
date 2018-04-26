@@ -1,23 +1,25 @@
 /* --- Button on top --- */
 $(document).ready(function() {
+
+    const onTopButton = $("#on-top");
+    const htmlBody = $("body, html");
+    const speedAnimation = 400;
+    const invisibleHeight = 50;
+
+    // Show button
     $(window).scroll(function () {
-
-        const invisibleHeight = 50;
-
-        // Show button
         if ($(this).scrollTop() > invisibleHeight) {
-            $("#on-top").css("display", "flex");
+            onTopButton.css("display", "flex");
         }
         else {
-            $("#on-top").css("display", "none");
+            onTopButton.css("display", "none");
         }
     });
 
+    // Go to top function
     let onTopIsPress = false;
-    const speedAnimation = 400;
-    let htmlBody = $("body, html");
 
-    $("#on-top").click(function () {
+    onTopButton.click(function () {
         htmlBody.on("wheel DOMMouseScroll mousewheel", function () {
             htmlBody.stop();
         });
@@ -33,7 +35,7 @@ $(document).ready(function() {
         }
         // Clear queue if on-top is pressed several times (onTopIsPress === true)
         else {
-            $("#on-top").stop();
+            onTopButton.stop();
         }
     });
 
@@ -47,11 +49,11 @@ $(document).ready(function() {
         });
 
         // Get height to center of element, or to beginning of element if his height more then window
-        let id  = $(this).attr("href");
-        let top = $(id).offset().top;
-        let ElementHeight = $(id).outerHeight(true);
-        let windowHeight = $(window).height();
-        let scrollHeight = (ElementHeight > windowHeight) ? top : top - (windowHeight - ElementHeight) / 2;
+        const id  = $(this).attr("href");
+        const top = $(id).offset().top;
+        const ElementHeight = $(id).outerHeight(true);
+        const windowHeight = $(window).height();
+        const scrollHeight = (ElementHeight > windowHeight) ? top : top - (windowHeight - ElementHeight) / 2;
 
         htmlBody.animate({
             scrollTop: scrollHeight
