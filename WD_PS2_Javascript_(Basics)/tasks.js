@@ -1,19 +1,19 @@
 const errorMessage = {
-    integer: "Your data may be integer",
-    "limit -1000 - 1000": "Enter number from -1000 to 1000",
-    "limit 0 - 1000": "Enter number from 0 to 1000",
+    notInteger: "Your data may be integer",
+    outOfRange_1000_1000: "Enter number from -1000 to 1000",
+    outOfRange_0_1000: "Enter number from 0 to 1000",
     negative: "Your number can not be negative",
-    "text format": "Your date may be in 'October 13, 2014 11:13:00' format",
+    normalDataFormat: "Your date may be in 'October 13, 2014 11:13:00' format",
     invalidDate: "Invalid Date",
-    "ISO format": "Your date may be in '2018-03-27' format",
-    "apartment not found":"This apartment does not exist",
-    "limit from 1": "Your data may be number from 1",
-    "limit 0 - 100": "Enter number from 0 to 100"
+    isoDataFormat: "Your date may be in '2018-03-27' format",
+    apartmentDNExist:"This apartment does not exist",
+    outOfRange_1: "Your data may be number from 1",
+    outOfRange_0_100: "Enter number from 0 to 100"
 };
 
 /* --- Do nothing if user press "enter", when inputs in focus --- */
-let inputElements = document.getElementsByTagName("input");
-let inputElementsLens = inputElements.length;
+const inputElements = document.getElementsByTagName("input");
+const inputElementsLens = inputElements.length;
 
 for (let i = 0; i < inputElementsLens; i++) {
     inputElements[i].addEventListener("keypress", function (event) {
@@ -55,24 +55,24 @@ function sumNumbers() {
     let minNum = document.getElementById("minNum").value;
     let maxNum = document.getElementById("maxNum").value;
 
-    let sumElement = document.getElementById("sum");
-    let sumElement237 = document.getElementById("sum-2-3-7");
+    const sumElement = document.getElementById("sum");
+    const sumElement237 = document.getElementById("sum-2-3-7");
 
     if (!Number.isInteger(parseFloat(minNum)) || !Number.isInteger(parseFloat(maxNum))) {
-        return sumElement.innerText = sumElement237.innerText = errorMessage.integer;
+        return sumElement.innerText = sumElement237.innerText = errorMessage.notInteger;
     }
 
     minNum = parseInt(minNum);
     maxNum = parseInt(maxNum);
 
     if (!checkToLimit(minNum, -1000, 1000) || !checkToLimit(maxNum, -1000, 1000)) {
-        return sumElement.innerText = sumElement237.innerText = errorMessage["limit -1000 - 1000"];
+        return sumElement.innerText = sumElement237.innerText = errorMessage.outOfRange_1000_1000;
     }
 
     let result = 0;
     let result237 = 0;
 
-    maxNum = (minNum > maxNum) ? [minNum, minNum = maxNum][0] : maxNum; // Swap numbers
+    [maxNum, minNum] = (minNum > maxNum) ? [minNum, maxNum] : [maxNum, minNum]; // Swap numbers
 
     while (minNum <= maxNum) {
         result += minNum;
@@ -90,43 +90,40 @@ function sumNumbers() {
 /* --- Task 3 ---*/
 
 function createStarImg() {
-    let starElement = document.getElementById("star-img");
+    const starElement = document.getElementById("star-img");
     let numberOfStars = document.getElementById("number-of-stars").value;
     starElement.innerHTML = "";
 
     if (!Number.isInteger(parseFloat(numberOfStars))) {
-        return starElement.innerText = errorMessage.integer;
+        return starElement.innerText = errorMessage.notInteger;
     }
 
     numberOfStars = parseInt(numberOfStars);
 
     if (!checkToLimit(numberOfStars, 0, 1000)) {
-        return starElement.innerText = errorMessage["limit 0 - 1000"];
+        return starElement.innerText = errorMessage.outOfRange_0_1000;
     }
 
-    let starConstruction = document.createDocumentFragment();
+    let starConstruction = "";
     for (let starRow = 1; numberOfStars > 0; starRow++) {
-        let resultString = "";
         for (let starNumInRow = 1; starNumInRow <= starRow && numberOfStars > 0; starNumInRow++, numberOfStars--) {
-            resultString += "*";
+            starConstruction += "*";
         }
-        let div = document.createElement("div");
-        div.innerText = resultString;
-        starConstruction.appendChild(div);
+        starConstruction += "<br>";
     }
 
-    starElement.appendChild(starConstruction);
+    starElement.innerHTML = starConstruction;
 }
 
 /*--- Task 4 ---*/
 
 function secondToHours() {
     let second = document.getElementById("user-sec").value;
-    let timeElement = document.getElementById("sec-to-hours");
+    const timeElement = document.getElementById("sec-to-hours");
     let timeArray = ["hours","minutes","seconds"];
 
     if (!Number.isInteger(parseFloat(second))) {
-        return timeElement.innerText = errorMessage.integer;
+        return timeElement.innerText = errorMessage.notInteger;
     }
 
     if (second < 0) {
@@ -151,31 +148,31 @@ function secondToHours() {
 
 function getStudentsYear() {
     let studentYear = document.getElementById("student-year").value;
-    let studentYearElement = document.getElementById("student-year-string");
+    const studentYearElement = document.getElementById("student-year-string");
 
     if (!Number.isInteger(parseFloat(studentYear))) {
-        return studentYearElement.innerText = errorMessage.integer;
+        return studentYearElement.innerText = errorMessage.notInteger;
     }
 
     if (studentYear < 0) {
         return studentYearElement.innerText = errorMessage.negative;
     }
 
-    let wordsArray = [" лет ", " год ", " года "];
+    const wordsArray = [" лет ", " год ", " года "];
     studentYearElement.innerText = addWordToDate(parseInt(studentYear), wordsArray);
 }
 
 /* --- Task 6 --- */
 
 function getTimeBetweenDates() {
-    let timeBetweenDatesElement = document.getElementById("time-between-dates");
+    const timeBetweenDatesElement = document.getElementById("time-between-dates");
 
-    let firstDate = document.getElementById("1data").value;
-    let secondDate = document.getElementById("2data").value;
+    const firstDate = document.getElementById("1data").value;
+    const secondDate = document.getElementById("2data").value;
 	
 	const regexp = /^\w{3,9}\s\d{1,2},\s\d{1,4}\s\d{2}:\d{2}:\d{2}$/;
 	if (!checkToFormat(firstDate, regexp) || !checkToFormat(secondDate, regexp)) {
-	    return timeBetweenDatesElement.innerText = errorMessage["text format"];
+	    return timeBetweenDatesElement.innerText = errorMessage.normalDataFormat;
     }
 
     let fDate = new Date(Date.parse(firstDate));
@@ -185,7 +182,7 @@ function getTimeBetweenDates() {
 		return timeBetweenDatesElement.innerText = errorMessage.invalidDate;
 	}
 
-    sDate = (fDate > sDate) ? [fDate, fDate = sDate][0] : sDate; // Swap dates
+    [sDate, fDate] = (fDate > sDate) ? [fDate, sDate] : [sDate, fDate]; // Swap dates
 
     // Get difference between dates in date format
     sDate.setSeconds(sDate.getSeconds() - fDate.getSeconds());
@@ -234,13 +231,13 @@ function zodiac() {
     ];
 
     let userDate = document.getElementById("zodiac-date").value;
-    let zodiacTitleElement = document.getElementById("user-zodiac");
+    const zodiacTitleElement = document.getElementById("user-zodiac");
 	
     const regexp = /^\d{4}-\d{2}-\d{2}$/;
 
     // Check getUserDate to yyyy-mm-dd format
     if (!checkToFormat(userDate, regexp)) {
-        return zodiacTitleElement.innerText = errorMessage["ISO format"];
+        return zodiacTitleElement.innerText = errorMessage.isoDataFormat;
     }
 
     // Check to correct date
@@ -263,7 +260,7 @@ function zodiac() {
 /* --- Task 8 --- */
 
 function chessPaint() {
-    let chessBoardElement = document.getElementById("chess-board");
+    const chessBoardElement = document.getElementById("chess-board");
     let chessNumberRow = document.getElementById("chess-number-row").value;
     let chessNumberColumn = document.getElementById("chess-number-column").value;
 
@@ -271,71 +268,68 @@ function chessPaint() {
 
     // Check user data to integer
     if (!Number.isInteger(parseFloat(chessNumberRow)) || !Number.isInteger(parseFloat(chessNumberColumn))) {
-        return chessBoardElement.innerText = errorMessage.integer;
+        return chessBoardElement.innerText = errorMessage.notInteger;
     }
 
     // Check user data to limits
     if (!checkToLimit(chessNumberRow, 0, 100) || !checkToLimit(chessNumberColumn, 0, 100)) {
-        return chessBoardElement.innerText = errorMessage["limit 0 - 100"];
+        return chessBoardElement.innerText = errorMessage.outOfRange_0_100;
     }
 
     // Get max width our chess board and create default width and height for chess cell
-    let chessBoardMaxWidth = chessBoardElement.clientWidth;
-    let chessCellWidth = chessBoardMaxWidth / chessNumberColumn;
-    let chessCellSize = (chessCellWidth < 50) ? `${chessCellWidth}px` : "50px";
+    const chessBoardMaxWidth = chessBoardElement.clientWidth;
+    const chessCellWidth = chessBoardMaxWidth / chessNumberColumn;
+    const chessCellSize = (chessCellWidth < 50) ? `${chessCellWidth}px` : "50px";
 
     // Paint chess board
-    let chessBoardPaintElement = document.createDocumentFragment();
+    let chessBoardString = "";
 
     while (chessNumberRow > 0) { // Paint rows
-        let newRow = document.createElement("div");
-        chessBoardPaintElement.appendChild(newRow);
+        chessBoardString += "<div>";
         chessNumberRow--;
 
         for (let i = 0; i < chessNumberColumn; i++) { // Paint columns
-            let newColumn = document.createElement("div");
             if ((i + chessNumberRow) % 2 === 0) { // Select color for chess cells
-                newColumn.style.backgroundColor = "black";
+                chessBoardString += `<div style="background-color: black; width: ${chessCellSize}; height: ${chessCellSize}"></div>`;
             }
             else {
-                newColumn.style.backgroundColor = "white";
+                chessBoardString += `<div style="background-color: white; width: ${chessCellSize}; height: ${chessCellSize}"></div>`;
             }
-            newColumn.style.width = newColumn.style.height = chessCellSize;
-            newRow.appendChild(newColumn);
         }
+        chessBoardString += "</div>";
     }
-    chessBoardElement.appendChild(chessBoardPaintElement);
+    chessBoardElement.innerHTML = chessBoardString;
 }
 
 /* --- Task 9 --- */
 
 function countFloorsAndEntrances() {
-    let floors = document.getElementById("number-floors").value;
-    let apartments = document.getElementById("number-apartments").value;
-    let entrances = document.getElementById("number-entrances").value;
+    const floors = document.getElementById("number-floors").value;
+    const apartments = document.getElementById("number-apartments").value;
+    const entrances = document.getElementById("number-entrances").value;
     let userApartment = document.getElementById("user-apartments").value;
-    let floorAndEntranceElement = document.getElementById("apartments-to-floors-and-entrances");
-    let maxApartmentsNumber = entrances * floors * apartments;
+    const floorAndEntranceElement = document.getElementById("apartments-to-floors-and-entrances");
+    const maxApartmentsNumber = entrances * floors * apartments;
 
     if (!Number.isInteger(parseFloat(floors)) || !Number.isInteger(parseFloat(apartments)) || !Number.isInteger(parseFloat(entrances)) || !Number.isInteger(parseFloat(userApartment))) {
-        return floorAndEntranceElement.innerText = errorMessage.integer;
+        return floorAndEntranceElement.innerText = errorMessage.notInteger;
     }
 
     if (!checkToLimit(floors, 1, maxApartmentsNumber) || !checkToLimit(apartments, 1, maxApartmentsNumber) || !checkToLimit(entrances, 1, maxApartmentsNumber)) {
-        return floorAndEntranceElement.innerText = errorMessage["limit from 1"];
+        return floorAndEntranceElement.innerText = errorMessage.outOfRange_1;
     }
 
     if (!checkToLimit(userApartment, 1, maxApartmentsNumber)) {
-        return floorAndEntranceElement.innerText = errorMessage["apartment not found"];
+        return floorAndEntranceElement.innerText = errorMessage.apartmentDNExist;
     }
 
     const apartmentInEntrance = floors * apartments;
-    let numberOfEntrances = Math.ceil(userApartment / apartmentInEntrance); // Get entrance
+    const numberOfEntrances = Math.ceil(userApartment / apartmentInEntrance); // Get entrance
 
     while (userApartment > apartmentInEntrance) {
         userApartment -= apartmentInEntrance;
     }
-    let numberOfFloors = Math.ceil(userApartment / apartments); // Get floor
+    const numberOfFloors = Math.ceil(userApartment / apartments); // Get floor
 
     floorAndEntranceElement.innerText = `Подъезд: ${numberOfEntrances}, этаж: ${numberOfFloors}`
 }
@@ -347,12 +341,12 @@ function countNumberDigits() {
     let numberDigitsSumElement = document.getElementById("digit-sum");
 
     if (!Number.isInteger(parseFloat(userNumber))) {
-        return numberDigitsSumElement.innerText = errorMessage.integer;
+        return numberDigitsSumElement.innerText = errorMessage.notInteger;
     }
 
-    userNumber = (userNumber < 0) ? userNumber * (-1) : userNumber;
+    userNumber = Math.abs(userNumber);
 
-    let digitSum = userNumber.toString().split("").reduce((sum, item) => sum + parseInt(item), 0);
+    const digitSum = userNumber.toString().split("").reduce((sum, item) => sum + parseInt(item), 0);
 
     numberDigitsSumElement.innerText = `Сумма чисел: ${digitSum}`;
 }
@@ -360,11 +354,11 @@ function countNumberDigits() {
 /* --- Task 11 --- */
 
 function formatLinks() {
-    let linksListElement = document.getElementById("links-list");
-    let linksTempContainer = document.createDocumentFragment();
+    const linksListElement = document.getElementById("links-list");
+    const linksTempContainer = document.createDocumentFragment();
     linksListElement.innerHTML = "";
 
-    let links = document.getElementById("links").value
+    const links = document.getElementById("links").value
         .split(/[\s,]/)
         .filter(value => !!value)
         .map(value => value.replace(/^https?:\/\//, ""))
