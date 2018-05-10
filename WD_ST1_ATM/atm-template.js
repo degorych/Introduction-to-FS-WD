@@ -5,31 +5,35 @@ const ATM = {
 
     // for report
     report: [],
+
     reportMessages: [
-        "Authentication attempt then user login",
-        "logined as",
-        "Error  authentication",
-        "checked current debet",
-        "Not logged in user trying to check debet",
-        "have not access rights to get cash",
-        "Not logged in user trying to get cash",
-        "entered incorrect data",
-        "entered large amount,then account contain",
-        "ATM contain little cash to get cash",
-        "trying to get negative cash",
-        "get",
-        "have not access rights to load cash",
-        "Not logged in user trying to load cash",
-        "trying to load negative cash",
-        "load",
-        "have not access rights to load cash on ATM",
-        "Not logged in as admin user trying to load cash on ATM",
-        "trying to load negative cash on ATM",
-        "load on ATM",
-        "Non admin trying to view report",
-        "is log out",
-        "Non log in user try to log out"
+        {toLog: "Authentication attempt then user login", toUser: "Please logout"},
+        {toLog: "logined as", toUser: "Login is success"},
+        {toLog: "Error  authentication", toUser: "Your number and pin not found"},
+        {toLog: "checked current debet"},
+        {toLog: "Not logged in user trying", toUser: "Please, authentication"},
+        {toLog: "Admin trying", toUser: "You have not access rights"},
+        {toLog: "entered incorrect data", toUser: "Your data is incorrect"},
+        {toLog: "entered negative cash", toUser: "Your data can not be negative"},
+        {toLog: "entered large cash,then account contain", toUser: "Insufficient cash in account"},
+        {toLog: "entered large cash, then ATM contain", toUser: "Insufficient cash in ATM"},
+        {toLog: "get", toUser: "Success, you get"},
+        {toLog: "load", toUser: "Success, you load"},
+        {toLog: "Non admin trying", toUser: "You have not access rights"},
+        {toLog: "is log out", toUser: "You are log out"}
     ],
+
+    postfix: {
+        check: " to check",
+        getCash: " to get cash from account",
+        getCashRes: " from account",
+        loadCash: " to load cash to account",
+        loadCashRes: " to account",
+        load_cash: " to load cash to ATM",
+        load_cashRes: " to ATM",
+        getReport: " to get report",
+        logout: " to log out"
+    },
 
     dataOptions: {
         year: "numeric",
@@ -40,67 +44,80 @@ const ATM = {
         second: "numeric"
     },
 
-    addReport: message => ATM.report.push(`${new Date().toLocaleString("ru", ATM.dataOptions)} - ${message}`),
-    createMessage: function (report, user, data) { // Message constructor
-        let message = "";
-        if (user) message += `"${user}" `;
-        message += report;
-        if (data) message += ` ${data}`;
-        return message;
-    },
-
-    checkAuth: function (report) {
-        if (!this.is_auth) {
-            this.addReport(this.createMessage(report));
-        }
-        return this.is_auth;
-    },
+    createReport: (indexReport, postfix, logOrUser) =>
+        ATM.reportMessages[indexReport][logOrUser] + ATM.postfix[postfix],
+    addReport: (report, user = "", data = "") =>
+        ATM.report.push(`${new Date().toLocaleString("ru", ATM.dataOptions)} - ${user} ${report} ${data}`),
 
     // all cash of ATM
     cash: 2000,
     // all available users
     users: [
         {number: "0000", pin: "000", debet: 0, type: "admin"}, // EXTENDED
-        {number: "0025", pin: "123", debet: 675, type: "user"}
+        {number: "0025", pin: "123", debet: 2675, type: "user"}
     ],
 
+    // Check authorised
+    checkAuth: function (postfix) {
+        if (!this.is_auth) {
+            this.addReport(this.createReport(4, postfix, "toLog"));
+        }
+        return this.is_auth;
+    },
+
     // Data check
-    num: value => !isNaN(parseFloat(value)) && isFinite(value), // Data is num
+    int: value => Number.isInteger(value), // Data is integer
     notNegative: value => (value >= 0), // Data is not negative
 
-    dataCheck: function (value, reportNotNum, reportNotPositive) {
-        if (!this.num(value)) {
-            this.addReport(this.createMessage(reportNotNum, this.current_user.number));
+    dataCheck: function (value, postfix) {
+        if (!this.int(value)) {
+            this.addReport(this.createReport(6, postfix, "toLog"), this.current_user.number);
         }
-
-        if (!this.notNegative(value) && this.num(value)) {
-            this.addReport(this.createMessage(reportNotPositive, this.current_user.number));
+        if (!this.notNegative(value) && this.int(value)) {
+            this.addReport(this.createReport(7, postfix, "toLog"), this.current_user.number);
         }
-        return (this.num(value)) && (this.notNegative(value));
+        return (this.int(value)) && (this.notNegative(value));
     },
 
-    bigCash: function (value, reportDebet, reportATM) {
-        if (value > this.current_user.debet) {
-            this.addReport(this.createMessage(reportDebet, this.current_user.number));
+    // Error if getting cash more then account and ATM contain
+    checkBigCash: function (cash, varArr, errorArr) {
+        const index = varArr.findIndex(element => (element < cash));
+        if (errorArr[index]) {
+            this.addReport(this.reportMessages[errorArr[index]].toLog, this.current_user.number);
+            return this.reportMessages[errorArr[index]].toUser;
         }
-        if (value > this.cash) {
-            this.addReport(this.createMessage(reportATM, this.current_user.number));
-        }
-        return (value > this.current_user.debet) && (value > this.cash);
+        return false;
     },
 
+    // Check user status
     checkUserStatus: function (status, report) {
-        if (!this.current_type === status) {
-            this.addReport(this.createMessage(report));
+        if (this.current_type !== status) {
+            this.addReport(report);
         }
         return (this.current_type === status);
+    },
+
+    // All checks in one place
+    fullChecks: function (data, postfix, errorArr) {
+        if (!this.checkAuth(postfix)) {
+            return this.createReport(errorArr[1], postfix, "toUser");
+        }
+
+        if (!this.checkUserStatus(errorArr[0], this.createReport(errorArr[2], postfix, "toLog"))) {
+            return this.createReport(errorArr[2], postfix, "toUser");
+        }
+
+        if (!this.dataCheck(data, postfix)) {
+            return this.createReport(errorArr[3], postfix, "toUser");
+        }
+        return false;
     },
 
     // authorization
     auth: function(number, pin) {
         if (this.is_auth) {
-            this.addReport(this.createMessage(this.reportMessages[0]));
-            return "Please logout";
+            this.addReport(this.reportMessages[0].toLog);
+            return this.reportMessages[0].toUser;
         }
 
         this.current_user = this.users.find(function (element) {
@@ -112,111 +129,91 @@ const ATM = {
         if (this.current_user !== undefined) {
             this.is_auth = true;
             this.current_type = this.current_user.type;
-            this.addReport(this.createMessage(this.reportMessages[1],
-                                              this.current_user.number,
-                                              this.current_type));
-            return "Login is success";
+            this.addReport(this.reportMessages[1].toLog, this.current_user.number, this.current_type);
+            return this.reportMessages[1].toUser;
         }
 
         else {
-            this.current_user = false;
-            this.addReport(this.createMessage(this.reportMessages[2]));
-            return "Your number and pin not found";
+            this.addReport(this.reportMessages[2].toLog);
+            return this.reportMessages[2].toUser;
         }
 
     },
     // check current debet
     check: function() {
-        if (!this.checkAuth(this.reportMessages[4])) {
-            return "Please, authentication to check debet";
+        if (!this.checkAuth("check")) {
+            return this.createReport(4, "check", "toUser");
         }
         else {
-            this.addReport(this.createMessage(this.reportMessages[3], this.current_user.number));
+            this.addReport(this.reportMessages[3].toLog, this.current_user.number);
             return this.current_user.debet;
         }
     },
     // get cash - available for user only
     getCash: function(amount) {
-        if (!this.checkAuth(this.reportMessages[6])) {
-            return "Please, authentication to get cash";
+        const errorArr = ["user", 4, 5, 6];
+        const fullChecks = this.fullChecks(amount, "getCash", errorArr);
+        if (fullChecks) {
+            return fullChecks;
         }
 
-        if (!this.checkUserStatus("user", this.reportMessages[5])) {
-          return "Admin can not get cash";
-        }
-
-        if (!this.dataCheck(amount, this.reportMessages[7], this.reportMessages[10])) {
-            return "Your data is incorrect";
-        }
-
-        if (this.bigCash(amount, this.reportMessages[8], this.reportMessages[9])) {
-            return "Insufficient cash";
+        const atmAndAccountCash = [this.current_user.debet, this.cash];
+        const errorBigCash = [8, 9];
+        const bigCash = this.checkBigCash(amount, atmAndAccountCash, errorBigCash);
+        if (bigCash) {
+            return bigCash;
         }
 
         this.current_user.debet -= amount;
         this.cash -= amount;
-        this.addReport(this.createMessage(this.reportMessages[11], this.current_user.number, amount));
-        return `Success, you get ${amount} cash`;
+        this.addReport(this.createReport(10, "getCashRes", "toLog"), this.current_user.number, amount);
+        return `${this.reportMessages[10].toUser} ${amount}${this.postfix.getCashRes}`;
     },
     // load cash - available for user only
     loadCash: function(amount){
-        if (!this.checkAuth(this.reportMessages[13])) {
-            return "Please, authentication to load cash";
-        }
-
-        if (!this.checkUserStatus("user", this.reportMessages[12])) {
-            return "Admin can not load cash";
-        }
-
-        if (!this.dataCheck(amount, this.reportMessages[7], this.reportMessages[14])) {
-            return "Your data is incorrect";
+        const errorArr = ["user", 4, 5, 6];
+        const fullChecks = this.fullChecks(amount, "loadCash", errorArr);
+        if (fullChecks) {
+            return fullChecks;
         }
 
         this.current_user.debet += amount;
         this.cash += amount;
-        this.addReport(this.createMessage(this.reportMessages[15], this.current_user.number, amount));
-        return `Success, you load ${amount} cash on account`;
+        this.addReport(this.createReport(11, "loadCashRes", "toLog"), this.current_user.number, amount);
+        return `${this.reportMessages[11].toUser} ${amount}${this.postfix.loadCashRes}`;
     },
     // load cash to ATM - available for admin only - EXTENDED
     load_cash: function(addition) {
-        if (!this.checkAuth(this.reportMessages[17])) {
-            return "Authentication admin to load cash on ATM";
+        const errorArr = ["admin", 4, 12, 6];
+        const fullChecks = this.fullChecks(addition, "load_cash", errorArr);
+        if (fullChecks) {
+            return fullChecks;
         }
 
-        if (!this.checkUserStatus("admin", this.reportMessages[16])) {
-            return "You can not load cash on ATM";
-        }
-
-        if (!this.dataCheck(addition, this.reportMessages[7], this.reportMessages[18])) {
-            return "Your data is incorrect";
-        }
-
+        this.current_user.debet += addition;
         this.cash += addition;
-        this.addReport(this.createMessage(this.reportMessages[19], this.current_user.number, addition));
-        return `You load ${addition} cash on ATM`;
+        this.addReport(this.createReport(11, "load_cashRes", "toLog"), this.current_user.number, addition);
+        return `${this.reportMessages[11].toUser} ${addition}${this.postfix.load_cashRes}`;
     },
     // get report about cash actions - available for admin only - EXTENDED
     getReport: function() {
-        if (this.current_type === "admin") {
-            this.report.forEach(function (value) {
-                console.log(value);
-            })
+        if (this.checkUserStatus("admin", this.createReport(12, "getReport", "toLog"))) {
+            return this.report.reduce((reports, value) => (reports + value + "\n"), "\n");
         }
         else {
-            this.addReport(this.createMessage(this.reportMessages[20]));
-            return "You do not have access rights to use report";
+            return this.createReport(12, "getReport", "toUser");
         }
     },
     // log out
     logout: function() {
         if (this.current_user) {
-            this.addReport(this.createMessage(this.reportMessages[21], this.current_user.number));
+            this.addReport(this.reportMessages[13].toLog, this.current_user.number);
             this.is_auth = this.current_user = this.current_type = false;
-            return "You are log out";
+            return this.reportMessages[13].toUser;
         }
         else {
-            this.addReport(this.createMessage(this.reportMessages[22]));
-            return "You are not login";
+            this.addReport(this.createReport(4, "logout", "toLog"));
+            return this.createReport(4, "logout", "toUser");
         }
     }
 };
