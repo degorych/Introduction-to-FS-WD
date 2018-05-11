@@ -120,11 +120,8 @@ const ATM = {
             return this.reportMessages[0].toUser;
         }
 
-        this.current_user = this.users.find(function (element) {
-            if (element.number === number.toString() && element.pin === pin.toString()) {
-                return element;
-            }
-        });
+        this.current_user = this.users.find(element =>
+            (element.number === number.toString() && element.pin === pin.toString()));
 
         if (this.current_user !== undefined) {
             this.is_auth = true;
@@ -206,14 +203,12 @@ const ATM = {
     },
     // log out
     logout: function() {
-        if (this.current_user) {
-            this.addReport(this.reportMessages[13].toLog, this.current_user.number);
-            this.is_auth = this.current_user = this.current_type = false;
-            return this.reportMessages[13].toUser;
-        }
-        else {
-            this.addReport(this.createReport(4, "logout", "toLog"));
+        if (!this.checkAuth("logout")) {
             return this.createReport(4, "logout", "toUser");
         }
+
+        this.addReport(this.reportMessages[13].toLog, this.current_user.number);
+        this.is_auth = this.current_user = this.current_type = false;
+        return this.reportMessages[13].toUser;
     }
 };
