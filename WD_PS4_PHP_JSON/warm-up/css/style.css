@@ -1,0 +1,78 @@
+body {
+    font-size: 14px;
+    font-family: Verdana;
+    background: #0d192a;
+    color: #FFF;
+    padding: 10px;
+}
+
+.chess-board {
+    margin: 15px 0;
+	overflow: auto;
+}
+
+.chess-board > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.chess-board > div > div {
+    width: 25px;
+    height: 25px;
+	flex-shrink: 0;
+}
+
+input[type=text], input[type=number], textarea {
+    border-radius: 5px;
+    color: #FFF;
+    background: #112940;
+    border: #ff756f solid 1px;
+    margin: 0 5px 0 0;
+    padding: 7px 10px;
+}
+
+input[type=number] {
+    width: 50px;
+}
+
+input[type=text] {
+     width: 185px;
+}
+
+input[type=submit] {
+    border-radius: 5px;
+    color: #FFF;
+    background: #ff756f;
+    border: #ff756f solid 1px;
+    margin: 0 10px;
+    padding: 7px 10px;
+    cursor: pointer;
+}
+
+input::-webkit-input-placeholder {
+    color: #cbbd9a;
+    font-style: italic;
+}
+
+input::-moz-placeholder {
+    color: #cbbd9a;
+    font-style: italic;
+}
+
+input:-ms-input-placeholder {
+    color: #cbbd9a;
+    font-style: italic;
+}
+
+.result {
+    margin: 20px 0;
+}
+
+h2 {
+    color: #ff1763;
+}
+
+div[class*="task"] {
+    margin-bottom: 70px;
+}
