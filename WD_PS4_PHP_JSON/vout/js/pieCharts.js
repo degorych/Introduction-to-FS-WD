@@ -5,8 +5,15 @@ let voutData = [
 fetch("json/data.json")
     .then(response => response.json())
     .then(function (data) {
+        let valueArr = [];
         for (let key in data) {
             voutData.push([key, data[key]]);
+            valueArr.push(data[key]);
+        }
+        // If json not exist and nobody vouted, pie chart is invisible
+        const piechart = document.getElementById("piechart");
+        if (valueArr.every(value => (value === 0))) {
+            piechart.style.display = "none";
         }
     })
     .then(function() {
