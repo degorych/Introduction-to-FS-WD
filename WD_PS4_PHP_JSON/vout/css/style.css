@@ -58,11 +58,11 @@ a {
     background: #ff756f;
     color: #fff;
 }
+
 .error-msg {
     color: #ff660e;
     padding: 10px 15px;
     border: solid 1px #ff660e;
     border-radius: 5px;
     background: #112940;
-    display: block;
 }
