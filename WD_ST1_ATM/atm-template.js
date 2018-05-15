@@ -187,7 +187,6 @@ const ATM = {
             return fullChecks;
         }
 
-        this.current_user.debet += addition;
         this.cash += addition;
         this.addReport(this.createReport(11, "load_cashRes", "toLog"), this.current_user.number, addition);
         return `${this.reportMessages[11].toUser} ${addition}${this.postfix.load_cashRes}`;
