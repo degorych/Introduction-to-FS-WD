@@ -13,20 +13,14 @@ include_once ("php/paintVoutGraph.php");
 	</head>
 	<body>
 		<div class="container-pie">
-			<div class="hidden"></div>  <!--For error-->
+			<?php
+		  define("ERROR_MSG", "Warning, you are not vout, please, back to main to choice variant");
+		  if ($error) echo "<div class='error-msg'>".ERROR_MSG."</div>";
+			?>
 			<div id="piechart"></div>
 			<a href="index.html"> Back to main</a>
 		</div>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript" src="js/pieCharts.js"></script>
-		<script>
-        let error = <?php echo $error ? "true" : "false"; ?>;
-        const errorMsg = "Warning, you are not vout, please, back to main to choice variant";
-        const errorMsgElement = document.getElementsByClassName("hidden");
-        if (error) {
-            errorMsgElement[0].innerText = errorMsg;
-            errorMsgElement[0].className = "error-msg";
-        }
-		</script>
 	</body>
 </html>
