@@ -1,4 +1,8 @@
 <?php
+if (empty($_POST) && $_SERVER["PHP_SELF"] === "/php/paintVoutGraph.php") {
+	header("Location:../index.html");
+}
+
 $error = false;
 $file = "json/data.json";
 $variants = array("first variant" => 0, "second variant" => 0, "third variant" => 0, "fourth variant" => 0);
@@ -20,4 +24,3 @@ if (array_key_exists($data, $voutData)) {
 else {
 	$error = true;
 }
-?>
