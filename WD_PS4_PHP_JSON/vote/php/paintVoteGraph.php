@@ -1,5 +1,5 @@
 <?php
-if (empty($_POST) && $_SERVER["PHP_SELF"] === "/php/paintVoteGraph.php") {
+if (stristr($_SERVER["PHP_SELF"], "paintVoteGraph.php")) {
 	header("Location:../index.html");
 }
 
