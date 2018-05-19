@@ -1,5 +1,5 @@
 <?php
-include_once("php/functions.php");
+include_once("./php/functions.php");
 
 define("PAINTCHESS", "0");
 define("DIGITSUM", "1");

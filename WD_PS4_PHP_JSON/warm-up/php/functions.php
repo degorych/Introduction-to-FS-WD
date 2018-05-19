@@ -1,6 +1,6 @@
 <?php
 if (empty($_POST) && $_SERVER["PHP_SELF"] === "/php/functions.php") {
-    header("Location:../");
+    header("Location:../index.php");
 }
 
 /* --- Task 1 --- */
@@ -120,4 +120,3 @@ function createRandomArr() {
 }
 
 $uniqRandomArr = createRandomArr();
-?>
