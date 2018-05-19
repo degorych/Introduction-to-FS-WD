@@ -1,5 +1,5 @@
 <?php
-if (empty($_POST) && $_SERVER["PHP_SELF"] === "/php/functions.php") {
+if (stristr($_SERVER["PHP_SELF"], "functions.php")) {
     header("Location:../index.php");
 }
 

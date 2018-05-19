@@ -47,7 +47,7 @@ if (isset($_POST["task"])) {
 		</div>
 		<div class="4task">
 			<h2>4. Я рисую шахматные доски</h2>
-			<form action="/" method="post">
+			<form method="post">
 				<label>Введите размер доски:
 					<input type="number" name="chess-number-row" value="4" pattern="\d+" required/>
 					<span>Х</span>
