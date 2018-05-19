@@ -3,6 +3,8 @@ body {
     font-size: large;
     background: #0d192a;
     color: #FFF;
+    margin: 0;
+    padding: 0;
 }
 
 fieldset {
@@ -25,11 +27,12 @@ input[type="submit"] {
     font-size: 20px;
     cursor: pointer;
     color: #FFF;
+    margin-top: 20px;
 }
 
 .container {
     width: 300px;
-    margin: 0 auto;
+    margin: 20px auto 0 auto;
 }
 
 .container-pie {
@@ -57,6 +60,7 @@ a {
     border-radius: 5px;
     background: #ff756f;
     color: #fff;
+    margin-top: 20px;
 }
 
 .error-msg {
@@ -65,4 +69,5 @@ a {
     border: solid 1px #ff660e;
     border-radius: 5px;
     background: #112940;
+    margin-top: 20px;
 }
