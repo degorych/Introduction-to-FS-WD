@@ -1,6 +1,3 @@
-<?php
-include_once ("./php/paintVoteGraph.php");
-?>
 <!doctype html>
 <html lang="en">
 	<head>
@@ -15,7 +12,11 @@ include_once ("./php/paintVoteGraph.php");
 		<div class="container-pie">
 			<?php
 		  define("ERROR_MSG", "Warning, you are not vote, please, back to main to choice variant");
-		  if ($error) echo "<div class='error-msg'>".ERROR_MSG."</div>";
+		  if (!isset($_SERVER["HTTP_REFERER"])) echo "<div class='error-msg'>".ERROR_MSG."</div>";
+
+		  include_once "php/createJson.php";
+		  $file = "json/data.json";
+		  createJson($file);
 			?>
 			<div id="piechart"></div>
 			<a href="index.html"> Back to main</a>
