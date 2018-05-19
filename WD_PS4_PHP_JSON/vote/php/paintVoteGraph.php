@@ -4,7 +4,7 @@ if (empty($_POST) && $_SERVER["PHP_SELF"] === "/php/paintVoteGraph.php") {
 }
 
 $error = false;
-$file = "json/data.json";
+$file = "./json/data.json";
 $variants = array("first variant" => 0, "second variant" => 0, "third variant" => 0, "fourth variant" => 0);
 
 if (!file_exists($file)) {

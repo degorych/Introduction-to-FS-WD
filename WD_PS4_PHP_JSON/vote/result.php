@@ -1,5 +1,5 @@
 <?php
-include_once ("php/paintVoteGraph.php");
+include_once ("./php/paintVoteGraph.php");
 ?>
 <!doctype html>
 <html lang="en">
