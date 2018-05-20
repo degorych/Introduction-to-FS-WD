@@ -1,4 +1,8 @@
 <?php
+if (stristr($_SERVER["PHP_SELF"], "createJson.php")) {
+	header("Location:../index.html");
+}
+
 function createJson($file) {
 	$variants = array("first variant" => 0, "second variant" => 0, "third variant" => 0, "fourth variant" => 0);
 
