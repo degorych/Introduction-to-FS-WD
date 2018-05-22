@@ -66,7 +66,7 @@ if (isset($_POST["task"])) {
 		</div>
 		<div class="5task">
 			<h2>5. Я считаю сумму цифр числа</h2>
-			<form action="/" method="post">
+			<form method="post">
 				<label>Введите число
 					<input type="number" name="user-number" value="1234" pattern="\d+" required/>
 				</label>
