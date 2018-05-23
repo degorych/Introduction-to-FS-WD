@@ -92,9 +92,7 @@ function paintChess() {
 /* --- Task 5 --- */
 
 function digitSum() {
-    $digitSum = $_POST["user-number"];
-
-	$digitSum = ($digitSum >= 0) ? $digitSum : (string)($digitSum * (-1));
+	$digitSum = abs($_POST["user-number"]);
 
     if (!ctype_digit($digitSum)) {
         return "Your data must be integer";
@@ -107,7 +105,7 @@ function digitSum() {
 /* --- Task 6 --- */
 
 function createRandomArr() {
-    $randomArr = array();
+    $randomArr = [];
 
     for ($i = 0; $i < 100; $i++) {
         $randomArr[] = rand(1, 10);
