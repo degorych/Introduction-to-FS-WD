@@ -92,7 +92,7 @@ function paintChess() {
 /* --- Task 5 --- */
 
 function digitSum() {
-	$digitSum = abs($_POST["user-number"]);
+	$digitSum = (string)abs($_POST["user-number"]);
 
     if (!ctype_digit($digitSum)) {
         return "Your data must be integer";
