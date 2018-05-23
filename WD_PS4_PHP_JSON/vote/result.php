@@ -1,7 +1,7 @@
 <?php
-	include_once "php/createJson.php";
-	$file = "json/data.json";
-	createJson($file);
+include_once "php/createJson.php";
+$file = "json/data.json";
+createJson($file);
 ?>
 <!doctype html>
 <html lang="en">
