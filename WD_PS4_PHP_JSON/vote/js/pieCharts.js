@@ -1,4 +1,4 @@
-let voteData = [];
+const voteData = [];
 const voteTitle = ["Vote variant", "result"];
 const piechart = document.getElementById("piechart");
 
@@ -19,9 +19,9 @@ fetch("json/data.json")
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            let data = google.visualization.arrayToDataTable(voteData);
+            const data = google.visualization.arrayToDataTable(voteData);
 
-            let options = {
+            const options = {
                 width: 900,
                 colors: ["#ff1763", "#ff4c8a", "#ff85b3", "#ffabcf"],
                 pieHole: 0.5,
