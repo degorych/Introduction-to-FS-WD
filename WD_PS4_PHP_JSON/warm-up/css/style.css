@@ -1,6 +1,6 @@
 body {
     font-size: 14px;
-    font-family: Verdana;
+    font-family: Verdana, Arial, Tahoma;
     background: #0d192a;
     color: #FFF;
     padding: 10px;
@@ -75,4 +75,8 @@ h2 {
 
 div[class*="task"] {
     margin-bottom: 70px;
+}
+
+div[class*="task"] > div {
+    margin: 15px;
 }
