@@ -14,17 +14,8 @@ function createJson($file) {
         return;
     }
 
-    // File exists but empty
-    $openFile = file_get_contents($file);
-    if (!$openFile) {
-        if (!file_put_contents($file, json_encode($variants, JSON_PRETTY_PRINT))) {
-            throw new Exception('Can not be written to a file');
-        };
-        return;
-    }
-
     // Wrong number of variants
-    $voteData = json_decode($openFile, true);
+    $voteData = json_decode(file_get_contents($file), true);
     if (count($voteData) !== count($variants)) {
         throw new Exception('Error count of variants');
     }
