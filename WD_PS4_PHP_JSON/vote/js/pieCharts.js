@@ -35,4 +35,11 @@ fetch("json/data.json")
             const chart = new google.visualization.PieChart(piechart);
             chart.draw(data, options);
         }
+
+    })
+    .catch(function (err) {
+        if (err) {
+            console.log('Fetch Error ', err);
+            piechart.style.display = "none";
+        }
     });
