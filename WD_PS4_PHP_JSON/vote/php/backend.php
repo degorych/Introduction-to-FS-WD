@@ -13,19 +13,18 @@ try {
     $_SESSION['error'] = $e->getMessage();
 }
 
-if (is_writable($file)) {
-    $data = $_POST['vote-variants'];
-    $openFile = file_get_contents($file);
-    $voteData = json_decode($openFile, true);
-
-    if (isset($voteData[$data])) {
-        $voteData[$data] += 1;
-        file_put_contents($file, json_encode($voteData, JSON_PRETTY_PRINT));
-    } else {
-        $_SESSION['error'] = "$data not found";
-    }
-} else {
+if (!is_writable($file)) {
     $_SESSION['error'] = 'File is not writable';
+}
+
+$data = $_POST['vote-variants'];
+$voteData = json_decode(file_get_contents($file), true);
+
+if (isset($voteData[$data])) {
+    $voteData[$data] += 1;
+    file_put_contents($file, json_encode($voteData, JSON_PRETTY_PRINT));
+} else {
+    $_SESSION['error'] = "$data not found";
 }
 
 $_SESSION['referer'] = true;

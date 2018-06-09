@@ -39,7 +39,12 @@ fetch("json/data.json")
     })
     .catch(function (err) {
         if (err) {
-            console.log('Fetch Error ', err);
+            console.log("Error: ", err);
+            const pieElem = document.getElementsByClassName("container-pie");
+            const errorElem = document.createElement("div");
+            errorElem.className = "error-msg";
+            errorElem.innerText = "Can not read data";
+            pieElem[0].insertBefore(errorElem, pieElem[0].firstChild);
             piechart.style.display = "none";
         }
     });
