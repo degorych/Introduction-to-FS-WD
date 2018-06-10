@@ -17,10 +17,11 @@ $createLink = function () {
         return $routs['index'];
     }
 
-    $file = '../json/users.json';
-
     // Create users.json
-    include_once 'createJson.php';
+    $config = include 'config.php';
+    $file = $config['users'];
+    include_once $config['createJson'];
+
     $userData = [$name => $pass];
     $newJson = createJson($file, $userData);
     if ($newJson) {

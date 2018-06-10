@@ -25,8 +25,9 @@ $name = $_SESSION['userName'];
 date_default_timezone_set('Europe/Kiev');
 $date = time();
 
-$file = '../json/messages.json';
-include_once 'createJson.php';
+$config = include 'config.php';
+$file = $config['messages'];
+include_once $config['createJson'];
 $userData = [0 => ['date' => $date, 'name' => $name, 'msg' => $message]];
 
 if (!createJson($file, $userData)) {

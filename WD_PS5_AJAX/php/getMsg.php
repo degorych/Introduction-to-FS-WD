@@ -25,7 +25,10 @@ function formatDate($date)
 // Number of showed messages
 $numOfMsg = isset($_SESSION['numOfMsg']) ? $_SESSION['numOfMsg'] : 0;
 
-$file = '../json/messages.json';
+$config = include 'config.php';
+$file = $config['messages'];
+include_once $config['createJson'];
+
 if (!file_exists($file) || !file_get_contents($file)) {
     echo '';
 } else {
