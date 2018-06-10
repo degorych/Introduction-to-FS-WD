@@ -1,1 +1,1 @@
-For correct operation, enable writing to json/data.json
+For correct operation, enable writing to json/messages.json and json/users.json
