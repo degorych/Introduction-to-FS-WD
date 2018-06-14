@@ -1,3 +1,7 @@
+<?php
+session_start();
+unset($_SESSION['isVote']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -7,7 +11,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<form action="php/backend.php" method="post">
+			<form action="result.php" method="post">
 				<fieldset>
 					<legend>Vote variant</legend>
 					<label><input type="radio" name="vote-variants" value="first variant" checked/> first variant</label>

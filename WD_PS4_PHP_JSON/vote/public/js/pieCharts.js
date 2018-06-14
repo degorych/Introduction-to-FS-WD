@@ -2,7 +2,11 @@ const voteData = [];
 const voteTitle = ["Vote variant", "result"];
 const piechart = document.getElementById("piechart");
 
-fetch("json/data.json")
+const status = response =>
+    (response.status === 200) ? Promise.resolve(response) : Promise.reject(new Error(response.statusText));
+
+fetch("php/getJson.php", {method: "POST"})
+    .then(status)
     .then(response => response.json())
     .then(function (data) {
         for (let key in data) {
@@ -39,11 +43,11 @@ fetch("json/data.json")
     })
     .catch(function (err) {
         if (err) {
-            console.log("Error: ", err);
+            console.log(err);
             const pieElem = document.getElementsByClassName("container-pie");
             const errorElem = document.createElement("div");
             errorElem.className = "error-msg";
-            errorElem.innerText = "Can not read data";
+            errorElem.innerText = err;
             pieElem[0].insertBefore(errorElem, pieElem[0].firstChild);
             piechart.style.display = "none";
         }

@@ -1,8 +1,4 @@
 <?php
-if (stristr($_SERVER['PHP_SELF'], 'createJson.php')) {
-	header('Location:../index.html');
-}
-
 function createJson($file) {
 	$variants = ['first variant' => 0, 'second variant' => 0, 'third variant' => 0, 'fourth variant' => 0];
 
@@ -10,8 +6,12 @@ function createJson($file) {
 	if (!file_exists($file)) {
         if (!file_put_contents($file, json_encode($variants, JSON_PRETTY_PRINT))) {
             throw new Exception('File can not be created');
-        };
-        return;
+        }
+    }
+
+    // File is not writable
+    if (!is_writable($file)) {
+        throw new Exception('File can not be created');
     }
 
     // Wrong number of variants
