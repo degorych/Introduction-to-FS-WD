@@ -1,13 +1,12 @@
 <?php
 session_start();
-$config = require_once __DIR__ . '/../private/php/config.php';
+$config = require_once __DIR__.'/../private/php/config.php';
 $file = $config['jsonFile'];
-$variants = require_once $config['variants'];
 $errorMsg = [];
 
 include_once $config['createJson'];
 try {
-    createJson($file, $variants);
+    createJson($file);
 } catch (Exception $e) {
     $errorMsg[] = $e->getMessage();
 }
@@ -16,13 +15,15 @@ if (!isset($_POST['vote-variants']) || isset($_SESSION['isVote'])) {
     $errorMsg[] = 'Warning, you are not vote, please, back to main to choice variant';
 } else {
     $_SESSION['isVote'] = true;
-    $countVotes = include_once $config['voteCounter'];
+    include_once $config['voteCounter'];
     try {
-        if (!is_bool($countVotes($_POST['vote-variants'], $file))) {
-            $errorMsg[] = $countVotes;
-        }
+        $countVotes = countVotes($_POST['vote-variants'], $file);
     } catch (Exception $e) {
         $errorMsg[] = $e->getMessage();
+    }
+
+    if (!is_bool($countVotes)) {
+        $errorMsg[] = $countVotes;
     }
 }
 ?>
