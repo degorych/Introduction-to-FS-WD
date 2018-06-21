@@ -5,7 +5,7 @@ const piechart = document.getElementById("piechart");
 const status = response =>
     (response.status === 200) ? Promise.resolve(response) : Promise.reject(new Error(response.statusText));
 
-fetch("php/getJson.php", {method: "POST"})
+fetch("php/getJson.php", {method: "POST", headers: {"Content-Type": "application/json"}})
     .then(status)
     .then(response => response.json())
     .then(function (data) {
