@@ -1,9 +1,8 @@
 <?php
-function createJson($file) {
-	$variants = ['first variant' => 0, 'second variant' => 0, 'third variant' => 0, 'fourth variant' => 0];
-
+function createJson($file, $variants)
+{
     // File does not exist
-	if (!file_exists($file)) {
+    if (!file_exists($file)) {
         if (!file_put_contents($file, json_encode($variants, JSON_PRETTY_PRINT))) {
             throw new Exception('File can not be created');
         }
@@ -32,5 +31,6 @@ function createJson($file) {
     if ($checkVariants() !== true) {
         throw new Exception("Error in json data: {$checkVariants()}");
     }
+    return true;
 }
 
