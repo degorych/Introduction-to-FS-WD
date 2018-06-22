@@ -14,4 +14,3 @@ $countVotes = function ($data, $file) {
     }
 };
 return $countVotes;
-

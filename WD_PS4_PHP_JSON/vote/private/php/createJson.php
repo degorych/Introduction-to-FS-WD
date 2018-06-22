@@ -33,4 +33,3 @@ function createJson($file, $variants)
     }
     return true;
 }
-
