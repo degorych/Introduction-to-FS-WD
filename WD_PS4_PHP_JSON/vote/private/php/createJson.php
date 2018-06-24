@@ -1,4 +1,10 @@
 <?php
+/**
+ * @param string $file
+ * @param array $variants Associative array with voting options
+ * @return bool
+ * @throws Exception
+ */
 function createJson($file, $variants)
 {
     // File does not exist
@@ -19,7 +25,10 @@ function createJson($file, $variants)
         throw new Exception('Error count of variants');
     }
 
-    // Incorrect key or value of variants
+    /**
+     * Incorrect key or value of variants
+     * @return bool|int|string
+     */
     $checkVariants = function () use ($voteData, $variants) {
         foreach ($voteData as $key => $value) {
             if (!isset($variants[$key]) || !is_numeric($value) || $value < 0) {
@@ -28,6 +37,7 @@ function createJson($file, $variants)
         }
         return true;
     };
+
     if ($checkVariants() !== true) {
         throw new Exception("Error in json data: {$checkVariants()}");
     }

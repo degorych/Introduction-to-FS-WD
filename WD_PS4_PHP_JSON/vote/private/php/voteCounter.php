@@ -1,6 +1,11 @@
 <?php
-$countVotes = function ($data, $file) {
-    if (!file_exists($file)) return false; // If createJson don't create file, file can not be created.
+/**
+ * @param string $data $_POST['voteName']
+ * @param string $file Path to json file
+ * @return bool|string
+ * @throws Exception
+ */
+function countVotes($data, $file) {
     $voteData = json_decode(file_get_contents($file), true);
 
     if (isset($voteData[$data])) {
@@ -12,5 +17,4 @@ $countVotes = function ($data, $file) {
     } else {
         return "$data not found";
     }
-};
-return $countVotes;
+}
