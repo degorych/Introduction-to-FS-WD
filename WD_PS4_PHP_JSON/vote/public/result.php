@@ -5,20 +5,18 @@ $file = $config['jsonFile'];
 $variants = require_once $config['variants'];
 $errorMsg = [];
 
-include_once $config['createJson'];
-try {
-    createJson($file, $variants);
-} catch (Exception $e) {
-    $errorMsg[] = $e->getMessage();
-}
-
 if (!isset($_POST['vote-variants']) || isset($_SESSION['isVote'])) {
     $errorMsg[] = 'Warning, you are not vote, please, back to main to choice variant';
 } else {
     $_SESSION['isVote'] = true;
-    $countVotes = include_once $config['voteCounter'];
+
+    include_once $config['createJson'];
+    include_once $config['voteCounter'];
+
     try {
-        if (!is_bool($countVotes($_POST['vote-variants'], $file))) {
+        createJson($file, $variants);
+        $countVotes = countVotes($_POST['vote-variants'], $file);
+        if (!is_bool($countVotes)) {
             $errorMsg[] = $countVotes;
         }
     } catch (Exception $e) {
