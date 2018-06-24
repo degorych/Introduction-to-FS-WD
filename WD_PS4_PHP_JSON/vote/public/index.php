@@ -17,8 +17,8 @@ unset($_SESSION['isVote']);
             <?php
             $config = require_once __DIR__ . '/../private/php/config.php';
             $variants = require_once $config['variants'];
-            $createCheckboxList = require_once $config['createVote'];
-            echo $createCheckboxList(array_keys($variants));
+            require_once $config['createVote'];
+            echo createCheckbox(array_keys($variants));
             ?>
             <input type="submit" value="Vote"/>
         </fieldset>
