@@ -4,6 +4,7 @@ return array(
     'createJson' => PATH_TO_DIR . '\createJson.php',
     'createVote' => PATH_TO_DIR . '\createVote.php',
     'voteCounter' => PATH_TO_DIR . '\voteCounter.php',
+    'showErrors' => PATH_TO_DIR . '\showErrors.php',
     'jsonFile' => PATH_TO_DIR . '\..\json\data.json',
     'variants' => PATH_TO_DIR . '\variants.php',
     'js' => 'js/pieCharts.js',
