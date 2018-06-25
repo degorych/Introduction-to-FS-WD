@@ -38,7 +38,7 @@ if (!isset($_POST['vote-variants']) || isset($_SESSION['isVote'])) {
 <div class="container-pie">
     <?php
     include_once $config['showErrors'];
-    showError($errorMsg);
+    echo showError($errorMsg);
     ?>
     <div id="piechart"></div>
     <a href="<?= $config['main'] ?>"> Back to main</a>
