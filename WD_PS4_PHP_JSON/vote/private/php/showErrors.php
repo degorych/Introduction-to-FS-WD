@@ -3,7 +3,7 @@
  * @param array $errors
  * @return string
  */
-function showError($errors = []) {
+function showError($errors) {
     $messages = '';
     if (!empty($errors)) {
         foreach ($errors as $value) {
