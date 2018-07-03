@@ -1,5 +1,6 @@
 <?php
 session_start();
+unset($_SESSION["userName"]);
 ?>
 <!doctype html>
 <html lang="en">
@@ -18,11 +19,8 @@ session_start();
 <div class="content-center">
     <div class="container-auth">
         <h1>Easy Chat</h1>
-        <?php
-        if ($_SESSION["error"]) echo $_SESSION["error"];
-        unset($_SESSION["userName"], $_SESSION["error"], $_SESSION["numOfMsg"]);
-        ?>
-        <form action="php/auth.php" method="post" class="form-auth">
+        <form method="post" class="form-auth">
+            <output class="error"></output>
             <label>Enter your name</label>
             <input type="text" class="text-input" name="name" required/>
             <label>Enter your password</label>
@@ -33,5 +31,6 @@ session_start();
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/auth.js"></script>
 </body>
 </html>

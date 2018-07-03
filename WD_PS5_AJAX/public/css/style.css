@@ -126,6 +126,7 @@ label {
     padding: 25px;
 
 }
+
 .line {
     height: 10px;
     width: 100%;
@@ -141,6 +142,7 @@ label {
     #fffecd 80%, #fffecd 90%,
     #7bc3ab 90%);
 }
+
 .msg {
     margin-top: 7px;
     margin-bottom: 0;
@@ -160,4 +162,9 @@ label {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0));
     transform: rotate(70deg) skew(168deg);
     -webkit-transform: rotate(70deg) skew(168deg);
+}
+
+.error {
+    color: red;
+    font-weight: bold;
 }

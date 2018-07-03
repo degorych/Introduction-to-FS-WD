@@ -1,12 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION['userName'])) {
-    $_SESSION['error'] = 'No access to chat';
     header('Location: index.php');
 }
-if ($_SERVER['REQUEST_METHOD']) {
-    unset($_SESSION['numOfMsg']);
-}
+unset($_SESSION['lastShowedMsgId']);
 ?>
 <!doctype html>
 <html lang="en">
@@ -26,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD']) {
     <div class="container-chat">
         <h1>Easy Chat</h1>
         <div class="chat-field">
-            <?php echo "Hello, <span class='name'>" . $_SESSION["userName"] . "</span><br>" ?>
+            <?= "Hello, <span class='name'>" . $_SESSION["userName"] . "</span><br>" ?>
         </div>
         <form class="form-chat">
             <input type="text" class="text-input" name="message" required/>
@@ -35,6 +32,6 @@ if ($_SERVER['REQUEST_METHOD']) {
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="js/script.js"></script>
+<script src="js/messages.js"></script>
 </body>
 </html>
