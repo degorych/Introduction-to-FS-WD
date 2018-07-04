@@ -41,6 +41,12 @@ h1 {
     line-height: normal;
 }
 
+a {
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+}
+
 .container {
     width: 960px;
     box-sizing: border-box;
@@ -52,6 +58,14 @@ h1 {
 .bold-italic {
     font-weight: bold;
     font-style: italic;
+}
+
+.circle {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
 }
 
 /* --- Buttons --- */
@@ -92,6 +106,10 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.burger {
+    z-index: 2;
 }
 
 .logo {
@@ -187,8 +205,11 @@ blockquote {
 .about-mail {
     margin-top: 68px;
     margin-bottom: 20px;
-    color: #64ad8f;
     border: 2px solid #64ad8f;
+}
+
+.about-mail i, .about-mail span {
+    color: #64ad8f;
 }
 
 .about-mail i {
@@ -240,9 +261,12 @@ blockquote {
 }
 
 .dribble {
-    color: #cc4d86;
     border: 2px solid #cc4d86;
     margin-top: 30px;
+}
+
+.dribble i, .dribble span {
+    color: #cc4d86;
 }
 
 .dribble i {
@@ -304,17 +328,13 @@ blockquote {
     margin-bottom: 65px;
 }
 
-.circle {
+.circle-social {
     width: 55px;
     height: 55px;
-    border-radius: 50%;
     background: #f4f4f4;
     border: 3px solid #555;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     box-sizing: border-box;
-    font-size: 22px;
+    color: #555;
 }
 
 .contacts-form {
@@ -404,7 +424,6 @@ footer {
 
 footer a {
     color: #8dc4e8;
-    text-decoration: none;
 }
 
 .copyright-text {
@@ -412,7 +431,7 @@ footer a {
 }
 
 /* --- Go up button --- */
-.go-up {
+#go-up {
     position: fixed;
     bottom: 30px;
     right: 60px;
@@ -420,12 +439,62 @@ footer a {
     height: 40px;
     border-radius: 5px;
     background: #c9c9c9;
-    display: flex;
+    opacity: 0.7;
+    display: none;
     align-items: center;
     justify-content: center;
     color: #545454;
-    font-size: 20px;
+    font-size: 14px;
     cursor: pointer;
+}
+
+/* --- Hidden menu --- */
+#hidden-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 653px;
+    background: #d87779;
+    opacity: 0.9;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+#hidden-menu .container {
+    display: flex;
+    justify-content: center;
+}
+
+.menu {
+    width: 160px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.menu a {
+    width: auto;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.menu span {
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+.circle-menu {
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    color: #73aada;
 }
 
 /* --- Break points --- */
