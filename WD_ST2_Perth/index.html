@@ -15,7 +15,9 @@
     <div class="container">
         <nav>
             <div class="logo">p</div>
-            <i class="perfect icon-gamburger"></i>
+            <a href="#" class="burger">
+                <i class="perfect icon-gamburger"></i>
+            </a>
         </nav>
         <h1 class="header-title">Meet Perth,</h1>
         <p class="header-paragraph">A stupidly simple, flat PSD. Oh yeah, it's <span class="bold-italic">free</span>
@@ -23,8 +25,10 @@
         <div class="iphone">
             <div class="iphone-img"></div>
             <button class="btn-width-small download">
-                <span>download</span>
-                <i class="fa fa-cloud-download-alt"></i>
+                <a href="#">
+                    <span>download</span>
+                    <i class="fa fa-cloud-download-alt"></i>
+                </a>
             </button>
         </div>
     </div>
@@ -42,8 +46,10 @@
                 dingo's donger. Lets get some fisho with grab us a trackie dacks.
             </blockquote>
             <button class="btn-width-small about-mail">
-                <span>say hello</span>
-                <i class="fa fa-envelope"></i>
+                <a href="#">
+                    <span>say hello</span>
+                    <i class="fa fa-envelope"></i>
+                </a>
             </button>
         </div>
         <div class="ipad"></div>
@@ -60,8 +66,10 @@
                 get a dog up ya
                 greenie.</p>
             <button class="btn-width-large dribble">
-                <span>view on dribble</span>
-                <i class="fab fa-dribbble"></i>
+                <a href="#">
+                    <span>view on dribble</span>
+                    <i class="fab fa-dribbble"></i>
+                </a>
             </button>
         </div>
         <div class="devices"></div>
@@ -70,24 +78,26 @@
 <section class="donate">
     <h1 class="donate-title">like what you see?</h1>
     <button class="btn-width-large beer">
-        <span>buy me a <span class="bold-italic">beer?</span></span>
-        <i class="fa fa-beer"></i>
+        <a href="">
+            <span>buy me a <span class="bold-italic">beer?</span></span>
+            <i class="fa fa-beer"></i>
+        </a>
     </button>
 </section>
 <section class="contacts">
     <div class="social">
-        <div class="circle">
+        <a class="circle" href="#">
             <i class="fab fa-dribbble"></i>
-        </div>
-        <div class="circle">
+        </a>
+        <a class="circle" href="#">
             <i class="fab fa-facebook-f"></i>
-        </div>
-        <div class="circle">
+        </a>
+        <a class="circle" href="#">
             <i class="fab fa-twitter"></i>
-        </div>
-        <div class="circle">
+        </a>
+        <a class="circle" href="#">
             <i class="fab fa-telegram-plane"></i>
-        </div>
+        </a>
     </div>
     <form action="" class="contacts-form">
         <label class="contacts-label bold-italic">Newsletter Subscription</label>
@@ -102,8 +112,40 @@
 <footer>
     <span class="copyright">&copy; 2013 <a href="#">Perth.</a><span class="copyright-text"> Breeding pixels since the naughties.</span></span>
 </footer>
-<div class="go-up">
-    <i class="fas fa-angle-up"></i>
+<div id="go-up">
+    <i class="fas fa-chevron-up"></i>
 </div>
+<div id="hidden-menu">
+    <div class="container">
+        <nav class="menu">
+            <a href="#">
+                <div class="circle-menu">
+                    <i class="fas fa-home"></i>
+                </div>
+                <span class="bold-italic">home</span>
+            </a>
+            <a href="#">
+                <div class="circle-menu">
+                    <i class="far fa-heart"></i>
+                </div>
+                <span class="bold-italic">about me</span>
+            </a>
+            <a href="#">
+                <div class="circle-menu">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <span class="bold-italic">portfolio</span>
+            </a>
+            <a href="#">
+                <div class="circle-menu">
+                    <i class="far fa-envelope"></i>
+                </div>
+                <span class="bold-italic">drop me a line</span>
+            </a>
+        </nav>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
