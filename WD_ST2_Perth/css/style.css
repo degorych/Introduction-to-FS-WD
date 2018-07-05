@@ -533,6 +533,12 @@ footer a {
         height: auto;
     }
 
+    .portfolio-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .ipad {
         height: auto;
     }
@@ -563,6 +569,9 @@ footer a {
     .text-block {
         width: 320px;
         z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .text-block h1 {
@@ -648,6 +657,10 @@ footer a {
     .about-container {
         padding: 70px 30px;
         height: auto;
+    }
+
+    .about-mail {
+        margin-top: 70px;
     }
 
     .portfolio-content, .portfolio-container, .portfolio-content p, .text-block, .text-block p, .text-block blockquote {
