@@ -9,10 +9,10 @@ $(function() {
     // Show button
     $(window).on("scroll", function () {
         if ($(this).scrollTop() > invisibleHeight) {
-            onTopButton.css("display", "flex");
+            onTopButton.removeClass("invisibleElem").addClass("showedElem");
         }
         else {
-            onTopButton.css("display", "none");
+            onTopButton.removeClass("showedElem").addClass("invisibleElem");
         }
     });
 
@@ -37,37 +37,17 @@ $(function() {
         else {
             onTopButton.stop();
         }
-    }).hover(function () {
-        $(this).css("opacity", 1);
-    }, function () {
-        $(this).css("opacity", 0.7);
     });
 
     /* --- Hidden menu --- */
     const hiddenMenu = $("#hidden-menu");
     const burger = $(".burger");
-    let burgerIsClicked = false;
-
-    burger.on("click", function () {
-        if (!burgerIsClicked) {
-            hiddenMenu.css("display", "flex");
-            burgerIsClicked = true;
-        }
-        else {
-            hiddenMenu.css("display", "none");
-            burgerIsClicked = false;
-        }
+    
+    function showOrHidden() {
+        hiddenMenu.toggleClass("invisibleElem showedElem");
         burger.children("i").toggleClass("fas fa-times perfect icon-gamburger");
-        hiddenMenu.css("height", $("header").outerHeight());
-    });
+    }
 
-    hiddenMenu.on("click", "a", function () {
-        hiddenMenu.css("display", "none");
-        burger.children("i").toggleClass("fas fa-times perfect icon-gamburger");
-        burgerIsClicked = false;
-    });
-
-    $(window).on("resize", function () {
-        hiddenMenu.css("height", $("header").outerHeight());
-    })
+    burger.on("click", showOrHidden);
+    hiddenMenu.on("click", "a", showOrHidden);
 });
