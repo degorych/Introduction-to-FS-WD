@@ -45,6 +45,8 @@ a {
     text-decoration: none;
     color: #fff;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
 
 .container {
@@ -68,15 +70,25 @@ a {
     font-size: 22px;
 }
 
+input, button {
+    outline: none;
+}
+
+.showedElem {
+    display: flex;
+}
+
+.invisibleElem {
+    display: none;
+}
+
 /* --- Buttons --- */
 button {
     height: 57px;
     font-weight: bold;
     text-transform: uppercase;
-    text-align: left;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 28px;
+    font-size: 14px;
+    padding: 20px 25px;
     cursor: pointer;
     border-radius: 3px;
     background: transparent;
@@ -99,6 +111,7 @@ button {
 header {
     background: url("../img/blue-pattern.jpg") repeat;
     height: auto;
+    position: relative;
 }
 
 nav {
@@ -167,10 +180,6 @@ nav {
     border: 2px solid white;
 }
 
-.download i {
-    margin-left: 7px;
-}
-
 /* --- About --- */
 .about {
     width: 100%;
@@ -210,10 +219,6 @@ blockquote {
 
 .about-mail i, .about-mail span {
     color: #64ad8f;
-}
-
-.about-mail i {
-    margin-left: 15px;
 }
 
 .ipad {
@@ -269,10 +274,6 @@ blockquote {
     color: #cc4d86;
 }
 
-.dribble i {
-    margin-left: 16px;
-}
-
 .devices {
     position: absolute;
     left: 0;
@@ -302,10 +303,6 @@ blockquote {
     border: 2px solid #fff;
     font-weight: normal;
     padding-left: 35px;
-}
-
-.beer i {
-    margin-left: 16px;
 }
 
 /* --- Contacts --- */
@@ -360,6 +357,7 @@ fieldset {
     width: 120px;
     border-radius: 10px 0 0 10px;
     border: 0 solid;
+    font-size: 14px;
 }
 
 .submit {
@@ -368,7 +366,7 @@ fieldset {
     height: auto;
     background: #fff;
     border-radius: 0 10px 10px 0;
-    border: 0 solid;
+    border: none;
     color: #8dc4e8;
     cursor: pointer;
 }
@@ -424,6 +422,7 @@ footer {
 
 footer a {
     color: #8dc4e8;
+    display: inline;
 }
 
 .copyright-text {
@@ -440,7 +439,6 @@ footer a {
     border-radius: 5px;
     background: #c9c9c9;
     opacity: 0.7;
-    display: none;
     align-items: center;
     justify-content: center;
     color: #545454;
@@ -448,14 +446,17 @@ footer a {
     cursor: pointer;
 }
 
+#go-up:hover {
+    opacity: 1;
+}
+
 /* --- Hidden menu --- */
 #hidden-menu {
-    display: none;
     position: absolute;
     right: 0;
     top: 0;
     width: 100%;
-    height: 653px;
+    height: 100%;
     background: #d87779;
     opacity: 0.9;
     z-index: 1;
