@@ -5,27 +5,26 @@ if (isset($_POST['task'])) {
     $taskValue = $_POST['task'];
     switch ($taskValue) {
         case 'sum':
-            $resultFunc = sumElements();
+            $_SESSION[$taskValue] = sumElements();
             break;
         case 'sum237':
-            $resultFunc = sumElements([2, 3, 7]);
+            $_SESSION[$taskValue] = sumElements([2, 3, 7]);
             break;
         case 'star':
-            $resultFunc = createStar();
+            $_SESSION[$taskValue] = createStar();
             break;
         case 'paintChess':
-            $resultFunc = paintChess();
+            $_SESSION[$taskValue] = paintChess();
             break;
         case 'digitSum':
-            $resultFunc = digitSum();
+            $_SESSION[$taskValue] = digitSum();
             break;
         case 'sortArray':
-            $resultFunc = createRandomArr();
+            $_SESSION[$taskValue] = createRandomArr();
             break;
     }
-    $_SESSION[$taskValue] = $resultFunc;
 }
-header('Location:../index.php');
+header('Location:../index.php#'.$taskValue);
 
 /* --- Task 1, 2 --- */
 
@@ -34,14 +33,13 @@ function sumElements($elements = [])
     $sum = 0;
 
     for ($i = -1000; $i >= 1000; $i++) {
-        if (!empty($elements)) {
-            $lastDigit = abs($i) % 10;
-            foreach ($elements as $value) {
-                if ($lastDigit === $value) $sum += $i;
-            }
-        } else {
+        if (empty($elements)) {
             $sum += $i;
+            continue;
         }
+        if (in_array(abs($i) % 10, $elements)) {
+            $sum += $i;
+        };
     }
     return $sum;
 }
@@ -76,11 +74,11 @@ function paintChess()
     }
 
     $result = '';
-    for ($i = $rows; $i > 0; $i--) {
+    for (; $rows > 0; $rows--) {
         $result .= '<div>';
 
         for ($j = 0; $j < $columns; $j++) {
-            $color = (($j + $i) % 2 === 0) ? 'black' : 'white';
+            $color = (($j + $rows) % 2 === 0) ? 'black' : 'white';
             $result .= "<div style='background-color: {$color}'></div>";
         }
         $result .= '</div>';

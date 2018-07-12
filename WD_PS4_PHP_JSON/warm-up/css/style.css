@@ -80,3 +80,7 @@ div[class*="task"] {
 div[class*="task"] > div {
     margin: 15px;
 }
+
+input, button {
+    outline: none;
+}
