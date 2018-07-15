@@ -1,1 +1,1 @@
-For correct operation, enable writing to json/data.json and specify the absolute path to the application in config.php
+For correct operation, remove the tick from the "read only" to json/data.json
