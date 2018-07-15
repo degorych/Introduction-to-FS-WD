@@ -1,34 +1,5 @@
 <?php
 session_start();
-$config = require_once __DIR__ . '/../private/php/config.php';
-$file = $config['jsonFile'];
-$variants = require_once $config['variants'];
-$errorMsg = [];
-
-include_once $config['createJson'];
-
-try {
-    createJson($file, $variants);
-} catch (Exception $e) {
-    $errorMsg[] = $e->getMessage();
-}
-
-if (!isset($_POST['vote-variants']) || isset($_SESSION['isVote'])) {
-    $errorMsg[] = 'Warning, you are not vote, please, back to main to choice variant';
-} else {
-    $_SESSION['isVote'] = true;
-
-    include_once $config['voteCounter'];
-
-    try {
-        $countVotes = countVotes($_POST['vote-variants'], $file);
-        if (!is_bool($countVotes)) {
-            $errorMsg[] = $countVotes;
-        }
-    } catch (Exception $e) {
-        $errorMsg[] = $e->getMessage();
-    }
-}
 ?>
 <!doctype html>
 <html lang="en">
@@ -43,13 +14,15 @@ if (!isset($_POST['vote-variants']) || isset($_SESSION['isVote'])) {
 <body>
 <div class="container-pie">
     <?php
-    include_once $config['showErrors'];
-    echo showError($errorMsg);
+    $config = require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config.php';
+    require_once $config['showMsg'];
+    showMsg($_SESSION['msg']);
+    unset($_SESSION['msg']);
     ?>
     <div id="piechart"></div>
-    <a href="<?= $config['main'] ?>"> Back to main</a>
+    <a href="index.php"> Back to main</a>
 </div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript" src="<?= $config['js'] ?>"></script>
+<script type="text/javascript" src="js/pieCharts.js"></script>
 </body>
 </html>

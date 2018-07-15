@@ -1,6 +1,5 @@
 <?php
 session_start();
-unset($_SESSION['isVote']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,15 +10,27 @@ unset($_SESSION['isVote']);
 </head>
 <body>
 <div class="container">
-    <form action="result.php" method="post">
+    <?php
+    $config = require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config.php';
+    require_once $config['showMsg'];
+    showMsg($_SESSION['msg']);
+    unset($_SESSION['msg']);
+    ?>
+    <form action="php/handler.php" method="post">
         <fieldset>
             <legend>Vote variant</legend>
-            <?php
-            $config = require_once __DIR__ . '/../private/php/config.php';
-            $variants = require_once $config['variants'];
-            require_once $config['createVote'];
-            echo createCheckbox(array_keys($variants));
-            ?>
+            <label>
+                <input type='radio' name='vote-variants' value='first variant' checked/> first variant
+            </label>
+            <label>
+                <input type='radio' name='vote-variants' value='second variant'/> second variant
+            </label>
+            <label>
+                <input type='radio' name='vote-variants' value='third variant'/> third variant
+            </label>
+            <label>
+                <input type='radio' name='vote-variants' value='fourth variant'/> fourth variant
+            </label>
             <input type="submit" value="Vote"/>
         </fieldset>
     </form>

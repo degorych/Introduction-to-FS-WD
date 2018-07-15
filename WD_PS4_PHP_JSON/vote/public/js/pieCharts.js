@@ -5,7 +5,22 @@ const piechart = document.getElementById("piechart");
 const status = response =>
     (response.status === 200) ? Promise.resolve(response) : Promise.reject(new Error(response.statusText));
 
-fetch("php/getJson.php", {method: "POST", headers: {"Content-Type": "application/json"}})
+function error(err) {
+    if (err) {
+        console.log(err);
+        const pieElem = document.getElementsByClassName("container-pie");
+        const errorElem = document.createElement("div");
+        errorElem.className = "msg";
+        errorElem.innerText = err;
+        pieElem[0].insertBefore(errorElem, pieElem[0].firstChild);
+        piechart.style.display = "none";
+    }
+}
+
+const  getJson = new FormData();
+getJson.append("getJson", "true");
+
+fetch("php/handler.php", {method: "POST", body: getJson})
     .then(status)
     .then(response => response.json())
     .then(function (data) {
@@ -15,6 +30,7 @@ fetch("php/getJson.php", {method: "POST", headers: {"Content-Type": "application
         // If nobody voted, pie chart is invisible
         if (voteData.every(value => (value[1] === 0))) {
             piechart.style.display = "none";
+            error("You not voted");
         }
         voteData.unshift(voteTitle);
     })
@@ -41,14 +57,4 @@ fetch("php/getJson.php", {method: "POST", headers: {"Content-Type": "application
         }
 
     })
-    .catch(function (err) {
-        if (err) {
-            console.log(err);
-            const pieElem = document.getElementsByClassName("container-pie");
-            const errorElem = document.createElement("div");
-            errorElem.className = "error-msg";
-            errorElem.innerText = err;
-            pieElem[0].insertBefore(errorElem, pieElem[0].firstChild);
-            piechart.style.display = "none";
-        }
-    });
+    .catch(error);
