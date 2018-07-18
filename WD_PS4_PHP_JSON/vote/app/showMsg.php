@@ -1,12 +1,15 @@
 <?php
-function showMsg($msgArray)
+function showMsg($msgArray, $component)
 {
-    if (!empty($msgArray)) :
-        foreach ($msgArray as $value) :
-            ?>
-            <div class='msg'><?= $value ?></div>
-        <?php
-        endforeach;
-    endif;
+    $result = '';
+
+    if (!empty($msgArray)) {
+        $msg = include $component;
+        foreach ($msgArray as $value) {
+            $result .= str_replace('message', $value, $msg);
+        }
+    }
+
+    unset($_SESSION['msg']);
+    return $result;
 }
-?>

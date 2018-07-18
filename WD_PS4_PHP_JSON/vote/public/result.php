@@ -14,10 +14,11 @@ session_start();
 <body>
 <div class="container-pie">
     <?php
-    $config = require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config.php';
-    require_once $config['showMsg'];
-    showMsg($_SESSION['msg']);
-    unset($_SESSION['msg']);
+	if (isset($_SESSION['msg'])) {
+		$config = require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config.php';
+        require_once $config['showMsg'];
+        echo showMsg($_SESSION['msg'], $config['message']);
+	}
     ?>
     <div id="piechart"></div>
     <a href="index.php"> Back to main</a>

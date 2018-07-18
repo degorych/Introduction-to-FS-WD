@@ -11,14 +11,15 @@ session_start();
 <body>
 <div class="container">
     <?php
-    $config = require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config.php';
-    require_once $config['showMsg'];
-    showMsg($_SESSION['msg']);
-    unset($_SESSION['msg']);
+	if (isset($_SESSION['msg'])) {
+		$config = require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config.php';
+        require_once $config['showMsg'];
+        echo showMsg($_SESSION['msg'], $config['message']);
+	}
     ?>
     <form action="php/handler.php" method="post">
         <fieldset>
-            <legend>Vote variant</legend>
+            <legend>Vote variants</legend>
             <label>
                 <input type='radio' name='vote-variants' value='first variant' checked/> first variant
             </label>
