@@ -26,7 +26,7 @@ require_once $config['jsonFunctions'];
 
 // Create json if it does not exist, check to writable
 try {
-    createJson($file, $variants);
+    checkJson($file, $variants);
 } catch (Exception $e) {
     $_SESSION['msg'][] = $e->getMessage();
     header('Location: ../result.php');

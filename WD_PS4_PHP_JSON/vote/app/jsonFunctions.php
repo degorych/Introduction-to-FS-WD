@@ -5,7 +5,7 @@
  * @return bool
  * @throws Exception
  */
-function createJson($file, $variants)
+function checkJson($file, $variants)
 {
     $defaultVoteResults = [];
     foreach ($variants as $value) {
@@ -22,6 +22,11 @@ function createJson($file, $variants)
     // File is not writable
     if (!is_writable($file)) {
         throw new Exception('File not writable');
+    }
+
+    // File is empty
+    if (empty(file_get_contents($file))) {
+        file_put_contents($file, json_encode($defaultVoteResults, JSON_PRETTY_PRINT));
     }
     return true;
 }
