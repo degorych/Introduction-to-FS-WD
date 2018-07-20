@@ -115,16 +115,22 @@ label {
     margin-bottom: 7px;
 }
 
-.chat-field {
+.chat-field-container {
     height: 300px;
     width: 600px;
+    padding: 25px 0 25px 25px;
+    background: #fffecd;
+}
+
+.chat-field {
+    height: 100%;
+    width: 100%;
     overflow-y: scroll;
     color: #000;
     font-size: 16px;
     font-weight: 600;
     background: #fffecd;
-    padding: 25px;
-
+    padding-right: 25px;
 }
 
 .line {

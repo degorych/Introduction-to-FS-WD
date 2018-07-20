@@ -1,10 +1,11 @@
 <?php
 // Convert chars to smiles
-function smile($msg)
+function smile($msg, $smileComponent)
 {
     $smiles = ['smile' => ':)', 'sad' => ':('];
     foreach ($smiles as $key => $value) {
-        $msg = str_replace($value, "<img src='./img/$key.png' alt='$key'>", $msg);
+        $smileStr = str_replace('smile', $key, $smileComponent);
+        $msg = str_replace($value, $smileStr, $msg);
     }
     return $msg;
 }

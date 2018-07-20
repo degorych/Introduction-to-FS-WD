@@ -3,11 +3,10 @@ $(function () {
     const msg = $(".text-input");
 
     function sendMessage() {
-        const data = msg.serialize();
         $.ajax({
-            url: "./php/sendMsg.php",
+            url: "index.php",
             method: "POST",
-            data: data,
+            data: $(".form-chat").serialize(),
             success: function (msgPhp) {
                 if (msgPhp.length > 0) {
                     msg.css("color", "red");
@@ -39,16 +38,21 @@ $(function () {
 
     const time = 1000;
     setInterval(function () {
+        const getMsg = new FormData();
+        getMsg.append("getMsg", "");
+
         $.ajax({
-            url: "./php/getMsg.php",
+            url: "index.php",
             method: "POST",
+            data: {getMsg: ""},
             dataType: "json",
             success: function (response) {
                 if (response.length > 0) {
-                    const innerMsg = response.reduce(function (sum, value) {
-                        return sum + `<p class="msg">${value['date']}<span class="name"> ${value['name']}: </span>${value['message']}</p>`;
-                    }, "");
-                    field.append(innerMsg).scrollTop(field.innerHeight());
+                    let messages = "";
+                    for (let i in response) {
+                        messages += `<p class="msg">${response[i]['date']}<span class="name"> ${response[i]['name']}: </span>${response[i]['message']}</p>`;
+                    }
+                    field.append(messages).scrollTop(field.innerHeight());
                 }
             }
         })

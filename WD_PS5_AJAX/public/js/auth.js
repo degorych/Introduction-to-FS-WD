@@ -1,13 +1,13 @@
 $(function () {
     function sendForm() {
         $.ajax({
-            url: "./php/auth.php",
+            url: "index.php",
             method: "POST",
             data: $(".form-auth").serialize(),
             success: function (request) {
-                const error = $(".error");
-                error.val("");
                 if (request.length > 0) {
+                    const error = $(".error");
+                    error.val("");
                     error.prepend(function () {
                         let string = "";
                         for (let key in request) {
@@ -16,7 +16,7 @@ $(function () {
                         return string;
                     });
                 } else {
-                    window.location.href = "chat.php";
+                    window.location.href = "index.php";
                 }
             }
         });
@@ -27,5 +27,4 @@ $(function () {
         event.preventDefault();
         sendForm();
     });
-
 });

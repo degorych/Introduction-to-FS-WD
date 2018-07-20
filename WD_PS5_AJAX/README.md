@@ -1,1 +1,1 @@
-For correct operation, enable writing to json/messages.json and json/users.json
+For correct operation, remove the tick from the "read only" to json/data.json

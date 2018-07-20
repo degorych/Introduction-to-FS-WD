@@ -1,0 +1,17 @@
+{
+    "1": {
+        "date": 1532118492,
+        "name": "Vasya",
+        "msg": "I'm Vasya"
+    },
+    "2": {
+        "date": 1532118501,
+        "name": "Vasya",
+        "msg": "<img src=\".\/img\/smile.png\" alt=\"smile\">"
+    },
+    "3": {
+        "date": 1532118506,
+        "name": "Vasya",
+        "msg": "<img src=\".\/img\/sad.png\" alt=\"sad\">"
+    }
+}
