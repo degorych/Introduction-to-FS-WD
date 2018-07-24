@@ -47,10 +47,10 @@ $(function () {
             data: {getMsg: ""},
             dataType: "json",
             success: function (response) {
-                if (response.length > 0) {
+                if (response) {
                     let messages = "";
                     for (let i in response) {
-                        messages += `<p class="msg">${response[i]['date']}<span class="name"> ${response[i]['name']}: </span>${response[i]['message']}</p>`;
+                        messages += `<p class="msg">${response[i]['date']}<span class="name"> ${response[i]['name']}: </span>${response[i]['msg']}</p>`;
                     }
                     field.append(messages).scrollTop(field.innerHeight());
                 }
