@@ -12,13 +12,22 @@ function getMsg($config, $file)
         return;
     }
 
-    $msgLastKey = end(array_keys($messages));
+    $msgKeys = array_keys($messages);
+    $msgLastKey = end($msgKeys);
+    reset($msgKeys);
+
     $dataToUser = [];
 
     $lastShowedMsgId = (isset($_SESSION['lastShowedMsgId'])) ? $_SESSION['lastShowedMsgId'] : -1;
 
+    if ($lastShowedMsgId === $msgLastKey) {
+        echo json_encode($dataToUser);
+        return;
+    }
+
     if ($lastShowedMsgId > 0) {
-        $messages = array_slice($messages, $lastShowedMsgId);
+        $idPlace = array_search($lastShowedMsgId, $msgKeys);
+        $messages = array_slice($messages, $idPlace + 1);
     }
 
     foreach ($messages as $value) {
