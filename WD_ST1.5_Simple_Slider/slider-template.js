@@ -10,7 +10,7 @@ const IMAGES = [
     "?image=1050",
     "?image=1039"
 ];
-
+const imageLength = IMAGES.length;
 const previews = $(".slider-previews");
 const currentImg = $(".slider-current img");
 let currentImageId = 0;
@@ -22,19 +22,34 @@ const createLink = (url, size, name) => (url + size + "/" + name);
 const getName = (link, url, size) => (link.replace(url + size + "/", ""));
 
 // Create preview
-const imageList = IMAGES.reduce((sum, value) => (sum + `<li><img src="${createLink(API_URL, SMALL_SIZE, value)}" alt="0"></li>`), "");
-previews.append(imageList).find(">:first-child").addClass("current");
+const imageList = IMAGES.reduce((sum, value) => {
+    const newPrevEl = `
+        <li>
+            <img 
+                src="${createLink(API_URL, SMALL_SIZE, value)}" 
+                alt="0">
+        </li>
+    `;
+    return sum + newPrevEl
+}, "");
+
+previews.append(imageList)
+    .find(">:first-child")
+    .addClass("current");
 
 // CircleRight
-const circleRight = id => (IMAGES.length - id === 1) ? 0 : id + 1;
+const circleRight = id => (imageLength - id === 1) ? 0 : id + 1;
 
 // CircleLeft
-const circleLeft = id => (id === 0) ? IMAGES.length - 1 : id - 1;
+const circleLeft = id => (id === 0) ? imageLength - 1 : id - 1;
 
 // Change current <li> element
 function changeCurrentEl(element) {
-    element.find(".current").removeClass("current");
-    element.find("li").eq(currentImageId).addClass("current");
+    element.find(".current")
+        .removeClass("current");
+    element.find("li")
+        .eq(currentImageId)
+        .addClass("current");
 }
 
 // Click on preview
