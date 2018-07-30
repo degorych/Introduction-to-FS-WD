@@ -10,8 +10,8 @@ $sendMsg = function () use ($config, $connection) {
     }
 
     try {
-        $request = $connection->prepare("INSERT INTO messages VALUES (null, :date, :name, :messageText)");
-        $request->execute(['date' => time(), 'name' => $_SESSION['userName'], 'messageText' => $message]);
+        $request = $connection->prepare("INSERT INTO messages (username, messageText) VALUES (:name, :messageText)");
+        $request->execute(['name' => $_SESSION['userName'], 'messageText' => $message]);
         $request = null;
     } catch (Exception $e) {
         http_response_code(400);
