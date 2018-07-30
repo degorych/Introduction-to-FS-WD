@@ -66,7 +66,7 @@ $(function () {
                 for (let i in response) {
                     messages += `<p class="msg">
                             ${formatTime(response[i]['date'])}
-                            <span class="name"> ${response[i]['name']}: </span>
+                            <span class="name"> ${response[i]['userName']}: </span>
                             ${changeCharsToSmile(response[i]['messageText'])}
                         </p>`;
                 }
