@@ -1,11 +1,20 @@
 <?php
 session_start();
 $config = require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR . 'appConfig.php';
-require_once $config['connectDb'];
 
 if (isset($_POST['logout'])) {
     session_destroy();
-    header('Location: index.php');
+    header('Location: ./');
+}
+
+require_once $config['connectDb'];
+try {
+    $connection = connectDb();
+} catch (Exception $e) {
+    $_SESSION['error'] = $e->getMessage();
+    require_once $config['selectTemplate'];
+    $createPage();
+    die();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -37,4 +46,7 @@ if (isset($_POST['getMsg'])) {
 require_once $config['selectTemplate'];
 $createPage();
 
-$connection = null;
+// Close connection
+if (isset($connection)) {
+    $connection = null;
+}

@@ -15,8 +15,11 @@
     <div class="line"></div>
 </header>
 <div class="content-center">
-    <?php require $pageConf['body']; ?>
+<?php require $pageConf['body']; ?>
 </div>
+<?php if (isset($_SESSION['error'])) : ?>
+    <div class="error"><?= $_SESSION['error'] ?></div>
+<?php endif; ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="<?= $pageConf['script']; ?>"></script>
 </body>
