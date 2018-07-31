@@ -1,0 +1,35 @@
+body {
+    font-family: Verdana, Arial;
+    font-size: 18px;
+    background: #b9c783;
+    color: #635960;
+}
+
+form {
+    border-radius: 10px;
+    background: #fffecd;
+    width: 600px;
+    padding: 20px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin: 10px 0;
+    border: 1px solid #635960;
+}
+
+input[type=button] {
+    width: fit-content;
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: #635960;
+    color: #fff;
+}
+
+label {
+    margin: 10px 0;
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Finder</title>
+</head>
+<body>
+<form>
+    <label for="text">Введите текст для поиска</label>
+    <textarea id="text" cols="30" rows="10"></textarea>
+    <label for="regex">Введите регулярку</label>
+    <input id="regex" type="text"/>
+    <input id="btn" type="button" value="Найти"/>
+    <output id="result"></output>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/finder.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+          crossorigin="anonymous">
+    <title>Form validate</title>
+</head>
+<body>
+<form id="form">
+    <h2>JS</h2>
+    <label id="ip">
+        Введите ip
+        <input type="text" name="ip"/>
+        <i class="fas fa-times badAnswer"></i>
+    </label>
+    <label id="url">
+        Введите url
+        <input type="text" name="url"/>
+        <i class="fas fa-times badAnswer"></i>
+    </label>
+    <label id="email">
+        Введите email
+        <input type="text" name="email"/>
+        <i class="fas fa-times badAnswer"></i>
+    </label>
+    <label id="date">
+        Введите дату
+        <input type="text" name="date"/>
+        <i class="fas fa-times badAnswer"></i>
+    </label>
+    <label id="time">
+        Введите время
+        <input type="text" name="time"/>
+        <i class="fas fa-times badAnswer"></i>
+    </label>
+    <input type="submit" value="GO PHP"/>
+    <h2>PHP</h2>
+    <output class="result">Push on button for result</output>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/validate.js"></script>
+</body>
+</html>
