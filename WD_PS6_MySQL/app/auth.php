@@ -1,7 +1,7 @@
 <?php
-$auth = function () use ($config, $connection) {
-    $name = htmlspecialchars($_POST['name']);
-    $pass = htmlspecialchars($_POST['pass']);
+$auth = function () use ($connection) {
+    $name = $_POST['name'];
+    $pass = $_POST['pass'];
 
     if (strlen($name) < 3) {
         $errors[] = 'Name mast contain more then 2 characters';
@@ -18,7 +18,7 @@ $auth = function () use ($config, $connection) {
     }
 
     try {
-        $request = $connection->prepare("SELECT userName, userPass FROM users WHERE userName = :name");
+        $request = $connection->prepare('SELECT * FROM `users` WHERE `userName` = :name');
         $request->execute(['name' => $name]);
         $findUser = $request->fetch();
         $request = null;
@@ -32,9 +32,10 @@ $auth = function () use ($config, $connection) {
 
     if (empty($findUser)) {
         try {
-            $request = $connection->prepare("INSERT INTO users VALUES (null, :name, :pass)");
-            $request->execute(['name' => $name, 'pass' => $pass]);
+            $request = $connection->prepare('INSERT INTO `users` VALUES (null, :name, :pass)');
+            $request->execute(['name' => $name, 'pass' => password_hash($pass, PASSWORD_DEFAULT)]);
             $request = null;
+            $_SESSION['userId'] = $connection->lastInsertId();
         } catch (Exception $e) {
             $errors[] = $e->getMessage();
             http_response_code(400);
@@ -46,7 +47,8 @@ $auth = function () use ($config, $connection) {
         $_SESSION['userName'] = $name;
         $responseCode = 200;
         $msg[] = 'New user is add';
-    } elseif ($findUser['userPass'] === $pass) {
+    } elseif (password_verify($pass, $findUser['userPass'])) {
+        $_SESSION['userId'] = $findUser['id'];
         $_SESSION['userName'] = $name;
         $responseCode = 200;
         $msg[] = 'User is auth';

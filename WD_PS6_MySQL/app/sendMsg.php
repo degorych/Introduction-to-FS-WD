@@ -1,8 +1,8 @@
 <?php
-$sendMsg = function () use ($config, $connection) {
+$sendMsg = function () use ($connection) {
     $message = htmlspecialchars(trim($_POST['message']));
 
-    if (!$message) {
+    if (empty($message)) {
         http_response_code(403);
         header('Content-Type: application/json');
         echo json_encode(['Message is empty']);
@@ -10,8 +10,8 @@ $sendMsg = function () use ($config, $connection) {
     }
 
     try {
-        $request = $connection->prepare("INSERT INTO messages (username, messageText) VALUES (:name, :messageText)");
-        $request->execute(['name' => $_SESSION['userName'], 'messageText' => $message]);
+        $request = $connection->prepare('INSERT INTO `messages` (`messageText`, `idUser`) VALUES (:message, :id)');
+        $request->execute(['message' => $message, 'id' => $_SESSION['userId']]);
         $request = null;
     } catch (Exception $e) {
         http_response_code(400);
