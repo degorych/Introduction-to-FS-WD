@@ -19,7 +19,10 @@
 </div>
 <?php if (isset($_SESSION['error'])) : ?>
     <div class="error"><?= $_SESSION['error'] ?></div>
-<?php endif; ?>
+<?php
+endif;
+unset($_SESSION['error']);
+?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="<?= $pageConf['script']; ?>"></script>
 </body>

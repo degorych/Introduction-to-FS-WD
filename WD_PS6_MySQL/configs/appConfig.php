@@ -7,5 +7,6 @@ return [
     'sendMsg' => APP_PATH . 'sendMsg.php',
     'getMsg' => APP_PATH . 'getMsg.php',
     'selectTemplate' => APP_PATH . 'selectTemplate.php',
+    'createResponse' => APP_PATH . 'createResponse.php',
     'mainTemp' => ROOT_PATH . 'templates' . DIRECTORY_SEPARATOR . 'mainTemplate.php',
 ];

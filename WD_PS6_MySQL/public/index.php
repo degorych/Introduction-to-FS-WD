@@ -7,6 +7,10 @@ if (isset($_POST['logout'])) {
     header('Location: ./');
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    unset($_SESSION['$lastShowedMsgId']);
+}
+
 require_once $config['connectDb'];
 try {
     $connection = connectDb();
@@ -15,10 +19,6 @@ try {
     require_once $config['selectTemplate'];
     $createPage();
     die();
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    unset($_SESSION['lastShowedMsgId']);
 }
 
 // Authorisation

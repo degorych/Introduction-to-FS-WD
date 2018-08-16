@@ -5,6 +5,7 @@
  - **PHP** Version 5.5 [Download here.](http://php.net/downloads.php)
  - **Apache** Version 2.4 [Download here.](https://httpd.apache.org/download.cgi)
  - **MySQL** Version 5.6 [Download here.](https://dev.mysql.com/downloads/)
+ - Make app entry point on your web-server to `path to app folder/public/index.php`
  
 ## To start the application you need
  

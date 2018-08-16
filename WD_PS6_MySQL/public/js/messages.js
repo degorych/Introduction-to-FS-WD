@@ -1,4 +1,6 @@
 $(function () {
+    const error = $(".error");
+
     function formatTime(time) {
         const date = new Date(time * 1000);
         const dataOptions = {
@@ -22,59 +24,75 @@ $(function () {
 
     function badResponse(errorMsg) {
         if (errorMsg.status === 403) {
-            error.text(errorMsg.responseJSON);
+            error.text(errorMsg.responseJSON.data);
         } else {
-            error.text(`Server response: ${errorMsg.statusText}`);
+            error.text(`Server response: ${errorMsg}`);
         }
     }
 
+    function ajax(data) {
+        return $.ajax({
+            url: "index.php",
+            method: "POST",
+            data: data,
+            dataType: "json"
+        });
+    }
+
     const field = $(".chat-field");
-    const msg = $(".text-input");
-    const error = $(".error");
+    let lastMsgId = -1;
+
+    function getMessages() {
+        ajax({
+            getMsg: "get messages",
+            msgId: lastMsgId
+        }).done(function (response) {
+            const msgsArr = response["data"];
+            if (!msgsArr) {
+                return;
+            }
+
+            const currentMsgId = lastMsgId;
+            const lastResponseMsgId = msgsArr[msgsArr.length - 1]["idMsg"];
+            if (currentMsgId === lastResponseMsgId) {
+                return;
+            }
+
+            lastMsgId = lastResponseMsgId;
+
+            for (let i in msgsArr) {
+                if (currentMsgId >= msgsArr[i]["idMsg"]) {
+                    continue;
+                }
+                field.append(
+                    $("<p/>").addClass("msg")
+                        .text(`${formatTime(msgsArr[i]["dateMsg"])} `)
+                        .append(
+                            $("<span/>").addClass("name")
+                                .text(`${msgsArr[i]["userName"]}: `)
+                        )
+                        .append(`${changeCharsToSmile(msgsArr[i]["messageText"])}`)
+                );
+            }
+
+            field.scrollTop(field.prop("scrollHeight") - field.innerHeight());
+        }).fail(function (response) {
+            badResponse(response);
+        });
+    }
+
+    getMessages();
 
     $(".form-chat").on("submit", function (e) {
         e.preventDefault();
-        $.ajax({
-            url: "index.php",
-            method: "POST",
-            data: $(this).serialize(),
-            dataType: "json",
-            success: function () {
-                msg.val("");
-                error.text("");
-            },
-            error: function (response) {
-                badResponse(response);
-            }
-        })
+        ajax($(this).serialize()).done(function () {
+            $(".text-input").val("");
+            error.text("");
+            getMessages();
+        }).fail(function (response) {
+            badResponse(response);
+        });
     });
 
-    setInterval(function () {
-        const getMsg = new FormData();
-        getMsg.append("getMsg", "");
-
-        $.ajax({
-            url: "index.php",
-            method: "POST",
-            data: {getMsg: "get messages"},
-            dataType: "json",
-            success: function (response) {
-                if (response[0] === 'No messages') {
-                    return;
-                }
-                let messages = "";
-                for (let i in response) {
-                    messages += `<p class="msg">
-                            ${formatTime(response[i]['dateMsg'])}
-                            <span class="name"> ${response[i]['userName']}: </span>
-                            ${changeCharsToSmile(response[i]['messageText'])}
-                        </p>`;
-                }
-                field.append(messages).scrollTop(field.innerHeight());
-            },
-            error: function (response) {
-                badResponse(response);
-            }
-        })
-    }, 1000);
+    setInterval(getMessages, 1000);
 });

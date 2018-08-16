@@ -2,9 +2,7 @@
     <h1>Easy Chat</h1>
     <div class="chat-field-container">
         <div class="chat-field">
-            <?php if (isset($_SESSION["userName"])) : ?>
-                Hello, <span class='name'><?= $_SESSION["userName"] ?></span><br>
-            <?php endif; ?>
+            Hello, <span class='name'><?= $_SESSION['userName'] ?></span><br>
         </div>
     </div>
     <form class="form-chat">
