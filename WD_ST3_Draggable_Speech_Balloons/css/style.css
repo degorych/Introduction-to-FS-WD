@@ -10,43 +10,67 @@ body,html {
     font-family: Verdana, Calibri, Arial;
     font-size: 14px;
     color: #343434;
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #container {
+    position: relative;
     background: url("../img/image.jpg") 50% 50% no-repeat;
     background-size: 100%;
-    width: auto;
-    height: 100%;
+    width: 1200px;
+    height: 600px;
 }
 
 .draggable {
-    position: absolute;
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+    width: -moz-fit-content;
+    min-width: 42px;
+    max-width: 300px;
+    height: fit-content;
     padding: 10px;
-    background: #FFFFFF;
+    background: #842420;
     cursor: move;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
     z-index: 1;
+    color: #fff;
+    border: 1px solid white;
 }
 
 .draggable:after {
     content: '';
     position: absolute;
     border-style: solid;
-    border-width: 14px 12px 0;
-    border-color: #FFFFFF transparent;
+    border-width: 10px 10px 0;
+    border-color: #842420 transparent;
     display: block;
     width: 0;
-    z-index: 1;
+    z-index: 2;
     bottom: -10px;
-    left: 5px;
+    left: 11px;
+}
+
+.draggable:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 12px 12px 0;
+    border-color: #fff transparent;
+    display: block;
+    width: 0;
+    z-index: 2;
+    bottom: -12px;
+    left: 9px;
 }
 
 .draggable input {
-    width: 100%;
-    height: 100%;
-    /*border: none;*/
+    max-width: 100px;
+    max-height: 20px;
     outline: none;
+    border: none;
 }
