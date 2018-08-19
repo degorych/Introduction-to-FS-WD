@@ -1,6 +1,7 @@
 <?php
 session_start();
 $config = require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR . 'appConfig.php';
+require_once $config['createResponse'];
 
 if (isset($_POST['logout'])) {
     session_destroy();
@@ -17,6 +18,7 @@ try {
 } catch (Exception $e) {
     $_SESSION['error'] = $e->getMessage();
     require_once $config['selectTemplate'];
+	http_response_code(400);
     $createPage();
     die();
 }
