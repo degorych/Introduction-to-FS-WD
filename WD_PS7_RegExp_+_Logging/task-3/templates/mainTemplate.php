@@ -17,15 +17,6 @@
 <div class="content-center">
 <?php require $pageConf['body']; ?>
 </div>
-<?php if (isset($_SESSION['error'])) :
-    foreach ($_SESSION['error'] as $error) :
-?>
-    <div class="error"><?= $error ?></div>
-<?php
-endforeach;
-endif;
-unset($_SESSION['error']);
-?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="js/log.js"></script>
 <script src="<?= $pageConf['script']; ?>"></script>

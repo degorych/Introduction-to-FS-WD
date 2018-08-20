@@ -14,4 +14,13 @@
         <input type="submit" value="Logout"/>
     </form>
     <div class="error"></div>
+    <?php if (isset($_SESSION['error'])) :
+        foreach (array_unique($_SESSION['error']) as $error) :
+            ?>
+            <div class="error"><?= $error ?></div>
+        <?php
+        endforeach;
+    endif;
+    unset($_SESSION['error']);
+    ?>
 </div>

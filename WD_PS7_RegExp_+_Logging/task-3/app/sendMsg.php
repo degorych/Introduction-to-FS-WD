@@ -1,5 +1,5 @@
 <?php
-$sendMsg = function () use ($connection, $config, $logger) {
+$sendMsg = function () use ($connection, $config, $logger, $isLogging) {
     define('SENDMSG', 'sendMsg');
     $message = htmlspecialchars(trim($_POST['message']));
 
@@ -9,7 +9,7 @@ $sendMsg = function () use ($connection, $config, $logger) {
         http_response_code(403);
         header('Content-Type: application/json');
         $serverResponse = createResponse('nonCriticalErr', 'User sent empty message', SENDMSG, 'Message is empty');
-        $logger($serverResponse);
+        $logger($serverResponse, $isLogging);
         echo json_encode($serverResponse);
         return;
     }
@@ -23,14 +23,14 @@ $sendMsg = function () use ($connection, $config, $logger) {
         http_response_code(400);
         header('Content-Type: application/json');
         $serverResponse = createResponse('criticalErr', 'bad add message request', SENDMSG, $e->getMessage());
-        $logger($serverResponse);
+        $logger($serverResponse, $isLogging);
         echo json_encode($serverResponse);
         return;
     }
 
     http_response_code(200);
     header('Content-Type: application/json');
-    $serverResponse = createResponse('nonError', 'user sent message successfully', SENDMSG);
-    $logger($serverResponse);
+    $serverResponse = createResponse('nonErr', 'user sent message successfully', SENDMSG);
+    $logger($serverResponse, $isLogging);
     echo json_encode($serverResponse);
 };

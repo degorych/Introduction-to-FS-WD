@@ -1,5 +1,5 @@
 <?php
-$auth = function () use ($connection, $config, $logger) {
+$auth = function () use ($connection, $config, $logger, $isLogging) {
     define('AUTH', 'auth');
     $name = htmlspecialchars(trim($_POST['name']));
     $pass = trim($_POST['pass']);
@@ -11,12 +11,12 @@ $auth = function () use ($connection, $config, $logger) {
 
     if ($nameLen < 3 || $nameLen > 20) {
         $serverResponse = createResponse('nonCriticalErr', 'name length error', AUTH, 'Name mast contain from 3 to 20 characters');
-        $logger($serverResponse);
+        $logger($serverResponse, $isLogging);
         $errors[] = $serverResponse;
     }
     if ($passLen < 3 || $passLen > 20) {
         $serverResponse = createResponse('nonCriticalErr', 'password length error', AUTH, 'Password mast contain from 3 to 20 characters');
-        $logger($serverResponse);
+        $logger($serverResponse, $isLogging);
         $errors[] = $serverResponse;
     }
 
@@ -49,7 +49,7 @@ $auth = function () use ($connection, $config, $logger) {
             http_response_code(400);
             header('Content-Type: application/json');
             $serverResponse = createResponse('criticalErr', 'bad add user request', AUTH, $e->getMessage());
-            $logger($serverResponse);
+            $logger($serverResponse, $isLogging);
             echo json_encode($serverResponse);
             return;
         }
@@ -69,6 +69,6 @@ $auth = function () use ($connection, $config, $logger) {
 
     http_response_code($responseCode);
     header('Content-Type: application/json');
-    $logger($responseMsg);
+    $logger($responseMsg, $isLogging);
     echo json_encode($responseMsg, JSON_PRETTY_PRINT);
 };

@@ -1,5 +1,5 @@
 $(function () {
-    const error = $(".error");
+    const error = $(".error:first");
 
     function formatTime(time) {
         const date = new Date(time * 1000);

@@ -1,5 +1,5 @@
 <?php
-$getMsg = function () use ($connection, $config, $logger) {
+$getMsg = function () use ($connection, $config, $logger, $isLogging) {
     define('GETMSGS', 'getMsg');
 
     require_once $config['createResponse'];
@@ -13,7 +13,7 @@ $getMsg = function () use ($connection, $config, $logger) {
         http_response_code(400);
         header('Content-Type: application/json');
         $serverResponse = createResponse('criticalErr', 'get message bad request', GETMSGS, $e->getMessage());
-        $logger($serverResponse);
+        $logger($serverResponse, $isLogging);
         echo json_encode($serverResponse);
         return;
     }
@@ -22,7 +22,7 @@ $getMsg = function () use ($connection, $config, $logger) {
         http_response_code(200);
         header('Content-Type: application/json');
         $serverResponse = createResponse('nonErr', 'no new messages', GETMSGS);
-        //$logger($serverResponse); //If need logging no update messages moments, uncomment this
+        //$logger($serverResponse, $isLogging); //If need logging no update messages moments, uncomment this
         echo json_encode($serverResponse);
         return;
     }
@@ -30,6 +30,6 @@ $getMsg = function () use ($connection, $config, $logger) {
     http_response_code(200);
     header('Content-Type: application/json');
     $serverResponse = createResponse('nonErr', 'update new messages', GETMSGS, $messages);
-    $logger($serverResponse);
+    $logger($serverResponse, $isLogging);
     echo json_encode($serverResponse);
 };

@@ -1,7 +1,7 @@
 <?php
-$logger = function ($responseArr) use ($config)
+$logger = function ($responseArr, $isLogging) use ($config)
 {
-    if (!$config['logging']) {
+    if ($isLogging === false) {
         return false;
     }
 

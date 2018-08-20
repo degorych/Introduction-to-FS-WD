@@ -18,7 +18,7 @@ $(function () {
         }).fail(function (response) {
             let respJson = response.responseJSON;
 
-            const error = $(".error");
+            const error = $(".error:first");
             error.val("");
 
             if (response.status === 403) {

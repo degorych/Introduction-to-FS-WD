@@ -1,1 +1,27 @@
 2018-08-17 11:28:05, level=nonError, message=user is logout, service=index, customerId=70, ip=127.0.0.1, data=
+2018-08-20 07:12:03, level=nonCriticalErr, message=name length error, service=auth, customerId=none, ip=127.0.0.1, data=Name mast contain from 3 to 20 characters
+2018-08-20 07:12:03, level=nonCriticalErr, message=password length error, service=auth, customerId=none, ip=127.0.0.1, data=Password mast contain from 3 to 20 characters
+2018-08-20 07:12:21, level=nonCriticalErr, message=password length error, service=auth, customerId=none, ip=127.0.0.1, data=Password mast contain from 3 to 20 characters
+2018-08-20 07:12:34, level=nonCriticalErr, message=user entered wrong password, service=auth, customerId=none, ip=127.0.0.1, data=Wrong password
+2018-08-20 07:13:11, level=nonErr, message=add new user, service=auth, customerId=75, ip=127.0.0.1, data=
+2018-08-20 07:15:34, level=nonError, message=user sent message successfully, service=sendMsg, customerId=75, ip=127.0.0.1, data=
+2018-08-20 07:15:34, level=nonErr, message=update new messages, service=getMsg, customerId=75, ip=127.0.0.1, data=Array
+2018-08-20 07:16:32, level=nonCriticalErr, message=User sent empty message, service=sendMsg, customerId=75, ip=127.0.0.1, data=Message is empty
+2018-08-20 07:16:50, level=nonError, message=user is logout, service=index, customerId=75, ip=127.0.0.1, data=
+2018-08-20 07:32:59, level=nonErr, message=update new messages, service=getMsg, customerId=76, ip=127.0.0.1, data=Array
+2018-08-20 10:56:15, level=nonErr, message=user is logout, service=index, customerId=76, ip=127.0.0.1, data=
+2018-08-20 10:56:21, level=nonCriticalErr, message=user entered wrong password, service=auth, customerId=none, ip=127.0.0.1, data=Wrong password
+2018-08-20 10:56:28, level=nonCriticalErr, message=name length error, service=auth, customerId=none, ip=127.0.0.1, data=Name mast contain from 3 to 20 characters
+2018-08-20 10:56:36, level=nonErr, message=add new user, service=auth, customerId=77, ip=127.0.0.1, data=
+2018-08-20 10:56:42, level=nonErr, message=user sent message successfully, service=sendMsg, customerId=77, ip=127.0.0.1, data=
+2018-08-20 10:56:42, level=nonErr, message=update new messages, service=getMsg, customerId=77, ip=127.0.0.1, data=Array
+2018-08-20 10:56:50, level=nonErr, message=user sent message successfully, service=sendMsg, customerId=77, ip=127.0.0.1, data=
+2018-08-20 10:56:50, level=nonErr, message=update new messages, service=getMsg, customerId=77, ip=127.0.0.1, data=Array
+2018-08-20 10:56:50, level=nonErr, message=update new messages, service=getMsg, customerId=77, ip=127.0.0.1, data=Array
+2018-08-20 10:56:53, level=nonErr, message=update new messages, service=getMsg, customerId=77, ip=127.0.0.1, data=Array
+2018-08-20 10:56:56, level=nonErr, message=user sent message successfully, service=sendMsg, customerId=77, ip=127.0.0.1, data=
+2018-08-20 10:56:56, level=nonErr, message=update new messages, service=getMsg, customerId=77, ip=127.0.0.1, data=Array
+2018-08-20 10:57:06, level=nonErr, message=update new messages, service=getMsg, customerId=77, ip=127.0.0.1, data=Array
+2018-08-20 10:59:35, level=nonErr, message=user is logout, service=index, customerId=none, ip=127.0.0.1, data=
+2018-08-21 12:10:54, level=nonErr, message=add new user, service=auth, customerId=81, ip=127.0.0.1, data=
+2018-08-21 12:11:00, level=nonCriticalErr, message=User sent empty message, service=sendMsg, customerId=81, ip=127.0.0.1, data=Message is empty
