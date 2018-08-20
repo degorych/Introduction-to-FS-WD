@@ -1,4 +1,20 @@
 const regElem = $("#regex");
+const symbols = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;'
+};
+
+function escapeHtml (userText) {
+    return userText.replace(/[&<>"'`=\/]/g, function (s) {
+        return symbols[s];
+    });
+}
 
 function findMatches() {
     const userReg = regElem.val();
@@ -17,12 +33,14 @@ function findMatches() {
     const result = $("#result");
 
     try {
-        const regex = new RegExp(userReg.slice(1, regRightLength), flags);
-        result.html($("#text")
-            .val()
-            .replace(regex, "<mark>$&</mark>"));
+        const regex = new RegExp(escapeHtml(userReg.slice(1, regRightLength)), flags);
+        result.html(escapeHtml($("#text").val()).replace(regex, "<mark>$&</mark>"));
     } catch {
-        result.html("Invalid regex");
+        result.html(`Invalid regex: regex mast be like this 
+            <span class="bold-text">"/test/"</span> 
+            or this 
+            <span class="bold-text">"/test/gi"</span> 
+            if you want use the flags`);
     }
 }
 
