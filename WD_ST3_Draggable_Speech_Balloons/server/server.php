@@ -1,22 +1,23 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    header('Location: ../index.html');
+    header('Location: ' . __DIR__ . DIRECTORY_SEPARATOR .'..' . DIRECTORY_SEPARATOR. 'index.html');
+    die();
 }
 
-$dataPath = '../data/data.json';
+$dataPath = __DIR__ . DIRECTORY_SEPARATOR .'..' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'data.json';
 
 if (!file_exists($dataPath)) {
     if (file_put_contents($dataPath, []) === false) {
-        $fileError = 'Log file can not be created';
+        $fileError = 'Data file can not be created';
     }
 }
 
 if (!is_readable($dataPath)) {
-    $fileError = 'Log file is not readable';
+    $fileError = 'Data file is not readable';
 }
 
 if (!is_writable($dataPath)) {
-    $fileError = 'Log file is not writable';
+    $fileError = 'Data file is not writable';
 }
 
 if (isset($fileError)) {
@@ -44,15 +45,19 @@ if (!$fullBalloonsData) {
 $findBalloon = false;
 
 foreach ($fullBalloonsData as $index => $balloon) {
-    if ($balloon['id'] === $balloonInfo['id']) {
+    if ($balloon['id'] === $balloonInfo['id'] && $balloonInfo['delete'] === 'false') {
         $fullBalloonsData[$index] = $balloonInfo;
+        $findBalloon = true;
+        break;
+    } elseif ($balloon['id'] === $balloonInfo['id'] && $balloonInfo['delete'] === 'true') {
+        unset ($fullBalloonsData[$index]);
         $findBalloon = true;
         break;
     }
 }
 
-if (!$findBalloon) {
+if (!$findBalloon && $balloonInfo['delete'] === 'false') {
     $fullBalloonsData[] = $balloonInfo;
 }
-
-file_put_contents($dataPath, json_encode($fullBalloonsData, JSON_PRETTY_PRINT), LOCK_EX);
+file_put_contents($dataPath, json_encode(array_values($fullBalloonsData), JSON_PRETTY_PRINT), LOCK_EX);
+echo json_encode('OK');

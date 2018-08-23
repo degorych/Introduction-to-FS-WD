@@ -1,5 +1,6 @@
 $(function () {
     const container = $("#container");
+    const body = $("body");
     let balloonId = 0;
 
     function createBalloon(event) {
@@ -41,7 +42,13 @@ $(function () {
         }
 
         if (!value) {
-            obj.remove();
+            const info = {
+                "id": obj.getAttribute("id"),
+                "delete": true
+            };
+            sendBalloonInfo(info);
+
+            $(obj).remove();
             return false;
         }
 
@@ -52,7 +59,8 @@ $(function () {
                 "positionX": styles.left,
                 "positionY": styles.top
             },
-            "message": value
+            "message": value,
+            "delete": false
         };
         sendBalloonInfo(info);
 
@@ -65,9 +73,10 @@ $(function () {
         return $.ajax({
             url: "server/server.php",
             method: "POST",
-            data: {"newInfo": info}
+            data: {"newInfo": info},
+            dataType: "json"
         }).fail(function (response) {
-            console.log("error: " + response);
+            $("<div/>").addClass("error").text(response.responseJSON).appendTo(body);
         })
     }
 
@@ -80,11 +89,7 @@ $(function () {
             createBalloonFromServer(response[i]).appendTo(container);
         }
     }).fail(function (response) {
-        if (response.responseText === "") {
-            console.log("data file is empty");
-        } else {
-            console.log(response.statusText);
-        }
+        $("<div/>").addClass("error").text(response).appendTo(body);
     });
 
     container.on("dblclick", function (event) {
@@ -104,7 +109,11 @@ $(function () {
     });
 
     container.on("keydown", ".draggable", function (event) {
+        container.off("blur", ".draggable");
         saveMsg(this, event.which);
+        container.on("blur", ".draggable", function () {
+            saveMsg(this);
+        });
     });
 
     container.on("mousedown", ".draggable", function () {
@@ -124,7 +133,8 @@ $(function () {
                     "positionX": currentBalloon.css("left"),
                     "positionY": currentBalloon.css("top")
                 },
-                "message": currentBalloon.text()
+                "message": currentBalloon.text(),
+                "delete": false
             };
             sendBalloonInfo(info);
         }

@@ -2,25 +2,10 @@
     {
         "id": "0",
         "position": {
-            "positionX": "264px",
-            "positionY": "117px"
+            "positionX": "312.5px",
+            "positionY": "91.5px"
         },
-        "message": "fghf"
-    },
-    {
-        "id": "2",
-        "position": {
-            "positionX": "372px",
-            "positionY": "252px"
-        },
-        "message": "fhfgh"
-    },
-    {
-        "id": "4",
-        "position": {
-            "positionX": "603px",
-            "positionY": "264px"
-        },
-        "message": "hfjk"
+        "message": "hello)",
+        "delete": "false"
     }
 ]
