@@ -1,4 +1,3 @@
-const regElem = $("#regex");
 const symbols = {
     '&': '&amp;',
     '<': '&lt;',
@@ -10,18 +9,18 @@ const symbols = {
     '=': '&#x3D;'
 };
 
-function escapeHtml (userText) {
-    return userText.replace(/[&<>"'`=\/]/g, function (s) {
-        return symbols[s];
-    });
-}
+const escapeHtml = userText => userText.replace(
+    /[&<>"'`=\/]/g, symbol => symbols[symbol]
+);
+
+const regElem = $("#regex");
 
 function findMatches() {
     const userReg = regElem.val();
     let flags = "";
     let regRightLength = 0;
 
-    for (let i = userReg.length - 1; i >= 0; i--) {
+    for (let i = userReg.length; i--;) {
         if (userReg[i] === "/") {
             regRightLength = i;
             break;
@@ -34,8 +33,10 @@ function findMatches() {
 
     try {
         const regex = new RegExp(escapeHtml(userReg.slice(1, regRightLength)), flags);
-        result.html(escapeHtml($("#text").val()).replace(regex, "<mark>$&</mark>"));
-    } catch {
+        result.html(
+            escapeHtml($("#text").val()).replace(regex, "<mark>$&</mark>")
+        );
+    } catch (e) {
         result.html(`Invalid regex: regex mast be like this 
             <span class="bold-text">"/test/"</span> 
             or this 
