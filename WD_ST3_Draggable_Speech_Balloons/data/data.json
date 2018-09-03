@@ -2,10 +2,10 @@
     {
         "id": "0",
         "position": {
-            "positionX": "312.5px",
-            "positionY": "91.5px"
+            "positionX": "578px",
+            "positionY": "154px"
         },
-        "message": "hello)",
-        "delete": "false"
+        "message": "hello",
+        "delete": "0"
     }
 ]
