@@ -16,15 +16,14 @@ $createResponse = function ($functionName) use ($appConfig, $dataConfig) {
         return;
     }
 
-    if (file_exists($appConfig[$functionName])) {
-        $handler = require_once $appConfig[$functionName];
-    } else {
+    if (!file_exists($appConfig[$functionName])) {
         http_response_code(404);
         header('Content-Type: application/json');
         echo json_encode('Weather service application not found');
         return;
     }
 
+    $handler = require_once $appConfig[$functionName];
     $response = $handler($data);
 
     if (!is_array($response)) {

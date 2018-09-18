@@ -23,11 +23,11 @@ return [
     'json' => [
         'jsonPath' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'today.json',
         'icons' => [
-            'cloud' => 'Clouds',
-            'flash' => '',
-            'rain' => 'Rain',
             'sun' => 'Clear',
-            'sun-cloud' => ''
+            'sun-cloud' => 'Clouds-sun',
+            'flash' => 'Flash',
+            'rain' => 'Rain',
+            'cloud' => 'Clouds'
         ]
     ]
 ];

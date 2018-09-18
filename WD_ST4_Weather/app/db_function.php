@@ -14,22 +14,20 @@ return function ($dbConfig) {
         $result = $request->fetchAll();
         $request = null;
         $connection = null;
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
         return $e->getMessage();
     }
 
     // Select icon
     return array_map(function ($value) use ($dbConfig) {
         if ($value['rain_possibility'] >= 0.8) {
-            unset ($value['rain_possibility'], $value['clouds']);
             $value['icon'] = $dbConfig['icons'][2];
         } else if ($value['clouds'] > 15) {
-            unset ($value['rain_possibility'], $value['clouds']);
             $value['icon'] = $dbConfig['icons'][4];
         } else {
-            unset ($value['rain_possibility'], $value['clouds']);
             $value['icon'] = $dbConfig['icons'][3];
         }
+        unset ($value['rain_possibility'], $value['clouds']);
         return $value;
     }, $result);
 };

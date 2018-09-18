@@ -11,10 +11,17 @@ return function ($config) {
     }
 
     foreach ($jsonData['list'] as $value) {
+        $icon = array_search($value['weather'][0]['main'], $config['icons']);
+
+        if ($icon === 'Clouds' && $value['clouds']['all'] > 20) {
+            $icon .= '-sun';
+        }
+
         $response[] = [
             'time' => $value['dt'],
             'temperature' => round($value['main']['temp'] - 273.15) + 0,
-            'icon' => array_search($value['weather'][0]['main'], $config['icons'])
+            'icon' => $icon
+
         ];
     }
     return $response;

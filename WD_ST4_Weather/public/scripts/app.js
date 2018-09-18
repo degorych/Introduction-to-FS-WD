@@ -15,11 +15,11 @@ function ajax(data) {
 
 // Svg insertion
 function insertSvg(name, parent, iconClassName, elementNumber = 0) {
-    $.get(`img/icons/${name}.svg`).done(function (response) {
-        parent.find($(`.${iconClassName}`)[elementNumber])
-            .html($(response.documentElement)
-                .attr("fill", "#fff"));
-    });
+    $.get(`img/icons/${name}.svg`).always(function (response, status) {
+        const imageContent = (status === "success") ? $(response.documentElement).attr("fill", "#fff") : $("<img>", {"src": "img/icons/not-found.png", "alt": "no image"});
+            parent.find($(`.${iconClassName}`)[elementNumber])
+                .html(imageContent);
+        });
 }
 
 // Change current weather section
