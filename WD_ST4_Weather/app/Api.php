@@ -1,4 +1,5 @@
 <?php
+
 include('WeatherInterface.php');
 
 class Api implements WeatherInterface

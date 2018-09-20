@@ -1,4 +1,5 @@
 <?php
+
 include('WeatherInterface.php');
 
 class Json implements WeatherInterface
