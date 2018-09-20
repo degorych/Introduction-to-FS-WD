@@ -8,5 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     return;
 }
 
-require_once $appConfig['responseCreator'];
-echo $createResponse($_POST['query']);
+require_once $appConfig['WeatherFactory'];
+$weatherService = WeatherFactory::selectClass($_POST['handler'], $appConfig, $dataConfig);
+if (is_string($weatherService)) {
+    echo $weatherService;
+    return;
+}
+$weatherService->run();

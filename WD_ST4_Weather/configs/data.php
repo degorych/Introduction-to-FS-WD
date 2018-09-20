@@ -14,7 +14,7 @@ return [
 
     'db' => [
         'dbHost' => 'mysql',
-        'dbName' => 'weather',
+        'dbName' => 'WeatherInterface',
         'dbUser' => 'root',
         'dbPassword' => '',
         'dbPort' => 3306,

@@ -41,7 +41,7 @@ function changeNow(response) {
 // Create forecasts list
 function createForecast(response) {
     forecast.empty();
-    const forecastsNumber = 6;
+    const forecastsNumber = 2;
 
     for (let i = 0; i < forecastsNumber; i++) {
         const forecastEl = $("<div/>").addClass("hourly-forecast clearfix");
@@ -69,7 +69,7 @@ function createForecast(response) {
 
 // View data for selected service
 function selectService(clickedEl) {
-    ajax({query: clickedEl.attr("id")}).done(function (response) {
+    ajax({handler: clickedEl.attr("id")}).done(function (response) {
         now.removeClass("hidden");
         forecast.removeClass("hidden");
         $(".error-message").addClass("hidden").text("");
@@ -92,5 +92,5 @@ selectService(navEl.children().first());
 // Click listener
 navEl.on("click", "a", function (e) {
     e.preventDefault();
-    selectService($(e.target));
+    selectService($(this));
 });
