@@ -2,6 +2,7 @@
 const navEl = $("nav");
 const now = $(".now");
 const forecast = $(".forecast");
+const errorEl = $(".error-message");
 
 // Ajax constructor
 function ajax(data) {
@@ -15,36 +16,40 @@ function ajax(data) {
 
 // Svg insertion
 function insertSvg(name, parent, iconClassName, elementNumber = 0) {
-    $.get(`img/icons/${name}.svg`).always(function (response, status) {
-        const imageContent = (status === "success") ? $(response.documentElement).attr("fill", "#fff") : $("<img>", {"src": "img/icons/not-found.png", "alt": "no image"});
+    $.get(`img/icons/${name}.svg`).done(function (response) {
             parent.find($(`.${iconClassName}`)[elementNumber])
-                .html(imageContent);
+                .html($(response.documentElement).attr("fill", "#fff"));
+        })
+        .fail(function () {
+            parent.find($(`.${iconClassName}`)[elementNumber])
+                .html($("<img>", {"src": "img/icons/not-found.png", "alt": "no image"}));
         });
 }
 
 // Change current weather section
 function changeNow(response) {
-    const date = new Date(response[0]["time"] * 1000);
+    const firstForecastIndex = 0;
+    const date = new Date(response[firstForecastIndex]["time"] * 1000);
     const options = {
         weekday: 'long',
         day: 'numeric',
         month: 'numeric'
     };
+
     now.find(".date")
         .text(date.toLocaleString("en", options));
-    now.find(".current-temperature")
-        .html(response[0]["temperature"] + " &#176;&nbsp;");
 
-    insertSvg(response[0]["icon"], now, "weather-icon");
+    now.find(".current-temperature")
+        .html(`${response[firstForecastIndex]["temperature"]}  ° `);
+
+    insertSvg(response[firstForecastIndex]["icon"], now, "weather-icon");
 }
 
 // Create forecasts list
 function createForecast(response) {
     forecast.empty();
-    const forecastsNumber = response.length;
-        
 
-    for (let i = 0; i < forecastsNumber; i++) {
+    for (let i in response) {
         const forecastEl = $("<div/>", {class: 'hourly-forecast clearfix'});
         const date = new Date(response[i]["time"] * 1000);
         const options = {
@@ -55,7 +60,7 @@ function createForecast(response) {
         $("<div/>", {class: 'forecast-date', text: date.toLocaleString("ru", options)})
             .appendTo(forecastEl);
         $("<div/>", {class: 'forecast-weather'})
-            .append($("<div/>", {class: 'forecast-temperature', html: response[i]["temperature"] + " &#176;&nbsp;"}))
+            .append($("<div/>", {class: 'forecast-temperature', html: `${response[i]["temperature"]} ° `}))
             .append($("<div/>", {class: 'forecast-icon'}))
             .appendTo(forecastEl);
         insertSvg(response[i]["icon"], forecast, "forecast-icon", i);
@@ -68,14 +73,22 @@ function selectService(clickedEl) {
     ajax({handler: clickedEl.attr("id")}).done(function (response) {
         now.removeClass("hidden");
         forecast.removeClass("hidden");
-        $(".error-message").addClass("hidden").text("");
+        if (errorEl.text()) {
+            errorEl.addClass("hidden").text("");
+        }
 
         changeNow(response);
         createForecast(response);
     }).fail(function (response) {
-        now.addClass("hidden");
-        forecast.addClass("hidden");
-        $(".error-message").removeClass("hidden").text(response.responseText);
+        if (!now.hasClass("hidden")) {
+            now.addClass("hidden");
+        }
+
+        if (!forecast.hasClass("hidden")) {
+            forecast.addClass("hidden");
+        }
+
+        errorEl.removeClass("hidden").text(response.responseText);
     }).always(function () {
         navEl.find("a.active").removeClass("active");
         clickedEl.addClass("active");

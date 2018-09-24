@@ -12,7 +12,9 @@ class WeatherFactory
             return 'Weather service functions not found';
         }
 
+        $icons = require_once $appConfig['icons'];
+
         require $appConfig[$name];
-        return new $name($dataConfig[$name]);
+        return new $name($dataConfig[$name], $icons);
     }
 }
