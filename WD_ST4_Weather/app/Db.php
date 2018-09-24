@@ -18,15 +18,15 @@ class Db implements WeatherInterface
         $connection = new PDO($dsn, $dbConfig['dbUser'], $dbConfig['dbPassword'], $dbOptions);
         $request = $connection->prepare('SELECT UNIX_TIMESTAMP(forecast.timestamp) AS `time`, `temperature`, `rain_possibility`, `clouds` FROM `forecast`');
         $request->execute();
-        $weathers = $request->fetchAll();
+        $weatherForecasts = $request->fetchAll();
         $request = null;
         $connection = null;
 
-        array_splice($weathers, $dbConfig['forecastsNumber']);
+        array_splice($weatherForecasts, $dbConfig['forecastsNumber']);
         echo json_encode(array_map(function ($weatherForHour) use ($dbConfig) {
             $weatherForHour['icon'] = $this->choiceIcons($value['rain_possibility'], $value['clouds']);
             return $weatherForHour;
-        }, $weathers));
+        }, $weatherForecasts));
     }
 
     private function choiceIcons($rainPossibility, $clouds) {

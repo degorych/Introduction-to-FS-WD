@@ -16,15 +16,15 @@ class Json implements WeatherInterface
         include('TemperatureConverter.php');
         $obj = json_decode(file_get_contents($this->jsonDataConfig['jsonPath']));
         $icons = $this->jsonDataConfig['icons'];
-        $weathers = $obj->list;
-        array_splice($weathers, $this->jsonDataConfig['forecastsNumber']);
+        $weatherForecasts = $obj->list;
+        array_splice($weatherForecasts, $this->jsonDataConfig['forecastsNumber']);
         echo json_encode(array_map(function ($weatherForHour) use ($icons) {
             return [
                     'time' => $weatherForHour->dt,
                     'temperature' => TemperatureConverter::kelvinToCelsius($weatherForHour->main->temp),
                     'icon' => $this->choiceIcons($weatherForHour->weather[0]->main),
             ];
-        }, $weathers));
+        }, $weatherForecasts));
     }
 
     private function choiceIcons($iconId) {

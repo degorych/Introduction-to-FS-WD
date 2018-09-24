@@ -16,3 +16,4 @@ class WeatherFactory
         return new $name($dataConfig[$name]);
     }
 }
+    
