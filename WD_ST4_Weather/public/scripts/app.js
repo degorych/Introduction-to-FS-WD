@@ -41,26 +41,22 @@ function changeNow(response) {
 // Create forecasts list
 function createForecast(response) {
     forecast.empty();
-    const forecastsNumber = 2;
+    const forecastsNumber = response.length;
+        
 
     for (let i = 0; i < forecastsNumber; i++) {
-        const forecastEl = $("<div/>").addClass("hourly-forecast clearfix");
-
+        const forecastEl = $("<div/>", {class: 'hourly-forecast clearfix'});
         const date = new Date(response[i]["time"] * 1000);
         const options = {
             hour: 'numeric',
             minute: 'numeric'
         };
 
-        $("<div/>").addClass("forecast-date")
-            .text(date.toLocaleString("ru", options))
+        $("<div/>", {class: 'forecast-date', text: date.toLocaleString("ru", options)})
             .appendTo(forecastEl);
-        $("<div/>").addClass("forecast-weather")
-            .append($("<div/>")
-                .addClass("forecast-temperature")
-                .html(response[i]["temperature"] + " &#176;&nbsp;"))
-            .append($("<div/>")
-                .addClass("forecast-icon"))
+        $("<div/>", {class: 'forecast-weather'})
+            .append($("<div/>", {class: 'forecast-temperature', html: response[i]["temperature"] + " &#176;&nbsp;"}))
+            .append($("<div/>", {class: 'forecast-icon'}))
             .appendTo(forecastEl);
         insertSvg(response[i]["icon"], forecast, "forecast-icon", i);
         forecastEl.appendTo(forecast);

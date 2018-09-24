@@ -1,6 +1,8 @@
 <?php
+define(FORECAST_AMOUNT, 6); 
 return [
     'api' => [
+        'forecastsNumber' => FORECAST_AMOUNT,
         'apiPath' => 'http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/324291?apikey=',
         'apiKey' => 'ukGAODqauQ90orXmsQ4XnunciQ5UkKDg',
         'icons' => [
@@ -13,21 +15,23 @@ return [
     ],
 
     'db' => [
-        'dbHost' => 'mysql',
-        'dbName' => 'WeatherInterface',
+        'forecastsNumber' => FORECAST_AMOUNT,
+        'dbHost' => 'localhost',
+        'dbName' => 'weather',
         'dbUser' => 'root',
         'dbPassword' => '',
         'dbPort' => 3306,
         'icons' => ['cloud', 'flash', 'rain', 'sun', 'sun-cloud']
     ],
     'json' => [
+        'forecastsNumber' => FORECAST_AMOUNT,
         'jsonPath' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'today.json',
         'icons' => [
-            'sun' => 'Clear',
-            'sun-cloud' => 'Clouds-sun',
-            'flash' => 'Flash',
-            'rain' => 'Rain',
-            'cloud' => 'Clouds'
+            'Clear' => 'sun',
+            'Clouds' => 'cloud',
+            'Rain' => 'rain',
+            'Clouds-sun' => 'sun-cloud',
+            'Flash' => 'flash',
         ]
     ]
 ];
