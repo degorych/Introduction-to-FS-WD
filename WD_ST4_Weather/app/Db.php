@@ -23,28 +23,42 @@ class Db implements WeatherInterface
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ];
 
-        $connection = new PDO($dsn, $dbConfig['dbUser'], $dbConfig['dbPassword'], $dbOptions);
-        $request = $connection->query('SELECT UNIX_TIMESTAMP(forecast.timestamp) AS `time`, `temperature`, `rain_possibility`, `clouds` FROM `forecast`');
+        try {
+            $connection = new PDO($dsn, $dbConfig['dbUser'], $dbConfig['dbPassword'], $dbOptions);
+            $request = $connection->query('SELECT UNIX_TIMESTAMP(forecast.timestamp) AS `time`, `temperature`, `rain_possibility`, `clouds` FROM `forecast`');
+        } catch (PDOException $e) {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode($e->getMessage());
+            return;
+        }
+
         $weathers = $request->fetchAll();
         $request = null;
         $connection = null;
 
         array_splice($weathers, $dbConfig['forecastsNumber']);
-        echo json_encode(array_map(function ($weatherForHour) use ($dbConfig) {
-            $weatherForHour['icon'] = $this->choiceIcons($weatherForHour['rain_possibility'], $weatherForHour['clouds']);
+
+        http_response_code(200);
+        header('Content-Type: application/json');
+
+        echo json_encode(array_map(function ($weatherForHour) {
+            $weatherForHour['icon'] = $this->choiceIcons($weatherForHour['rain_possibility'],
+                $weatherForHour['clouds']);
             return $weatherForHour;
         }, $weathers));
     }
 
-    private function choiceIcons($rainPossibility, $clouds) {
-            if ($rainPossibility >= 0.8) {
-                return $this->icons['rain'];
-            }
+    private function choiceIcons($rainPossibility, $clouds)
+    {
+        if ($rainPossibility >= 0.8) {
+            return $this->icons['rain'];
+        }
 
-            if ($clouds > 15) {
-               return $this->icons['sunCloud'];
-            }
+        if ($clouds > 15) {
+            return $this->icons['sunCloud'];
+        }
 
-            return $this->icons['sun'];
+        return $this->icons['sun'];
     }
 }
