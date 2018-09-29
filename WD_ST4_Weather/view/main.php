@@ -21,7 +21,7 @@
 <main>
     <div class="container">
         <div class="error-message hidden"></div>
-        <div class="now clearfix">
+        <div class="weatherNow clearfix">
             <div class="all-50">
                 <div class="date">
                     Friday 21/04

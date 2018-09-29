@@ -1,6 +1,6 @@
 // Need HTML elements
 const navEl = $("nav");
-const now = $(".now");
+const weatherNow = $(".weatherNow");
 const forecast = $(".forecast");
 const errorEl = $(".error-message");
 
@@ -27,7 +27,7 @@ function insertSvg(name, parent, iconClassName, elementNumber = 0) {
 }
 
 // Change current weather section
-function changeNow(response) {
+function changewWeatherNow(response) {
     const firstForecastIndex = 0;
     const date = new Date(response[firstForecastIndex]["time"] * 1000);
     const options = {
@@ -36,13 +36,13 @@ function changeNow(response) {
         month: 'numeric'
     };
 
-    now.find(".date")
+    weatherNow.find(".date")
         .text(date.toLocaleString("en", options));
 
-    now.find(".current-temperature")
+    weatherNow.find(".current-temperature")
         .html(`${response[firstForecastIndex]["temperature"]}  ° `);
 
-    insertSvg(response[firstForecastIndex]["icon"], now, "weather-icon");
+    insertSvg(response[firstForecastIndex]["icon"], weatherNow, "weather-icon");
 }
 
 // Create forecasts list
@@ -71,17 +71,17 @@ function createForecast(response) {
 // View data for selected service
 function selectService(clickedEl) {
     ajax({handler: clickedEl.attr("id")}).done(function (response) {
-        now.removeClass("hidden");
+        weatherNow.removeClass("hidden");
         forecast.removeClass("hidden");
         if (errorEl.text()) {
             errorEl.addClass("hidden").text("");
         }
 
-        changeNow(response);
+        changewWeatherNow(response);
         createForecast(response);
     }).fail(function (response) {
-        if (!now.hasClass("hidden")) {
-            now.addClass("hidden");
+        if (!weatherNow.hasClass("hidden")) {
+            weatherNow.addClass("hidden");
         }
 
         if (!forecast.hasClass("hidden")) {
