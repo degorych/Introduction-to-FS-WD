@@ -1,0 +1,81 @@
+body {
+    font-family: Calibri;
+    font-size: large;
+    background: #0d192a;
+    color: #FFF;
+    margin: 0;
+    padding: 0;
+}
+
+fieldset {
+    border: solid 2px #ff1763;
+    border-radius: 5px;
+    padding: 30px;
+}
+
+legend {
+    font-size: 20px;
+    color: #ff756f;
+    padding: 0 10px;
+}
+
+input, label {
+    cursor: pointer;
+}
+
+input[type="submit"] {
+    background: #ff756f;
+    padding: 6px 13px;
+    border: solid 0;
+    border-radius: 5px;
+    font-size: 20px;
+    color: #FFF;
+    margin-top: 20px;
+    outline: none;
+}
+
+.container {
+    width: 300px;
+    margin: 20px auto 0 auto;
+}
+
+.container-pie {
+    width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#piechart {
+    width: 900px;
+    height: 500px;
+}
+
+label {
+    display: block;
+    padding: 3px;
+}
+
+a {
+    text-decoration: none;
+    padding: 9px 15px;
+    border: solid 0;
+    border-radius: 5px;
+    background: #ff756f;
+    color: #fff;
+    margin: 30px 0 50px 0;
+}
+
+.msg {
+    color: #ff660e;
+    padding: 10px 15px;
+    border: solid 1px #ff660e;
+    border-radius: 5px;
+    background: #112940;
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
